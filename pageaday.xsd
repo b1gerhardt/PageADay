@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PageADay"
+    targetNamespace="C:/WebSites/Chapter17/PageADay.xsd"
+    elementFormDefault="qualified"
+    xmlns="C:/WebSites/Chapter17/PageADay.xsd"
+    xmlns:mstns="C:/WebSites/Chapter17/PageADay.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xml:lang="en"
+>
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Page-A-Day Schema for Alexa Skill.
+      Holiday handling derived from "Dynamic Holiday Date Calculator by Jay Muntz
+      Found at https://www.codeproject.com/articles/11666/dynamic-holiday-date-calculator
+
+      I store and manage my Page-A-Day data in an Excel file. This allows me to print calendars at Kinkos, etc.
+      To convert this to an Alexa Skill, I created an XML schema and added some additional fields to my spreadsheet.
+      Then, I export the spreadsheet to an XML file for Alexa. This allows me to more easily maintain my data.
+
+      Basic Use:
+      Enter a MONTH, DAY and optionally a YEAR for every date and populate the holiday, birthday, quote, etc. fields as you like
+
+      Enhanced Holiday support
+      We like to match many quotes to specific events and holidays. Since some holidays move year to year, it is a pain to update
+      every year so the quotes match the holiday. With the Alexa skill, I've added the ability to support moving holidays. The
+      recommended way to support this is to enter generic quotes for every day of the year. Then, add holiday-specific quotes using
+      the enhanced features that support moving holidays. The holiday quote will overwrite the generic quote as needed.
+
+      Enhanced calendar support
+      Similarly, some years are more special than others. For example, a 21st Birthday might call for a special quote. To support this,
+      use only MONTH and DAY for the "generic" birthday and add a second entry with MONTH, DAY and YEAR for the special birthday. The more specific
+      date will overwrite the generic one. NOTE: If multiple people's birthday fall on the same day, be sure to include them in both entries since only 
+      the most specific entry will be used.
+
+      Merging records
+      The sections are parsed as follows: HOLIDAYS, PAGES, DEFAULT. Pages within each section are parsed in order.
+      All matching dates in the HOLIDAYS section are used. Only the first match is used in the other sections so put more specific records ahead of generic ones
+      All holiday, birthday and event fields are included in the results. So, if a holiday, normal page and default all have an event, they will all appear
+      Only the first quote and author are listed.
+
+      Record types (the TYPE field)
+      
+      Fixed (optional)         Use for data want on to apply to a specific date. Note that precedence rules allow for the creation of 
+                               default data. For example, leaving date field empty gives you a global "default" page that is used as a base
+                               for all dates and will be used as-is if there is not a more specific date. Similarly, entering only a month/day/year
+                               will give you a default for that month/day/year. Special note: February 29th should be listed as a fixed date if you 
+                               want a special quote for leap day (rather than using the SpecificYears type).
+                               Blank or missing TYPE fields will be interpreted as Fixed.
+                               
+      WeekdayOfMonth           These pages occur on a specific day with a specific week within a specific month. SPECIAL and MONTH are required.
+                               SPECIAL contains the one based week-of-month, a space, the zero based day-of-week, and optionally an offset.
+                               For example, Mother's Day in the US falls on the second Sunday of May. This is encoded as: SPECIAL="2 0" and MONTH="5" 
+                               That is, the 2nd (2) Sunday (0) in May (5).
+                               Military Spouses Day is two days before Mother's Day. This is encoded as: SPECIAL="2 0 -2" and MONTH="5"
+                               
+      WeekdayOnOrAfter         These pages occur on the first weekday on or after a specified date. MONTH and DAY are required.
+                               For example, Tax Day in the US falls on the first weekday on or after April 15. This is encoded as MONTH=4 and DAY=15
+                               
+      SpecificYears            These pages occur only on specific years. SPECIAL, MONTH, and DAY are required.
+                               For example, Inauguration Day is January 20th following a presidential election. This is encoded as 
+                               SPECIAL="1937 4" MONTH="1" DAY="20" That is, starting with 1937, every 4 years on January (1) 20th.
+                               This type can also be used for special birthdays, anniversaries, etc. but it is easier to use the Fixed
+                               type and enter a fully qualified month/day/year for the special dates.
+                               
+      LastWeekdayOfMonth       Occurs on the last specific weekday of a specific month. SPECIAL and MONTH are required
+                               For example, Memorial Day is the last Monday of May. This is encoded as SPECIAL=1 MONTH=5
+                               That is, Monday (zero-based starting with Sunday so 1) of the last full week of May (5).
+                               
+      ListOfDates              Identifies a specific list dates. Useful for complex holidays. The drawback is the list isn't perpetual.
+                               SPECIAL contains a space-separated list of days in YYYY-MM-DD format.
+                               
+      Ignore                   Use for dates you want ignored. Useful for noting holidays that your group does not observe but that you want 
+                               in your data set.
+
+      The MIT License (MIT)
+      Copyright (c) 2016 Barry Gerhardt
+      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+      to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+      and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+      The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+      IN THE SOFTWARE.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="PAGEADAY" type="PageADayType" />
+  <xs:element name="PAGE" type="PageType" />
+
+  <xs:complexType name="PageADayType">
+    <xs:all>
+      <xs:element name="TITLE" type="xs:string" minOccurs="0" />
+      <xs:element name="DEFAULT" type="Pages" minOccurs="0" />
+      <xs:element name="HOLIDAYS" type="Pages" minOccurs="0" />
+      <xs:element name="PAGES" type="Pages" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="Pages">
+    <xs:sequence>
+      <xs:element ref="PAGE" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PageType">
+    <xs:sequence>
+      <xs:element name="TYPE" type="tokenPageType" minOccurs="0" />
+      <xs:element name="SPECIAL" type="xs:string" minOccurs="0" />
+      <xs:element name="MONTH" type="xs:positiveInteger" minOccurs="0" />
+      <xs:element name="DAY" type="xs:positiveInteger" minOccurs="0" />
+      <xs:element name="YEAR" type="xs:positiveInteger" minOccurs="0" />
+      <xs:element name="HOLIDAY" type="xs:string" minOccurs="0" />
+      <xs:element name="BIRTHDAY" type="xs:string" minOccurs="0" />
+      <xs:element name="EVENT" type="xs:string" minOccurs="0" />
+      <xs:element name="SAYING" type="xs:string" minOccurs="0" />
+      <xs:element name="AUTHOR" type="xs:string" minOccurs="0" />
+      <xs:element name="COMMENT" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="tokenPageType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Fixed" />
+      <xs:enumeration value="WeekdayOfMonth" />
+      <xs:enumeration value="WeekdayOnOrAfter" />
+      <xs:enumeration value="DaysAfterHoliday" />
+      <xs:enumeration value="SpecificYears" />
+      <xs:enumeration value="LastWeekdayOfMonth" />
+      <xs:enumeration value="LastFullWeekdayOfMonth" />
+      <xs:enumeration value="ListOfDates" />
+      <xs:enumeration value="EasterWestern" />
+      <xs:enumeration value="Ignore" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="patDate">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="\d[4]-\d[2]-\d[2]" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="listOfDates">
+    <xs:list itemType="patDate" />
+  </xs:simpleType>
+
+  <xs:simpleType name="patSpecial">
+    <xs:restriction base="xs:token">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="listOfSpecial">
+    <xs:list itemType="patSpecial" />
+  </xs:simpleType>
+
+</xs:schema>
