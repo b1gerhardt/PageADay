@@ -96,13 +96,14 @@ function PADParseSection(xmlSection, quote, bFindAll) {
 
         // Adjust for data(1-based) and Javascript (0-based)
         thisEl = thisPage.getElementsByTagName("MONTH");
-        thisEl.length == 0 ? xmlMonth = 0 : xmlMonth = parseInt(thisEl[0].innerHTML, 10) - 1;
+        thisEl.length == 0 ? xmlMonth = undefined : xmlMonth = parseInt(thisEl[0].innerHTML, 10) - 1;
 
-        thisEl = thisPage.getElementsByTagName("DAY");      // Day of month (Date in Javascript)
-        thisEl.length == 0 ? xmlDate = 0 : xmlDate = parseInt(thisEl[0].innerHTML, 10);
+        // Day of month (Date in Javascript)
+        thisEl = thisPage.getElementsByTagName("DAY");
+        thisEl.length == 0 ? xmlDate = undefined : xmlDate = parseInt(thisEl[0].innerHTML, 10);
 
         thisEl = thisPage.getElementsByTagName("YEAR");
-        thisEl.length == 0 ? xmlYear = 0 : xmlYear = parseInt(thisEl[0].innerHTML, 10);
+        thisEl.length == 0 ? xmlYear = undefined : xmlYear = parseInt(thisEl[0].innerHTML, 10);
 
         thisEl = thisPage.getElementsByTagName("SPECIAL");
         thisEl.length == 0 ? xmlSpecial.length = 0 : xmlSpecial = thisEl[0].innerHTML.split(' ');
@@ -184,7 +185,7 @@ function PADParseSection(xmlSection, quote, bFindAll) {
 
             case "Fixed":
             case "":
-                if ((xmlMonth == "" || tMonth == xmlMonth) && (xmlDate == "" || tDate == xmlDate) && (xmlYear == "" || tYear == xmlYear)) {
+                if ((xmlMonth == undefined || tMonth == xmlMonth) && (xmlDate == undefined || tDate == xmlDate) && (xmlYear == undefined || tYear == xmlYear)) {
                     break;      // Match...
                 }
 
