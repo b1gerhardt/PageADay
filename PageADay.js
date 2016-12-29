@@ -25,7 +25,7 @@ var PAD = function () {
     this.result = {
         isValid: false,
         title: "",
-        date: this.normalizeDate(new Date.now()),
+        date: this.normalizeDate(new Date(Date.now())),
         holiday: "",
         birthday: "",
         anniversary: "",
@@ -37,7 +37,7 @@ var PAD = function () {
 PAD.prototype.initResult = function () {
     this.result.isValid = false;
     this.result.title = "";
-    this.result.date = this.normalizeDate(new Date.now());
+    this.setDate();
     this.result.holiday = "";
     this.result.birthday = "";
     this.result.anniversary = "";
@@ -64,7 +64,7 @@ PAD.prototype.normalizeDate = function (d) {
 
 // Sets the target date using the passed date object. If no date is passed, uses today.
 PAD.prototype.setDate = function (d) {
-    var padDate = d || new Date.now();
+    var padDate = d || new Date(Date.now());
     this.padResult.date = this.normalizeDate(d);
 }
 

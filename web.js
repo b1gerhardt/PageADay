@@ -16,7 +16,7 @@ function PADWebInit() {
 
 function PADWebGetQuote() {
     // Get user selected date and fix timezone so the full date object is midnight local time on the proper day
-    MyPAD.buildQuote(document.forms[0]["nameUserDate"].value);
+    MyPAD.getQuote(document.forms[0]["nameUserDate"].value);
 
     var result = MyPAD.result;
 
