@@ -3,6 +3,7 @@ Page-A-Day Calendar for Web, Alexa and Print
 
 HISTORY
 2016-12-03 Checked-in 1.0 version. Core logic is complete and can be accessed via a simple web interface.
+2016-12-28 Added basic Alexa skill wrapper
 
 ABSTRACT
 This project is a Page-A-Day calendar app. The goal is to support Web, Alexa and Print (well, actually mail merge) outputs.
