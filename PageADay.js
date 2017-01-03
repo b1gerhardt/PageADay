@@ -1,4 +1,4 @@
-﻿'use strict'
+﻿'use strict';
 // PAD the Page-A-Day generator
 // Written by Barry Gerhardt
 // 2016-12-28
@@ -18,14 +18,15 @@
 // 2. Update to support as an Alexa skill
 // 3. Output a web page with the day's page (should match the printed version). Do this for the web interface as well.
 
-var PAD = function () {
-    // padDoc contains the parsed XML data 
-    this.xmlDOM = undefined;
-    // padResult contains the output for the matched date when isValid = true
+var PAD = function (xml) {
+    this.xmlRaw = xml;
+    //this.fakeDOM = new fakeDOM();
     this.result = {
         isValid: false,
         title: "",
-        date: this.normalizeDate(new Date(Date.now())),
+        version: "",
+        //date: this.normalizeDate( new Date( Date.now() ) ),
+        date: undefined,
         holiday: "",
         birthday: "",
         anniversary: "",
@@ -34,10 +35,11 @@ var PAD = function () {
     }
 };
 
-PAD.prototype.initResult = function () {
+PAD.prototype.initResult = function (d) {
     this.result.isValid = false;
     this.result.title = "";
-    this.setDate();
+    this.result.version = "";
+    this.setDate(d);
     this.result.holiday = "";
     this.result.birthday = "";
     this.result.anniversary = "";
@@ -45,58 +47,53 @@ PAD.prototype.initResult = function () {
     this.result.author = "";
 }
 
-PAD.prototype.loadXML = function (xmlfile) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            this.xmlDOM = this.responseXML;          // TODO: this.xmlDOM probably won't work since we're in the xhttp callback. Learn how to do this correctly.
-        }
-    };
-
-    xhttp.open("GET", xmlFile, true);
-    xhttp.send();
-}
-
 // Force date to align to midnight on current day. This simplifies date manipulation
 PAD.prototype.normalizeDate = function (d) {
-    return d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+
+    return d;
 }
 
 // Sets the target date using the passed date object. If no date is passed, uses today.
 PAD.prototype.setDate = function (d) {
     var padDate = d || new Date(Date.now());
-    this.padResult.date = this.normalizeDate(d);
+    this.result.date = this.normalizeDate(d);
 }
 
 PAD.prototype.getQuote = function (d) {
-    if (d) {
-        this.setDate(d);
-    }
+    this.initResult(d);
 
-    this.buildQuote();
-}
-
-PAD.prototype.buildQuote = function () {
-    this.initResult();
+    var data = this.xmlRaw;
+    var result = this.result;
     
     // Just in case the doc isn't loaded yet...
-    if (this.xmlDOM == undefined) {
-        this.result.saying = "Data did not load in time...";
+    if (data.length === 0) {
+        result.saying = "Data did not load in time...";
     } else {
-        this.parseSection (this.xmlDOM.getElementsByTagName("HOLIDAYS"),this.result,true);
-        this.parseSection (this.xmlDOM.getElementsByTagName("PAGES"),this.result,false);
-        this.parseSection (this.xmlDOM.getElementsByTagName("DEFAULT"),this.result,false);
+        result.title   = fakeDOM.getValue (data, "TITLE");
+        result.version = fakeDOM.getValue (data, "VERSION");
+        
+        this.parseSection (fakeDOM.getValue(data, "HOLIDAYS"), result,true);
+        this.parseSection(fakeDOM.getValue(data, "PAGES"), result, true);
+        this.parseSection(fakeDOM.getValue(data, "DEFAULT"), result, false);
     }
 
-    return this.result;
+    console.log(result.title + ", " + result.version + ", " + result.saying + " (isValid=" + result.isValid + ")" );
+
+    return result;
 }
 
-PAD.prototype.parseSection = function (xmlSection, result, bFindAll) {
-    if ( !xmlSection || xmlSection.length === 0 ) {
+PAD.prototype.parseSection = function (data, result, bFindAll) {
+    if ( !data || data.length === 0 ) {
         return;
     }
 
-    var xmlPages = xmlSection[0].getElementsByTagName("PAGE");
+    var xmlPages = fakeDOM.getValueArray ( data, "PAGE" );
+
+    if ( !xmlPages ){
+        return;
+    }
+
     var i, j, thisPage, thisEl;
     var tMonth, tDate, tYear, tDay;
     var xmlType, xmlMonth, xmlDate, xmlYear;
@@ -118,36 +115,33 @@ PAD.prototype.parseSection = function (xmlSection, result, bFindAll) {
         thisPage = xmlPages[i];
 
         // Pre-load and normalize data to simplify code later on...
-        thisEl = thisPage.getElementsByTagName("TYPE");
-        thisEl.length == 0 ? xmlType = "" : xmlType = thisEl[0].innerHTML;
+        xmlType = fakeDOM.getValue ( thisPage, "TYPE");
 
         // Adjust for data(1-based) and Javascript (0-based)
-        thisEl = thisPage.getElementsByTagName("MONTH");
-        thisEl.length == 0 ? xmlMonth = undefined : xmlMonth = parseInt(thisEl[0].innerHTML, 10) - 1;
+        xmlMonth = parseInt(fakeDOM.getValue (thisPage, "MONTH"), 10) - 1;
 
         // Day of month (Date in Javascript)
-        thisEl = thisPage.getElementsByTagName("DAY");
-        thisEl.length == 0 ? xmlDate = undefined : xmlDate = parseInt(thisEl[0].innerHTML, 10);
+        xmlDate = parseInt(fakeDOM.getValue (thisPage, "DAY"), 10);
+        xmlYear = parseInt(fakeDOM.getValue (thisPage, "YEAR"), 10);
 
-        thisEl = thisPage.getElementsByTagName("YEAR");
-        thisEl.length == 0 ? xmlYear = undefined : xmlYear = parseInt(thisEl[0].innerHTML, 10);
-
-        thisEl = thisPage.getElementsByTagName("SPECIAL");
-        thisEl.length == 0 ? xmlSpecial.length = 0 : xmlSpecial = thisEl[0].innerHTML.split(' ');
+        xmlSpecial = fakeDOM.getValue (thisPage, "SPECIAL");
+        if (xmlSpecial.length > 0 ) {
+            xmlSpecial = xmlSpecial.split (' ');
+        }
 
         switch (xmlType) {
             case "WeekdayOfMonth":
                 // The Nth occurrence of a specific day of week in the month. Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> <optional: delta)
 
-                if (xmlSpecial.length == 2 || xmlSpecial.length == 3) {
+                if (xmlSpecial.length === 2 || xmlSpecial.length === 3) {
                     var specialDate = new Date(result.date.valueOf());
 
                     // Account for the offset by faking like we're looking for the non-offset day.
-                    if (xmlSpecial.length == 3){
+                    if (xmlSpecial.length === 3){
                         specialDate.setDate(specialDate.getDate() - xmlSpecial[2]);
                     }
 
-                    // Need to check month here since some deltas might move the month.
+                    // Need to check month here since some deltas might move the month. (yea, we want type conversion -- no triple equal)
                     if (specialDate.getMonth() == xmlMonth && xmlSpecial[1] == specialDate.getDay() && xmlSpecial[0] == Math.ceil(specialDate.getDate() / 7)) {
                         break;  // Match
                     }
@@ -203,8 +197,8 @@ PAD.prototype.parseSection = function (xmlSection, result, bFindAll) {
 
                 for (j = 0 ; j < xmlSpecial.length; j++) {
                     if (tYear == xmlSpecial[j].substring(0, 4)
-                     && tMonth == parseInt(xmlSpecial[j].substring(5, 7)) - 1
-                     && tDate == parseInt(xmlSpecial[j].substring(8, 10))) {
+                     && tMonth == parseInt(xmlSpecial[j].substring(5, 7), 10) - 1
+                     && tDate == parseInt(xmlSpecial[j].substring(8, 10), 10)) {
                         break;
                     }
                 }
@@ -217,7 +211,7 @@ PAD.prototype.parseSection = function (xmlSection, result, bFindAll) {
 
             case "Fixed":
             case "":
-                if ((xmlMonth == undefined || tMonth == xmlMonth) && (xmlDate == undefined || tDate == xmlDate) && (xmlYear == undefined || tYear == xmlYear)) {
+                if ((isNaN(xmlMonth) || tMonth == xmlMonth) && (isNaN(xmlDate) || tDate == xmlDate) && (isNaN (xmlYear ) || tYear == xmlYear)) {
                     break;      // Match...
                 }
 
@@ -232,45 +226,69 @@ PAD.prototype.parseSection = function (xmlSection, result, bFindAll) {
 
         // Holidays, birthdays and anniversarys are additive...
 
-        thisEl = thisPage.getElementsByTagName("HOLIDAY");
-        if (thisEl.length != 0) {
-            if (result.holiday.length > 0) {
+        thisEl = fakeDOM.getValue ( thisPage, "HOLIDAY");
+        if (thisEl.length !== 0) {
+            if (result.holiday.length !== 0) {
                 result.holiday += " and ";
             }
-            result.holiday += thisEl[0].innerHTML;
+            result.holiday += thisEl;
         }
 
-        thisEl = thisPage.getElementsByTagName("BIRTHDAY");
-        if (thisEl.length != 0) {
+        thisEl = fakeDOM.getValue ( thisPage, "BIRTHDAY");
+        if (thisEl.length !== 0) {
             if (result.birthday.length > 0) {
                 result.birthday += " and ";
             }
-            result.birthday+= thisEl[0].innerHTML;
+            result.birthday+= thisEl;
         }
 
-        thisEl = thisPage.getElementsByTagName("EVENT");
-        if (thisEl.length != 0) {
+        thisEl = fakeDOM.getValue ( thisPage, "EVENT");
+        if (thisEl.length !== 0) {
             if (result.anniversary.length > 0) {
                 result.anniversary += " and ";
             }
-            result.anniversary += thisEl[0].innerHTML;
+            result.anniversary += thisEl;
         }
 
         // Sayings and authors are singular -- first one wins.
+        if ( result.saying.length === 0 ) {
+            result.saying = fakeDOM.getValue ( thisPage, "SAYING");
 
-        thisEl = thisPage.getElementsByTagName("SAYING");
-        if (thisEl.length != 0 && result.saying == "") {
-            result.saying = thisEl[0].innerHTML;
-
-            thisEl = thisPage.getElementsByTagName("AUTHOR");
-            thisEl.length == 0 ? result.author = "" : result.author = thisEl[0].innerHTML;
+            if ( result.saying.length !== 0 ) {
+                result.author = fakeDOM.getValue ( thisPage, "AUTHOR");
+            }
         }
 
         result.isValid = true;
 
-        if (bFindAll == false) {
+        if (bFindAll === false) {
             break;
         }
     }
 }
 
+//
+// extremely cheap XML searching functions
+// Works for XML with and without namespace decorations 
+//
+var fakeDOM = (function () {
+    return {
+        getValue: function (data, tagname) {
+            var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">([\\\s\\\S]*?)<\/" + "(?:.*:)?" + tagname + ">", "im" );
+
+            var result = myRe.exec ( data );
+            return result === null ? "" : result[1];
+        },
+        getValueArray: function (data, tagname) {
+            var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">[\\\s\\\S]*?<\/" + "(?:.*:)?" + tagname + ">", "img" );
+            return data.match( myRe );
+        }
+    };
+})();
+
+// This code is run in both a client-side browser and server-side node.js. 
+// When loaded with a nodes.js requored statement, module is declared and this assignment helps control scope.
+// When loaded with a browser script statement, module is not declared.
+if ( typeof module !== "undefined" ) {
+    module.exports = PAD;
+}

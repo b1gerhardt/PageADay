@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="PageADay"
-    targetNamespace="C:/WebSites/Chapter17/PageADay.xsd"
+    targetNamespace="./PageADay.xsd"
     elementFormDefault="qualified"
-    xmlns="C:/WebSites/Chapter17/PageADay.xsd"
-    xmlns:mstns="C:/WebSites/Chapter17/PageADay.xsd"
+    xmlns="./PageADay.xsd"
+    xmlns:mstns="./PageADay.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xml:lang="en"
 >
@@ -91,6 +91,7 @@
   <xs:complexType name="PageADayType">
     <xs:all>
       <xs:element name="TITLE" type="xs:string" minOccurs="0" />
+      <xs:element name="VERSION" type="xs:string" minOccurs="0" />
       <xs:element name="DEFAULT" type="Pages" minOccurs="0" />
       <xs:element name="HOLIDAYS" type="Pages" minOccurs="0" />
       <xs:element name="PAGES" type="Pages" />

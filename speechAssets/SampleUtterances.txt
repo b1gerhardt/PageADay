@@ -1,0 +1,14 @@
+GetPageADayIntent give me events for {mytoday}
+GetPageADayIntent what do you have to say about {mytoday}
+GetPageADayIntent what's on {mytoday}
+GetPageADayIntent what happens on {mytoday}
+GetPageADayIntent tell me about {mytoday}
+GetPageADayIntent for {mytoday}
+GetPageADayIntent {mytoday}
+GetPageADayIntent give me events for {day}
+GetPageADayIntent what do you have to say about {day}
+GetPageADayIntent what's on {day}
+GetPageADayIntent what happens on {day}
+GetPageADayIntent tell me about {day}
+GetPageADayIntent for {day}
+GetPageADayIntent {day}

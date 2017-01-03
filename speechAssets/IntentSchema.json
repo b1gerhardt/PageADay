@@ -1,0 +1,26 @@
+{
+  "intents": [
+    {
+      "intent": "GetPageADayIntent",
+      "slots": [
+        {
+          "name": "mytoday",
+          "type": "MyToday"
+        },
+        {
+          "name": "day",
+          "type": "AMAZON.DATE"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}
