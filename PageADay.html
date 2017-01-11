@@ -3,14 +3,15 @@
 <head>
     <title>Page-A-Day</title>
     <!--
-	<meta name="Page-A-Day Calendar" content="A Page-A-Day test platform for the Alexa skill I\'m writing" charset="utf-8" />
+	<meta name="Page-A-Day Calendar" content="The web wrapper for the Page-A-Day JS class" charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="PageADay.css" />
     -->
-    <script type="text/javascript" src="PageADay.js"></script>
+    <script type="text/javascript" src="pageaday.js"></script>
+    <script type="text/javascript" src="index-web.js"></script>
 </head>
 <body>
-    <h1 align="center">The Fun Family Page-A-Day Calendar</h1>
-    <h2 align="center">Grannyisms</h2>
+    <h1 align="center">Page-A-Day Calendar</h1>
+    <h2 align="center" id="PADTitle"></h2>
     <br />
     <form name="nameGetDate" id="PADGetDate" action="#">
         <div>Enter a date:<input type="date" id="PADUserDate" name="nameUserDate" /></div>
@@ -20,13 +21,13 @@
     <br />
     <h5 id="PADQuote">No Date Chosen Yet...</h5>
     <p id="PADHoliday"></p>
-    <p id="PADEvent"></p>
+    <p id="PADAnniversary"></p>
     <p id="PADBirthday"></p>
     <p id="PADSaying"></p>
     <p id="PADAuthor"></p>
     
     <script type="text/javascript">
-        window.onload = PADInit;
+        window.onload = PADWebInit;
     </script>
 </body>
 </html>
