@@ -1,34 +1,35 @@
 ﻿'use strict';
 /**
-    Copyright 2016 - 2017 Barry GerhardtAll Rights Reserved.
-    Derived from historyBuff Amazon Alexa Sample.
-
-    Licensed under The MIT License (the "License"). I copy of the License is in the "license" file accompanying this project. 
-    This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-    See the License for the specific language governing permissions and limitations under the License.
-
-    NOTE: The original Amazon sample (this file only) was licensed under Apache License, Version 2.0 (http://aws.amazon.com/apache2.0). 
-    TODO: Reconcile licenses and make sure they are both consistent and proper given derived sources.
-*/
+ * Copyright 2016 - 2017 Barry GerhardtAll Rights Reserved.
+ * Derived from historyBuff Amazon Alexa Sample. The original sample contained the following license text:
+ *
+ *     Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *     Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the 
+ *     License. A copy of the License is located at http://aws.amazon.com/apache2.0/. This file is distributed on an "AS IS" BASIS, 
+ *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing 
+ *     permissions and limitations under the License.
+ *
+ * This file is licensed under the same terms. 
+ *
+ */
 
 /**
  * This skill produces a Page-A-Day response for either the current day or a specific requested date. 
  * Operates as one-shot model only.
  *
-
- Example user interactions:
-    User:  "Alexa, ask Page-A-Day about December thirtieth 2016."
-    Alexa: "Your Page-A-Day for Friday, December thirtieth 2016 is [...]"
-
-	User: "Alexa, open Page-A-Day"
-	Alexa: "Your Page-A-Day for today, Friday, December thirtieth 2016 is [...]"
-
- * Examples:
- * User:  "Alexa, ask Page-A-Day about December thirtieth 2016."
- * Alexa: "Your Page-A-Day for Friday, December thirtieth 2016 is [...]"
  *
- * User:  "Alexa, open Page-A-Day"
- * Alexa: "Your Page-A-Day for today, Friday, December thirtieth 2016 is [...]"
+ * Example user interactions:
+ *   User:  "Alexa, ask Page-A-Day about December thirtieth 2016."
+ *   Alexa: "Your Page-A-Day for Friday, December thirtieth 2016 is [...]"
+ *
+ *   User:  "Alexa, open Page-A-Day for today"
+ *   Alexa: "Your Page-A-Day for today, Friday, December thirtieth 2016 is [...]"
+ *
+ *   User:  "Alexa, open Page-A-Day"
+ *   Alexa: "This skill is a Page-A-Day calendar. What day would you like hear?"
+ *   User:  "Tomorrow"
+ *   Alexa: "Your Page-A-Day for tomorrow, Saturday, December thirty-first 2016 is [...]"
  */
 
 
@@ -43,11 +44,11 @@
  *   pageaday       -- loads PageADay prototype and helper functions
  *   xmlURL         -- location of the Page-A-Day XML data
  *   tzFudge_ms     -- Fake the timezone to Pacific-ish (GMT - 8 hours-ish). "Alexa Time" is always GMT.
- *                     Setting to Pacific is the best compromise since it only breaks midnight - 3:00a for the east coast vs. 
- *                     giving the wrong date starting at 4:00p on the west coast.
- *                     TODO: Still broken if the user asks for "today" or "<date>" where <date> = today since those are returned as dates and we lose
- *                           the ability to determine what the user actually said.
- *   MyPAD          -- Instance of the Page-A-Day object
+ *                     Setting to Pacific gives reasonable results for most US users when they ask for relative dates such as 
+ *                     "today" or "tomorrow." It will be incorrect around midnight for almost everyone. But, this is better than
+ *                     being incorrect around 4:00p pacific without the shift.
+ *                     Note: This is a static time shift hack -- it doesn't account for daylight savings.
+ *   MyPAD          -- Instance of the Page-A-Day object (TODO: Store in session data vs. as global)
  */
 const APP_ID         = 'amzn1.ask.skill.cc717bf1-68de-41ba-ba1e-a9eced0440fe'; 
 const https          = require( 'https' );
@@ -55,7 +56,8 @@ const AlexaSkill     = require( './AlexaSkill' );
 const alexaDateUtil  = require( './alexaDateUtil' );
 const PAD            = require( './PageADay' );
 const xmlURL         = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydata.xml';
-const tzFudge_ms     = -8 * 60 * 60 * 1000; 
+const tzFudge_ms     = ( -8 * 60 * 60 * 1000 );
+const dayFudge_ms    = ( 24 * 60 * 60 * 1000 );
 var MyPAD = new PAD( "" );
 
 /**
@@ -78,7 +80,7 @@ PageADaySkill.prototype.eventHandlers.onSessionStarted = function ( sessionStart
 
 PageADaySkill.prototype.eventHandlers.onLaunch = function ( launchRequest, session, response ) {
     console.log( "PageADaySkill onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId );
-    // TODO: Replace with getQuote...
+
     getWelcomeResponse( response );
 };
 
@@ -148,10 +150,8 @@ function getWelcomeResponse( response ) {
     // If we wanted to initialize the session to have some attributes we could add those here.
     var cardTitle = "Page-A-Day";
     var repromptText = "This skill is a Page-A-Day calendar. What day would you like hear?";
-    var speechText = "<p>Page-A-Day.</p> <p>What day would you like to hear?</p>";
-    var cardOutput = "Page-A-Day. What day would you like to hear?";
-    // If the user either does not reply to the welcome message or says something that is not
-    // understood, they will be prompted again with this text.
+    var speechText = "<p>Page-A-Day</p> <p>What day would you like to hear?</p>";
+    var cardOutput = "What day would you like to hear?";
 
     var speechOutput = {
         speech: "<speak>" + speechText + "</speak>",
@@ -175,13 +175,30 @@ function handlePageADayRequest( intent, session, response ) {
     var date = "";
 
     // If the user provides a date, then use that, otherwise use today.
-    // Note: Can't get timezone for a device and server returns GMT. So, we can fix-ish the time for not date but can't fix if a date (or "today") is provided.
-    // Hack: Added a custom slot to capture "today." This fixes the no date and "today" utterances. tomorrow is still broken but can be fixed... TODO.
+    // Hack: Added a custom slot to capture relative date utterances (today, tomorrow, yesterday). Without it, Alexa converts "today" 
+    // to an actual date based on GMT. Without this hack, when a user says "Alexa, ask Page-A-Day for today" they will get tomorrow
+    // if it's after about 4:00p on the West Coast. 
+    //
+    // Note to Alexa team: While I understand the need to maintain privacy, there is no harm in returning the local-time adjusted
+    // date for these utterances since Alexa already converts this to a date. Yes, there are ways a developer could reverse engineer
+    // the local time zone by being clever. That can be mitigated via the publishing process and possibly a new intent type.  
+
     if ( daySlot && daySlot.value ) {
         date = new Date( daySlot.value );
     } else {
+        var todaySlot = intent.slots.mytoday.value || "";
+        var timeFudge = tzFudge_ms;
+
         date = new Date();
-        date.setTime( date.getTime() + tzFudge_ms ); 
+
+        if ( todaySlot === "yesterday" ) {
+            timeFudge -= dayFudge_ms;
+        } else if ( todaySlot === "tomorrow" ) {
+            timeFudge += dayFudge_ms;
+        }
+
+        date.setTime( date.getTime() + timeFudge );
+
     }
 
     loadXML( xmlURL, function ( xmlRaw ) {
@@ -192,11 +209,13 @@ function handlePageADayRequest( intent, session, response ) {
             response.tell ("There was a problem getting that page. Please try again later." );
 
         } else {
-            console.log ( "Title: " + result.title + " version " + result.version + ".");
+            console.log( "Title: " + result.title + " version " + result.version + "." );
 
-            var speechText = "<p>" + result.title + " Page-A-Day for " + alexaDateUtil.getFormattedDate(result.date) + ", </p>";
+            var formattedDate = alexaDateUtil.getFormattedDate( result.date );
+
+            var speechText = "<p>" + result.title + " Page-A-Day for " + formattedDate + "</p>";
             var cardTitle = result.title + " Page-A-Day";
-            var cardContent = "For " + alexaDateUtil.getFormattedDate(result.date) + " ";
+            var cardContent = formattedDate + ". ";
         
             if (result.holiday.length > 0) {
                 genericText = result.holiday;
@@ -230,8 +249,8 @@ function handlePageADayRequest( intent, session, response ) {
                 type: AlexaSkill.speechOutputType.PLAIN_TEXT
             };
             // TODO: tellWithCard is broken and I haven't had a chance to easily debug. Changing to just tell for now...
-            response.tell( speechOutput );
-            //response.tellWithCard( speechOutput, repromptOutput, cardTitle, cardContent );
+            //response.tell( speechOutput );
+            response.tellWithCard( speechOutput, cardTitle, cardContent );
         }
     } );
 }
