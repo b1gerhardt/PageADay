@@ -170,7 +170,6 @@ function getWelcomeResponse( response ) {
 
 function handlePageADayRequest( intent, session, response ) {
     var daySlot = intent.slots.day;
-    var repromptText = "With Page-A-Day, you can get information about events, birthdays and anniversaries for any day. For example, you could say today, or January twenty-first, or you can say exit. What day would you like?";
     var genericText = "";
     var date = "";
 
@@ -217,28 +216,30 @@ function handlePageADayRequest( intent, session, response ) {
             var cardTitle = result.title + " Page-A-Day";
             var cardContent = formattedDate + ". ";
         
-            if (result.holiday.length > 0) {
-                genericText = result.holiday;
+            if ( result.holidays.length > 0 ) {
+                genericText = MyPAD.getFormattedHoliday( result.holidays );
                 speechText += "<p> " + genericText + "</p> ";
                 cardContent += genericText + ". ";
             }
-            if (result.anniversary.length > 0) {
-                genericText = result.anniversary + " are having an anniversary today.";
+            if ( result.anniversaries.length > 0 ) {
+                genericText = MyPAD.getFormattedAnniversary( result.anniversaries );
                 speechText += "<p> " + genericText + "</p> ";
                 cardContent += genericText + " ";
             }
-            if (result.birthday.length > 0) {
-                genericText = "It's " + result.birthday + "'s birthday today.";
+            if ( result.birthdays.length > 0 ) {
+                genericText = MyPAD.getFormattedBirthday( result.birthdays );
                 speechText += "<p> " + genericText + "</p> ";
                 cardContent += genericText + " ";
             }
-            if (result.saying.length > 0) {
-                genericText = "As " + result.author + " says... " + result.saying + ".";
-                speechText += "<p>" + genericText + ".</p> ";
+            if ( result.saying.length > 0 ) {
+                if ( result.author.length > 0 ) {
+                    genericText = "As " + result.author + " says..." + result.saying + ".";
+                } else {
+                    genericText = result.saying + ".";
+                }
+                speechText += "<p>" + genericText + "</p> ";
                 cardContent += genericText + " ";
             }
-
-            // speechText += "<p>Want info for another date?</p>";
 
             var speechOutput = {
                 speech: "<speak>" + speechText + "</speak>",
@@ -248,8 +249,7 @@ function handlePageADayRequest( intent, session, response ) {
                 speech: repromptText,
                 type: AlexaSkill.speechOutputType.PLAIN_TEXT
             };
-            // TODO: tellWithCard is broken and I haven't had a chance to easily debug. Changing to just tell for now...
-            //response.tell( speechOutput );
+
             response.tellWithCard( speechOutput, cardTitle, cardContent );
         }
     } );

@@ -13,38 +13,29 @@
 // 5. Add pronunciation hints and inflection for audio version of output
 // 6. Take alternate file as input.
 //
-// TODO TO FINISH:
-// 1. Refactor as class using new stuff from ECMA5 spec
-// 2. Update to support as an Alexa skill
-// 3. Output a web page with the day's page (should match the printed version). Do this for the web interface as well.
 
 var PAD = function (xml) {
     this.xmlRaw = xml;
-    //this.fakeDOM = new fakeDOM();
+    this.initResult();
+};
+
+PAD.prototype.initResult = function (d) {
     this.result = {
         isValid: false,
         title: "",
         version: "",
-        //date: this.normalizeDate( new Date( Date.now() ) ),
         date: undefined,
-        holiday: "",
-        birthday: "",
-        anniversary: "",
+        holidays: [],      // string
+        birthdays: [],     // name: string, age: number
+        anniversaries: [], // name: string, age: number
         saying: "",
-        author: ""
-    }
-};
+        author: "",
+        sayingWeb: "",
+        sayingSpoken: ""
+    };
+    this.setDate( d );
 
-PAD.prototype.initResult = function (d) {
-    this.result.isValid = false;
-    this.result.title = "";
-    this.result.version = "";
-    this.setDate(d);
-    this.result.holiday = "";
-    this.result.birthday = "";
-    this.result.anniversary = "";
-    this.result.saying = "";
-    this.result.author = "";
+    return this.result;
 }
 
 // Force date to align to midnight on current day. This simplifies date manipulation
@@ -56,26 +47,26 @@ PAD.prototype.normalizeDate = function (d) {
 
 // Sets the target date using the passed date object. If no date is passed, uses today.
 PAD.prototype.setDate = function (d) {
-    var padDate = d || new Date(Date.now());
-    this.result.date = this.normalizeDate(d);
+    //var padDate = d || new Date(Date.now());
+    this.result.date = this.normalizeDate ( d || new Date(Date.now()) );
+    //this.result.date = this.normalizeDate( padDate );
 }
 
 PAD.prototype.getQuote = function (d) {
-    this.initResult(d);
-
-    var data = this.xmlRaw;
-    var result = this.result;
+    var data   = this.xmlRaw;
+    var result = this.initResult(d);
     
-    // Just in case the doc isn't loaded yet...
-    if (data.length === 0) {
+    // basic sanity checks...
+    if (!data || data.length === 0) {
         result.saying = "Data did not load in time...";
     } else {
         result.title   = fakeDOM.getValue (data, "TITLE");
-        result.version = fakeDOM.getValue (data, "VERSION");
-        
-        this.parseSection (fakeDOM.getValue(data, "HOLIDAYS"), result,true);
-        this.parseSection(fakeDOM.getValue(data, "PAGES"), result, true);
-        this.parseSection(fakeDOM.getValue(data, "DEFAULT"), result, false);
+        result.version = fakeDOM.getValue( data, "VERSION" );
+
+        // XML schema allows for HOLIDAYS, BIRTHDAYS, ANNIVERSARIES and GENERAL dates to be in separate sections
+        // Since we're using a simplified, Fake DOM, we can pass the entire XML data set and it will parse out all PAGE entries.
+        // This saves some parsing.
+        this.parseSection( data, result, true );
     }
 
     console.log(result.title + ", " + result.version + ", " + result.saying + " (isValid=" + result.isValid + ")" );
@@ -97,6 +88,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     var i, j, thisPage, thisEl;
     var tMonth, tDate, tYear, tDay;
     var xmlType, xmlMonth, xmlDate, xmlYear;
+    var xmlAge;
     var xmlSpecial = [];
 
     // We're going to be using these alot. Reduce the overhad of Date() function calls.
@@ -115,7 +107,11 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
         thisPage = xmlPages[i];
 
         // Pre-load and normalize data to simplify code later on...
-        xmlType = fakeDOM.getValue ( thisPage, "TYPE");
+        xmlType = fakeDOM.getValue( thisPage, "TYPE" ).toUpperCase();
+
+        if ( xmlType === "IGNORE" ) {
+            continue;
+        }
 
         // Adjust for data(1-based) and Javascript (0-based)
         xmlMonth = parseInt(fakeDOM.getValue (thisPage, "MONTH"), 10) - 1;
@@ -124,13 +120,21 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
         xmlDate = parseInt(fakeDOM.getValue (thisPage, "DAY"), 10);
         xmlYear = parseInt(fakeDOM.getValue (thisPage, "YEAR"), 10);
 
-        xmlSpecial = fakeDOM.getValue (thisPage, "SPECIAL");
-        if (xmlSpecial.length > 0 ) {
-            xmlSpecial = xmlSpecial.split (' ');
+        // Save age year for BIRTHDAY and ANNIVERSARY types
+        (xmlType === "BIRTHDAY" || xmlType === "ANNIVERSARY") ? xmlAge = tYear - xmlYear : xmlAge = Number.NaN;
+
+        // Parse the SPECIAL keyword
+        thisEl = fakeDOM.getValue (thisPage, "SPECIAL").toUpperCase();
+        if (thisEl.length > 0 ) {
+            xmlSpecial = thisEl.split( ' ' );
+            thisEl = xmlSpecial.shift();    // Pop off the keyword. Leave the arguments...
         }
 
-        switch (xmlType) {
-            case "WeekdayOfMonth":
+        switch (thisEl) {
+            case "IGNORE":
+                continue;
+
+            case "WEEKDAYOFMONTH":
                 // The Nth occurrence of a specific day of week in the month. Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> <optional: delta)
 
                 if (xmlSpecial.length === 2 || xmlSpecial.length === 3) {
@@ -149,7 +153,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
                 continue;          // No match... next record
 
-            case "LastWeekdayOfMonth":
+            case "LASTWEEKDAYOFMONTH":
                 // The last occurence of a specific day of week in the month.
 
                 if (tMonth == xmlMonth && xmlSpecial.length == 1 && xmlSpecial[0] == tDay) {
@@ -164,7 +168,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
                 continue;       // No match... next record
 
-            case "WeekdayOnOrAfter":
+            case "WEEKDAYONORAFTER":
                 // Must occur on a weekday (TODO BUG: Requires tDate to be 3 or larger.)
 
                 if (tMonth == xmlMonth && tDay != 0 && tDay != 6) {
@@ -181,7 +185,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
                 continue;
 
-            case "SpecificYears":
+            case "SPECIFICYEARS":
                 // Occurs only on specific years. SPECIAL=<StartYear> <Interval>
 
                 if (tMonth == xmlMonth && tDate == xmlDate) {
@@ -192,67 +196,65 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
                 continue;
 
-            case "ListOfDates":
+            case "LISTOFDATES":
                 // Event occurs on a specific list of dates. SPECIAL=<YYYY-MM-DD> <...>
+                var specialDate = result.date.toISOString().substring( 0, 10 );
 
-                for (j = 0 ; j < xmlSpecial.length; j++) {
-                    if (tYear == xmlSpecial[j].substring(0, 4)
-                     && tMonth == parseInt(xmlSpecial[j].substring(5, 7), 10) - 1
-                     && tDate == parseInt(xmlSpecial[j].substring(8, 10), 10)) {
-                        break;
-                    }
-                }
-
-                if (j < xmlSpecial.length) {
-                    break;          // Match. TODO: Avoid this awkward handling (best alternate is a break with label (aka: goto) but I'd like to do better)
+                if ( xmlSpecial.indexOf( specialDate ) !== -1 ) {
+                    break;              // Match
                 }
 
                 continue;
 
-            case "Fixed":
             case "":
+            default:
+                // Clear xmlYear for BIRTHDAY and ANNIVERSARY types...
+                if (xmlType === "BIRTHDAY" || xmlType === "ANNIVERSARY") {
+                    xmlYear = Number.NaN;
+                }
+
+                // Fall through to FIXED to check for a match...
+
+            case "FIXED":
                 if ((isNaN(xmlMonth) || tMonth == xmlMonth) && (isNaN(xmlDate) || tDate == xmlDate) && (isNaN (xmlYear ) || tYear == xmlYear)) {
                     break;      // Match...
                 }
 
                 continue;
 
-            case "Ignore":
-            default:
-                continue;
         }
 
         // If you get here, you have a match and should populate the result object...
 
-        // Holidays, birthdays and anniversarys are additive...
+        thisEl = fakeDOM.getValue ( thisPage, "NAME");
 
-        thisEl = fakeDOM.getValue ( thisPage, "HOLIDAY");
-        if (thisEl.length !== 0) {
-            if (result.holiday.length !== 0) {
-                result.holiday += " and ";
-            }
-            result.holiday += thisEl;
-        }
+        if ( thisEl.length !== 0 ) {
+            switch ( xmlType ) {
+                case "IGNORE":
+                    break;
 
-        thisEl = fakeDOM.getValue ( thisPage, "BIRTHDAY");
-        if (thisEl.length !== 0) {
-            if (result.birthday.length > 0) {
-                result.birthday += " and ";
-            }
-            result.birthday+= thisEl;
-        }
+                case "HOLIDAY":
+                    result.holidays.push ( thisEl );
+                    break;
 
-        thisEl = fakeDOM.getValue ( thisPage, "EVENT");
-        if (thisEl.length !== 0) {
-            if (result.anniversary.length > 0) {
-                result.anniversary += " and ";
-            }
-            result.anniversary += thisEl;
+                case "BIRTHDAY":
+                    result.birthdays.push ( {name: thisEl, age: xmlAge} );
+                    break;
+
+                case "ANNIVERSARY":
+                    result.anniversaries.push ( {name: thisEl, age: xmlAge} );
+                    break;
+
+                // no default -- above cases require extra handling. 
+
+                }
         }
 
         // Sayings and authors are singular -- first one wins.
         if ( result.saying.length === 0 ) {
-            result.saying = fakeDOM.getValue ( thisPage, "SAYING");
+            result.saying = fakeDOM.getValue( thisPage, "SAYING" );
+            result.sayingWeb = fakeDOM.getValue( thisPage, "WEB" );
+            result.sayingSpoken = fakeDOM.getValue( thisPage, "SPOKEN" );
 
             if ( result.saying.length !== 0 ) {
                 result.author = fakeDOM.getValue ( thisPage, "AUTHOR");
@@ -267,8 +269,129 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     }
 }
 
+PAD.prototype.getFormattedHoliday = function ( holidays ) {
+    var s = "";
+
+    if ( holidays.length ) {
+        while ( holidays.length ) {
+            if ( s.length > 0 ) {
+                s += ", and ";
+            }
+            s += holidays.shift();
+        }
+        s = "It's " + s + ".";
+    }
+    return s;
+}
+
+PAD.prototype.getFormattedAnniversary = function ( anniversaries ) {
+    var s = "";
+
+    if ( anniversaries.length ) {
+        while ( anniversaries.length ) {
+            if ( s.length > 0 ) {
+                s += ", and ";
+            }
+
+            var anniversary = anniversaries.shift();
+
+            s += anniversary.name;
+
+            if ( isNaN( anniversary.age ) ) {
+                s += " are having an anniversary today"
+            } else {
+                s += " are celebrating their " + this.getFormattedOrdinal( anniversary.age ) + " anniversary today";
+            }
+
+        }
+        s += ".";
+    }
+    return s;
+}
+
+PAD.prototype.getFormattedBirthday = function ( birthdays ) {
+    // Sample output:
+    // One name:
+    //     "Joe is having a birthday today."
+    //     "Joe is turning 30 today."
+    //
+    // Multiple names:
+    //     "Joe, Billy and Sally are having birthdays today. It's Joe's 30th. It's Sally's 45th. "
+    //
+
+    var s = "";
+    var postfix = "";
+
+    if ( birthdays.length === 1) {
+        s = birthdays[0].name;
+
+        if ( isNaN(birthdays[0].age) ) {
+            s += " is having a birthday today."
+        } else {
+            s += " is turning " + birthdays[0].age + " today.";
+        }
+    } else if ( birthdays.length !== 0 ){
+        while ( birthdays.length ) {
+            if ( s.length > 0 ) {
+                if ( birthdays.length > 1) {
+                    s += ", ";
+                } else {
+                    s += " and ";
+                }
+            }
+            
+            var birthday = birthdays.shift();
+
+            s += birthday.name;
+
+            if ( !isNaN ( birthday.age ) ) {
+                postfix += "It's " + birthday.name + "'s " + this.getFormattedOrdinal (birthday.age) + ". " ;
+            }
+        }
+        s += " are having birthday's today. " + postfix;
+    }
+
+    return s;
+}
+
+PAD.prototype.getFormattedOrdinal = function ( n ) {
+    var ORDINAL_AGE = [
+    '0th',
+    '1st',
+    '2nd',
+    '3rd',
+    '4th',
+    '5th',
+    '6th',
+    '7th',
+    '8th',
+    '9th',
+    '10th',
+    '11th',
+    '12th',
+    '13th',
+    '14th',
+    '15th',
+    '16th',
+    '17th',
+    '18th',
+    '19th'
+    ];
+
+    //return (n >= 20) ? return Math.floor ( n / 10 ).toString + ORIGINAL_AGE[ Math.floor ( n % 10 )] : ORIGINAL_AGE[n];
+    var s = "";
+
+    if ( n >= 20 ) {
+        s = Math.floor ( n / 10 ).toString();
+        n = Math.floor ( n % 10 );
+    }
+
+    return s + ORDINAL_AGE[n];
+}
+
 //
-// extremely cheap XML searching functions
+// extremely cheap XML searching functions. 
+// Extracts a single element or an array of elements enclosed by the tag. Extracted text may contain sub-tags.
 // Works for XML with and without namespace decorations 
 //
 var fakeDOM = (function () {
@@ -287,7 +410,7 @@ var fakeDOM = (function () {
 })();
 
 // This code is run in both a client-side browser and server-side node.js. 
-// When loaded with a nodes.js requored statement, module is declared and this assignment helps control scope.
+// When loaded with a nodes.js "required" statement, module is declared and this assignment helps control scope.
 // When loaded with a browser script statement, module is not declared.
 if ( typeof module !== "undefined" ) {
     module.exports = PAD;

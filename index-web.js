@@ -60,9 +60,9 @@ function PADWebGetQuote() {
         document.getElementById("PADAuthor").innerHTML = "";
     } else {
         document.getElementById("PADQuote").innerHTML = "Quote for " + PADWebPrettyDate(result.date) + "...";
-        document.getElementById("PADHoliday").innerHTML = "Holiday: " + result.holiday;
-        document.getElementById("PADAnniversary").innerHTML = "Anniversary: " + result.anniversary;
-        document.getElementById("PADBirthday").innerHTML = "Birthday: " + result.birthday;
+        document.getElementById( "PADHoliday" ).innerHTML = "Holiday: " + MyPAD.getFormattedHoliday( result.holidays );
+        document.getElementById( "PADAnniversary" ).innerHTML = "Anniversary: " + MyPAD.getFormattedAnniversary( result.anniversaries );
+        document.getElementById( "PADBirthday" ).innerHTML = "Birthday: " + MyPAD.getFormattedBirthday( result.birthdays );
         document.getElementById("PADSaying").innerHTML = "Saying: " + result.saying;
         document.getElementById("PADAuthor").innerHTML = "Author: " + result.author;
 

@@ -1,321 +1,363 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns1:PAGEADAY xmlns:ns1="./PageADay.xsd">
-	<ns1:TITLE>Grannyisms</ns1:TITLE>
-	<ns1:VERSION>5.20170111.00</ns1:VERSION>
-	<ns1:PAGES>
+  <ns1:TITLE>Grannyisms</ns1:TITLE>
+  <ns1:VERSION>4.01 (2016-12-30.1)</ns1:VERSION>
+  <ns1:DEFAULT>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-11-27 2017-12-03 2018-12-02 2019-12-01 2020-11-29</ns1:SPECIAL>
-			<ns1:NAME>Advent Begins</ns1:NAME>
+			<ns1:SAYING>This page has nothing to say</ns1:SAYING>
+			<ns1:AUTHOR>Alexa</ns1:AUTHOR>
+		</ns1:PAGE>
+	</ns1:DEFAULT>
+	<ns1:HOLIDAYS>
+    <ns1:PAGE>
+      <ns1:TYPE>Fixed</ns1:TYPE>
+      <ns1:MONTH>5</ns1:MONTH>
+      <ns1:DAY>1</ns1:DAY>
+      <ns1:HOLIDAY>May Day</ns1:HOLIDAY>
+    </ns1:PAGE>
+    <ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-11-27 2017-12-03 2018-12-02 2019-12-01 2020-11-29</ns1:SPECIAL>
+			<ns1:HOLIDAY>Advent Begins</ns1:HOLIDAY>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-03-25 2017-04-14 2018-03-30 2019-04-19 2020-04-10 2021-04-02 2022-04-15</ns1:SPECIAL>
-			<ns1:NAME>Good Friday</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-03-25 2017-04-14 2018-03-30 2019-04-19 2020-04-10 2021-04-02 2022-04-15</ns1:SPECIAL>
+			<ns1:HOLIDAY>Good Friday</ns1:HOLIDAY>
 			<ns1:SAYING>It’s a mir-e-cle!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-05-05 2017-05-25 2018-05-10 2019-05-30 2020-05-21 2021-05-13 2022-05-26</ns1:SPECIAL>
-			<ns1:NAME>Ascension Thursday</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-05-05 2017-05-25 2018-05-10 2019-05-30 2020-05-21 2021-05-13 2022-05-26</ns1:SPECIAL>
+			<ns1:HOLIDAY>Ascension Thursday</ns1:HOLIDAY>
 			<ns1:COMMENT>Ascension Day is 40 days after Easter</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-05-08 2017-05-28 2018-05-13 2019-06-02 2020-05-24 2021-05-16 2022-05-29</ns1:SPECIAL>
-			<ns1:NAME>Ascension Sunday</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-05-08 2017-05-28 2018-05-13 2019-06-02 2020-05-24 2021-05-16 2022-05-29</ns1:SPECIAL>
+			<ns1:HOLIDAY>Ascension Sunday</ns1:HOLIDAY>
 			<ns1:COMMENT>Ascension Day is 40 days after Easter</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-02-10 2017-03-01 2018-02-14 2019-03-06 2020-02-26 2021-02-17 2022-03-02</ns1:SPECIAL>
-			<ns1:NAME>Ash Wednesday</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-02-10 2017-03-01 2018-02-14 2019-03-06 2020-02-26 2021-02-17 2022-03-02</ns1:SPECIAL>
+			<ns1:HOLIDAY>Ash Wednesday</ns1:HOLIDAY>
 			<ns1:COMMENT>Ash Wednesday is 46 day before Easter</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-02-09 2017-02-28 2018-02-13 2019-03-05 2020-02-25 2021-02-16 2022-03-01</ns1:SPECIAL>
-			<ns1:NAME>Shrove Tuesday</ns1:NAME>
-			<ns1:SAYING>Attention, attention! Lucky, lucky! For the next ten minutes, everything comes with pancakes.</ns1:SAYING>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-02-09 2017-02-28 2018-02-13 2019-03-05 2020-02-25 2021-02-16 2022-03-01</ns1:SPECIAL>
+			<ns1:HOLIDAY>Shrove Tuesday</ns1:HOLIDAY>
+			<ns1:SAYING>Attention, attention!
+Lucky, lucky!
+For the next ten minutes, everything comes with pancakes.</ns1:SAYING>
 			<ns1:AUTHOR>Laverne DeFazio</ns1:AUTHOR>
 			<ns1:COMMENT>Shrove Tuesday is 47 days before Easter</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-03-20 2017-04-09 2018-03-25 2019-04-14 2020-04-05 2021-03-28 2022-04-10</ns1:SPECIAL>
-			<ns1:NAME>Palm Sunday</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-03-20 2017-04-09 2018-03-25 2019-04-14 2020-04-05 2021-03-28 2022-04-10</ns1:SPECIAL>
+			<ns1:HOLIDAY>Palm Sunday</ns1:HOLIDAY>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-03-27 2017-04-16 2018-04-01 2019-04-21 2020-04-12 2021-04-04 2022-04-17</ns1:SPECIAL>
-			<ns1:NAME>Easter</ns1:NAME>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-03-27 2017-04-16 2018-04-01 2019-04-21 2020-04-12 2021-04-04 2022-04-17</ns1:SPECIAL>
+			<ns1:HOLIDAY>Easter</ns1:HOLIDAY>
 			<ns1:SAYING>Peeps be with you.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-09-11 2017-09-10 2018-09-09 2019-09-08 2020-09-13 2021-09-12 2022-09-11</ns1:SPECIAL>
-			<ns1:NAME>Grandparent's Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-09-22 2017-09-22 2018-09-23 2019-09-23 2020-09-22</ns1:SPECIAL>
-			<ns1:NAME>First day of Fall</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-10-02 2017-09-20 2018-09-09 2019-09-29 2020-09-18 2021-09-06</ns1:SPECIAL>
-			<ns1:NAME>Rosh Hashana</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-12-24 2017-12-12 2018-12-02 2019-12-22 2020-12-10</ns1:SPECIAL>
-			<ns1:NAME>Hanukkah Starts</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-11-08 2017-11-07 2018-11-06 2019-11-05 2020-11-03</ns1:SPECIAL>
-			<ns1:NAME>Election Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-12-21 2017-12-21 2018-12-21 2019-12-22 2020-12-21</ns1:SPECIAL>
-			<ns1:NAME>First day of Winter</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-01-13 2017-10-13 2018-04-13 2018-07-13 2019-09-13 2019-12-13 2020-03-13 2020-11-13</ns1:SPECIAL>
-			<ns1:NAME>Friday the 13th</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-06-21 2018-06-21 2019-06-21 2020-06-20</ns1:SPECIAL>
-			<ns1:NAME>First day of 
-Summer</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 3 1</ns1:SPECIAL>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:NAME>Martin Luther King Day</ns1:NAME>
-			<ns1:SAYING>I have a dream that one day this nation will rise up and live out the true meaning of its creed: We hold these truths to be self-evident: that all men are created equal. I have a dream that one day on the red hills of Georgia the sons of former slaves and the sons of former slave owners will be able to sit down 
-together at a table of brotherhood.</ns1:SAYING>
-			<ns1:AUTHOR>Martin Luther King</ns1:AUTHOR>
-			<ns1:COMMENT>Martin Luthor King Day is third Monday of January</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>SpecificYears 1937 4</ns1:SPECIAL>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>20</ns1:DAY>
-			<ns1:NAME>Inauguration Day</ns1:NAME>
-			<ns1:COMMENT>Every 4 years after a national election</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>28</ns1:DAY>
-			<ns1:YEAR>2017</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Fire Chicken.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>16</ns1:DAY>
-			<ns1:YEAR>2018</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Earth Dog.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>5</ns1:DAY>
-			<ns1:YEAR>2019</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Earth Pig.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>25</ns1:DAY>
 			<ns1:YEAR>2020</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Metal Rat.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
+			<ns1:HOLIDAY>Chinese New Year. Year of the Metal Rat.</ns1:HOLIDAY>
+			<ns1:SAYING>You will have a prosperous year 
+… in bed.</ns1:SAYING>
 			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>28</ns1:DAY>
+			<ns1:YEAR>2017</ns1:YEAR>
+			<ns1:HOLIDAY>Chinese New Year. Year of the Fire Chicken.</ns1:HOLIDAY>
+			<ns1:SAYING>You will have a prosperous year 
+… in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>5</ns1:DAY>
+			<ns1:YEAR>2019</ns1:YEAR>
+			<ns1:HOLIDAY>Chinese New Year. Year of the Earth Pig.</ns1:HOLIDAY>
+			<ns1:SAYING>You will have a prosperous year 
+… in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
 			<ns1:YEAR>2021</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Metal Ox.</ns1:NAME>
+			<ns1:HOLIDAY>Chinese New Year. Year of the Metal Ox.</ns1:HOLIDAY>
 			<ns1:SAYING>Those Hamm/Flemmings 
 can turn a phrase.</ns1:SAYING>
 			<ns1:AUTHOR>Elizabeth Donovan</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 0</ns1:SPECIAL>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:NAME>Super Bowl Sunday</ns1:NAME>
-			<ns1:COMMENT>Super Bowl is first Sunday in February</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>26</ns1:DAY>
-			<ns1:YEAR>2017</ns1:YEAR>
-			<ns1:NAME>Oscar Night</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:DAY>4</ns1:DAY>
+			<ns1:DAY>16</ns1:DAY>
 			<ns1:YEAR>2018</ns1:YEAR>
-			<ns1:NAME>Oscar Night</ns1:NAME>
+			<ns1:HOLIDAY>Chinese New Year. Year of the Earth Dog.</ns1:HOLIDAY>
+			<ns1:SAYING>You will have a prosperous year 
+… in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 3 1</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>3 1</ns1:SPECIAL>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:HOLIDAY>Martin Luther King Day</ns1:HOLIDAY>
+			<ns1:SAYING>I have a dream that one day this nation will rise up and live out the true meaning of its creed: We hold these truths to be self-evident: that all men are created equal.
+ I have a dream that one day on the red hills of Georgia the sons of former slaves and the sons of former slave owners will be able to sit down 
+together at a table of brotherhood.</ns1:SAYING>
+			<ns1:AUTHOR>Martin Luther King</ns1:AUTHOR>
+			<ns1:COMMENT>Martin Luthor King Day is third Monday of January</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>3 1</ns1:SPECIAL>
 			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:NAME>President's Day</ns1:NAME>
+			<ns1:HOLIDAY>President's Day</ns1:HOLIDAY>
 			<ns1:SAYING>The pay is good and 
 I can walk to work.</ns1:SAYING>
 			<ns1:AUTHOR>John F. Kennedy</ns1:AUTHOR>
 			<ns1:COMMENT>President's Day is third Monday of February (can occur Feb 15 - 21 inclusive)</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 2 0</ns1:SPECIAL>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:NAME>Daylight Savings Time Begins (Turn clock forward an hour)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOnOrAfter</ns1:SPECIAL>
-			<ns1:MONTH>4</ns1:MONTH>
-			<ns1:DAY>15</ns1:DAY>
-			<ns1:NAME>Tax Day</ns1:NAME>
-			<ns1:SAYING>Pay the price.</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>LastWeekdayOfMonth 1</ns1:SPECIAL>
+			<ns1:TYPE>LastWeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1</ns1:SPECIAL>
 			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:NAME>Memorial Day</ns1:NAME>
+			<ns1:HOLIDAY>Memorial Day</ns1:HOLIDAY>
 			<ns1:COMMENT>Last Monday in May</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 2 0 -2</ns1:SPECIAL>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:NAME>Military Spouses Day</ns1:NAME>
-			<ns1:COMMENT>Military spouses day is two days before Mother's Day</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 2 0</ns1:SPECIAL>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:NAME>Mother's Day</ns1:NAME>
-			<ns1:SAYING>Muth-ah!</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-			<ns1:COMMENT>Mother's Day: Second Sunday in May</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 3 0</ns1:SPECIAL>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:NAME>Armed Forces Day</ns1:NAME>
-			<ns1:COMMENT>Armed Forces Day is the third Sunday in May</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 3 0</ns1:SPECIAL>
-			<ns1:MONTH>6</ns1:MONTH>
-			<ns1:NAME>Father's Day</ns1:NAME>
-			<ns1:SAYING>You are a sad, strange little man, and you have my pity.</ns1:SAYING>
-			<ns1:AUTHOR>Buzz Lightyear from the movie Toy Story</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 4 0</ns1:SPECIAL>
-			<ns1:MONTH>7</ns1:MONTH>
-			<ns1:NAME>Parents Day</ns1:NAME>
-			<ns1:COMMENT>Parent's Day is the fourth Sunday in July</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 0</ns1:SPECIAL>
-			<ns1:MONTH>8</ns1:MONTH>
-			<ns1:NAME>Sisters Day</ns1:NAME>
-			<ns1:COMMENT>Sister's day is the first Sunday in August</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 1</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 1</ns1:SPECIAL>
 			<ns1:MONTH>9</ns1:MONTH>
-			<ns1:NAME>Labor Day</ns1:NAME>
+			<ns1:HOLIDAY>Labor Day</ns1:HOLIDAY>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 1 -2</ns1:SPECIAL>
-			<ns1:MONTH>9</ns1:MONTH>
-			<ns1:NAME>International Bacon Day (not to be confused with National Bacon Day)</ns1:NAME>
-			<ns1:SAYING>Bippity boppity bacon!</ns1:SAYING>
-			<ns1:AUTHOR>Jim Gaffigan</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 2 1</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>2 1</ns1:SPECIAL>
 			<ns1:MONTH>10</ns1:MONTH>
-			<ns1:NAME>Columbus Day</ns1:NAME>
+			<ns1:HOLIDAY>Columbus Day</ns1:HOLIDAY>
 			<ns1:SAYING>Are we there yet?</ns1:SAYING>
 			<ns1:AUTHOR>Everyone</ns1:AUTHOR>
 			<ns1:COMMENT>Columbus Day is second Monday in October</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 0</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 1 -2</ns1:SPECIAL>
+			<ns1:MONTH>9</ns1:MONTH>
+			<ns1:HOLIDAY>International Bacon Day (not to be confused with National Bacon Day)</ns1:HOLIDAY>
+			<ns1:SAYING>Bippity boppity bacon!</ns1:SAYING>
+			<ns1:AUTHOR>Jim Gaffigan</ns1:AUTHOR>
+			<ns1:COMMENT>International Bacon Day is the Saturday before Labor day</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>30</ns1:DAY>
+			<ns1:HOLIDAY>National Bacon Day (not to be confused with International Bacon Day)</ns1:HOLIDAY>
+			<ns1:SAYING>Bippity boppity bacon!</ns1:SAYING>
+			<ns1:AUTHOR>Jim Gaffigan</ns1:AUTHOR>
+			<ns1:COMMENT>National Bacon Day is December 30</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>2 0 -2</ns1:SPECIAL>
+			<ns1:MONTH>5</ns1:MONTH>
+			<ns1:HOLIDAY>Military Spouses Day</ns1:HOLIDAY>
+			<ns1:COMMENT>Military spouses day is two days before Mother's Day</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>26</ns1:DAY>
+			<ns1:YEAR>2017</ns1:YEAR>
+			<ns1:HOLIDAY>Oscar Night</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>3</ns1:MONTH>
+			<ns1:DAY>4</ns1:DAY>
+			<ns1:YEAR>2018</ns1:YEAR>
+			<ns1:HOLIDAY>Oscar Night</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>11</ns1:DAY>
+			<ns1:YEAR>2017</ns1:YEAR>
+			<ns1:HOLIDAY>#DisneyWorld2017</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-09-11 2017-09-10 2018-09-09 2019-09-08 2020-09-13 2021-09-12 2022-09-11</ns1:SPECIAL>
+			<ns1:MONTH>9</ns1:MONTH>
+			<ns1:DAY>10</ns1:DAY>
+			<ns1:HOLIDAY>Grandparent's Day</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-09-22 2017-09-22 2018-09-23 2019-09-23 2020-09-22</ns1:SPECIAL>
+			<ns1:MONTH>9</ns1:MONTH>
+			<ns1:HOLIDAY>First day of Fall</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-10-02 2017-09-20 2018-09-09 2019-09-29 2020-09-18 2021-09-06</ns1:SPECIAL>
+			<ns1:HOLIDAY>Rosh Hashana</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-12-24 2017-12-12 2018-12-02 2019-12-22 2020-12-10</ns1:SPECIAL>
+			<ns1:HOLIDAY>Hanukkah Starts</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-11-08 2017-11-07 2018-11-06 2019-11-05 2020-11-03</ns1:SPECIAL>
 			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Daylight Savings Time Ends (turn clock back an hour)</ns1:NAME>
+			<ns1:DAY>8</ns1:DAY>
+			<ns1:HOLIDAY>Election Day</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2016-12-21 2017-12-21 2018-12-21 2019-12-22 2020-12-21</ns1:SPECIAL>
+			<ns1:HOLIDAY>First day of Winter</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2017-01-13 2017-10-13 2018-04-13 2018-07-13 2019-09-13 2019-12-13 2020-03-13 2020-11-13</ns1:SPECIAL>
+			<ns1:HOLIDAY>Friday the 13th</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>ListOfDates</ns1:TYPE>
+			<ns1:SPECIAL>2017-06-21 2018-06-21 2019-06-21 2020-06-20</ns1:SPECIAL>
+			<ns1:HOLIDAY>First day of 
+Summer</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>SpecificYears</ns1:TYPE>
+			<ns1:SPECIAL>1937 4</ns1:SPECIAL>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>20</ns1:DAY>
+			<ns1:HOLIDAY>Inauguration Day</ns1:HOLIDAY>
+			<ns1:COMMENT>Every 4 years after a national election</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 0</ns1:SPECIAL>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:HOLIDAY>Super Bowl Sunday</ns1:HOLIDAY>
+			<ns1:COMMENT>Super Bowl is first Sunday in February</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 0</ns1:SPECIAL>
+			<ns1:MONTH>8</ns1:MONTH>
+			<ns1:HOLIDAY>Sisters Day</ns1:HOLIDAY>
+			<ns1:COMMENT>Sister's day is the first Sunday in August</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 0</ns1:SPECIAL>
+			<ns1:MONTH>11</ns1:MONTH>
+			<ns1:HOLIDAY>Daylight Savings Time Ends (turn clock back an hour)</ns1:HOLIDAY>
 			<ns1:COMMENT>Daylight savings ends first Sunday in November</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 1 4</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>2 0</ns1:SPECIAL>
+			<ns1:MONTH>3</ns1:MONTH>
+			<ns1:HOLIDAY>Daylight Savings Time Begins (Turn clock forward an hour)</ns1:HOLIDAY>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>1 4</ns1:SPECIAL>
 			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Men Make Dinner Day</ns1:NAME>
+			<ns1:HOLIDAY>Men Make Dinner Day</ns1:HOLIDAY>
 			<ns1:SAYING>THAT just happened!</ns1:SAYING>
-			<ns1:AUTHOR>Ricky Bobby from the movie Talledega Nights</ns1:AUTHOR>
+			<ns1:AUTHOR>Ricky Bobby</ns1:AUTHOR>
 			<ns1:COMMENT>Men Make Dinner Day is the first Thursday in November</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 4 4</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>2 0</ns1:SPECIAL>
+			<ns1:MONTH>5</ns1:MONTH>
+			<ns1:HOLIDAY>Mother's Day</ns1:HOLIDAY>
+			<ns1:SAYING>Muth-ah!</ns1:SAYING>
+			<ns1:AUTHOR>Granny</ns1:AUTHOR>
+			<ns1:COMMENT>Mother's Day: Second Sunday in May</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>3 0</ns1:SPECIAL>
+			<ns1:MONTH>6</ns1:MONTH>
+			<ns1:HOLIDAY>Father's Day</ns1:HOLIDAY>
+			<ns1:SAYING>You are a sad, strange little man, and you have my pity.</ns1:SAYING>
+			<ns1:AUTHOR>Buzz Lightyear</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>3 0</ns1:SPECIAL>
+			<ns1:MONTH>5</ns1:MONTH>
+			<ns1:HOLIDAY>Armed Forces Day</ns1:HOLIDAY>
+			<ns1:COMMENT>Armed Forces Day is the third Sunday in May</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>4 0</ns1:SPECIAL>
+			<ns1:MONTH>7</ns1:MONTH>
+			<ns1:HOLIDAY>Parents Day</ns1:HOLIDAY>
+			<ns1:COMMENT>Parent's Day is the fourth Sunday in July</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>4 4</ns1:SPECIAL>
 			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Thanksgiving</ns1:NAME>
+			<ns1:HOLIDAY>Thanksgiving</ns1:HOLIDAY>
 			<ns1:SAYING>Gobble, gobble, gobble, fat turkeys, fat turkeys.  Gobble, gobble, gobble, fat turkeys are we.  We're not here for living, we're here for Thanksgiving.  Gobble, gobble, gobble, fat turkeys are we.</ns1:SAYING>
 			<ns1:AUTHOR>Johnny Burke</ns1:AUTHOR>
 			<ns1:COMMENT>Fourth Thursday in November</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekdayOfMonth 4 5</ns1:SPECIAL>
+			<ns1:TYPE>WeekdayOfMonth</ns1:TYPE>
+			<ns1:SPECIAL>4 5</ns1:SPECIAL>
 			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Black Friday</ns1:NAME>
+			<ns1:HOLIDAY>Black Friday</ns1:HOLIDAY>
 			<ns1:COMMENT>Fourth Friday  in November (day after Thanksgiving)</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>WeekdayOnOrAfter</ns1:TYPE>
+			<ns1:MONTH>4</ns1:MONTH>
+			<ns1:DAY>15</ns1:DAY>
+			<ns1:HOLIDAY>Tax Day</ns1:HOLIDAY>
+			<ns1:SAYING>Pay the price.</ns1:SAYING>
+			<ns1:AUTHOR>Granny</ns1:AUTHOR>
+		</ns1:PAGE>
+	</ns1:HOLIDAYS>
+	<ns1:PAGES>
+		<ns1:PAGE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>New Year’s Day</ns1:NAME>
+			<ns1:HOLIDAY>New Year’s Day</ns1:HOLIDAY>
 			<ns1:SAYING>Those Hamm/Flemmings 
 can turn a phrase.</ns1:SAYING>
 			<ns1:AUTHOR>Elizabeth Donovan</ns1:AUTHOR>
@@ -328,26 +370,18 @@ It's going to be a bumpy night.</ns1:SAYING>
 			<ns1:AUTHOR>Bette Davis</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>3</ns1:DAY>
-			<ns1:NAME>Festival of Sleep Day</ns1:NAME>
+			<ns1:HOLIDAY>Festival of Sleep Day</ns1:HOLIDAY>
 			<ns1:SAYING>It's just the shank of the evening.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Vicki</ns1:NAME>
-			<ns1:SAYING>What a girl!</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Angela</ns1:NAME>
+			<ns1:BIRTHDAY>Vicki and Angela</ns1:BIRTHDAY>
 			<ns1:SAYING>What a girl!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -355,13 +389,13 @@ It's going to be a bumpy night.</ns1:SAYING>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>5</ns1:DAY>
 			<ns1:SAYING>There's no place like home.</ns1:SAYING>
-			<ns1:AUTHOR>Dorothy Gale from the movie The Wizard of Oz</ns1:AUTHOR>
+			<ns1:AUTHOR>Dorothy Gale</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>Epiphany Begins</ns1:NAME>
+			<ns1:HOLIDAY>Epiphany Begins</ns1:HOLIDAY>
 			<ns1:SAYING>Youse is welcome, Perry.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -403,18 +437,18 @@ brass monkey.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>13</ns1:DAY>
-			<ns1:NAME>Epiphany Ends</ns1:NAME>
+			<ns1:HOLIDAY>Epiphany Ends</ns1:HOLIDAY>
 			<ns1:SAYING>I'm Sainted and Tainted!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:NAME>Elizabeth</ns1:NAME>
+			<ns1:BIRTHDAY>Elizabeth</ns1:BIRTHDAY>
 			<ns1:SAYING>Let's put on a show!</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -425,12 +459,9 @@ brass monkey.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>National Religious Freedom Day</ns1:NAME>
-			<ns1:SAYING>Religion is like a pair of shoes.....Find one that fits for you, but don't make me wear your shoes.</ns1:SAYING>
-			<ns1:AUTHOR>George Carlin</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>1</ns1:MONTH>
@@ -451,31 +482,18 @@ brass monkey.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:NAME>Penguin Awareness Day</ns1:NAME>
+			<ns1:HOLIDAY>Penguin Awareness Day</ns1:HOLIDAY>
 			<ns1:SAYING>I can see Russia from my house.</ns1:SAYING>
-			<ns1:AUTHOR>Tina Fey as Sarah Palin</ns1:AUTHOR>
+			<ns1:AUTHOR>Tina Fey (as Sarah Palin)</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:YEAR>1966</ns1:YEAR>
-			<ns1:NAME>Barry</ns1:NAME>
-			<ns1:SAYING>Francisco!
-That's fun to say!
-Francisco... 
-Frannncisco... 
-Franciscooo…</ns1:SAYING>
-			<ns1:AUTHOR>Buddy the Elf and Max</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>21</ns1:DAY>
-			<ns1:NAME>Max</ns1:NAME>
+			<ns1:BIRTHDAY>Barry and Max</ns1:BIRTHDAY>
 			<ns1:SAYING>Francisco!
 That's fun to say!
 Francisco... 
@@ -524,12 +542,9 @@ You are really dumb -- for real.</ns1:SAYING>
 			<ns1:AUTHOR>Antoine Dodson</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>Data Privacy Day</ns1:NAME>
-			<ns1:SAYING>Privacy is not something that I'm merely entitled to, it's an absolute prerequisite.</ns1:SAYING>
-			<ns1:AUTHOR>Marlon Brando</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>1</ns1:MONTH>
@@ -538,34 +553,37 @@ You are really dumb -- for real.</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>Mam</ns1:NAME>
+			<ns1:BIRTHDAY>Mam</ns1:BIRTHDAY>
 			<ns1:SAYING>Ju-dath!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>31</ns1:DAY>
-			<ns1:SAYING>This is one time where television really fails to capture the true excitement of a large squirrel predicting the weather.</ns1:SAYING>
-			<ns1:AUTHOR>Phil from the movie Groundhog Day</ns1:AUTHOR>
+			<ns1:SAYING>This is one time where television 
+really fails to capture the true 
+excitement of a large squirrel 
+predicting the weather.</ns1:SAYING>
+			<ns1:AUTHOR>Groundhog Day</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>National Freedom Day</ns1:NAME>
+			<ns1:HOLIDAY>National Freedom Day</ns1:HOLIDAY>
 			<ns1:SAYING>Oh, sweetheart, you don't need law school. Law school is for people who are boring and ugly and serious. And you, button, are none of those things.</ns1:SAYING>
-			<ns1:AUTHOR>Elle Wood's Father from the movie Legally Blonde</ns1:AUTHOR>
+			<ns1:AUTHOR>Elle Wood's Father</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>2</ns1:DAY>
-			<ns1:NAME>Groundhog Day</ns1:NAME>
-			<ns1:SAYING>Phil: What would you do if you were stuck in one place and every day was exactly  the same, and nothing that you did mattered? Ralph: That about sums it up for me.</ns1:SAYING>
-			<ns1:AUTHOR>Phil and Ralph from the movie Groundhog Day</ns1:AUTHOR>
+			<ns1:HOLIDAY>Groundhog Day</ns1:HOLIDAY>
+			<ns1:SAYING>Phil: What would you do if you were stuck in one place and every day was exactly  the same, and nothing that you did mattered?
+Ralph: That about sums it up for me.</ns1:SAYING>
+			<ns1:AUTHOR>Groundhog Day</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
@@ -594,14 +612,16 @@ You are really dumb -- for real.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>7</ns1:DAY>
-			<ns1:SAYING>A little song. A little dance. A little seltzer down your pants.</ns1:SAYING>
-			<ns1:AUTHOR>Chuckles the Clown from The Mary Tyler Moore Show</ns1:AUTHOR>
+			<ns1:SAYING>A little song.
+A little dance.
+A little seltzer down your pants.</ns1:SAYING>
+			<ns1:AUTHOR>Chuckles the Clown</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
 			<ns1:SAYING>Would you please put on some pants? I feel weird having to ask you twice.</ns1:SAYING>
-			<ns1:AUTHOR>Phil from the movie The Hangover</ns1:AUTHOR>
+			<ns1:AUTHOR>Phil (from The Hangover)</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
@@ -610,10 +630,10 @@ You are really dumb -- for real.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
-			<ns1:NAME>Umbrella day</ns1:NAME>
+			<ns1:HOLIDAY>Umbrella day</ns1:HOLIDAY>
 			<ns1:SAYING>How are you feeling?
 Once all over and twice 
 if they'll let me.</ns1:SAYING>
@@ -639,10 +659,10 @@ upside the head?</ns1:SAYING>
 			<ns1:AUTHOR>Unknown</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:NAME>Valentine's Day</ns1:NAME>
+			<ns1:HOLIDAY>Valentine's Day</ns1:HOLIDAY>
 			<ns1:SAYING>Valentine's Day is so much fun, sending cards to everyone.  
 Big red Hearts so bright and gay.  
 I love you, I love you. 
@@ -658,7 +678,7 @@ That's what they say!</ns1:SAYING>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
 			<ns1:SAYING>You're sassy, classy and kickin'-assy.</ns1:SAYING>
-			<ns1:AUTHOR>A Hallmark greeting</ns1:AUTHOR>
+			<ns1:AUTHOR>Hallmark</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
@@ -682,20 +702,22 @@ to feed an army of coxes.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:SAYING>The best thing to hold onto in life, is each other.</ns1:SAYING>
-			<ns1:AUTHOR>Audrey Hepburn</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:SAYING>Roger. Zero-G and I feel fine. Capsule is turning around. Oh! That view is tremendous!</ns1:SAYING>
+			<ns1:SAYING>Roger. 
+Zero-G and I feel fine. 
+Capsule is turning around. 
+Oh! That view is tremendous!</ns1:SAYING>
 			<ns1:AUTHOR>John Glenn from Friendship 7</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
-			<ns1:NAME>Be Humble day</ns1:NAME>
+			<ns1:HOLIDAY>Be Humble day</ns1:HOLIDAY>
 			<ns1:SAYING>How am I?  
 Able to sit up and 
 take a little light nourishment</ns1:SAYING>
@@ -704,8 +726,8 @@ take a little light nourishment</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>23</ns1:DAY>
-			<ns1:SAYING>Everyone just pretend to be normal.</ns1:SAYING>
-			<ns1:AUTHOR>Richard from the movie Little Miss Sunshine</ns1:AUTHOR>
+			<ns1:SAYING>Everyone pretend to be normal.</ns1:SAYING>
+			<ns1:AUTHOR>Little Miss Sunshine</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>2</ns1:MONTH>
@@ -733,47 +755,47 @@ and don’t hurry back!</ns1:SAYING>
 			<ns1:AUTHOR>Snagglepuss</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>Kate</ns1:NAME>
+			<ns1:BIRTHDAY>Kate</ns1:BIRTHDAY>
 			<ns1:SAYING>You were hatched.</ns1:SAYING>
 			<ns1:AUTHOR>Kate</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>2</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
-			<ns1:NAME>Leap Day</ns1:NAME>
-			<ns1:SAYING>Just keep swimming … swimming … swimming …</ns1:SAYING>
-			<ns1:AUTHOR>Dory from the movie Finding Nemo</ns1:AUTHOR>
+			<ns1:HOLIDAY>Leap Day</ns1:HOLIDAY>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:SAYING>Do you remember when we spent those four amazing hours in the hot tub together? Well, this is so much better than that!</ns1:SAYING>
-			<ns1:AUTHOR>Elle Woods from the movie Legally Blonde</ns1:AUTHOR>
+			<ns1:SAYING>Do you remember when we spent those four amazing hours in the hot tub together?
+Well, this is so much better than that!</ns1:SAYING>
+			<ns1:AUTHOR>Elle Woods</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>2</ns1:DAY>
-			<ns1:NAME>Read Across America Day</ns1:NAME>
+			<ns1:HOLIDAY>Read Across America Day</ns1:HOLIDAY>
+			<ns1:BIRTHDAY>Dr. Seuss</ns1:BIRTHDAY>
+			<ns1:SAYING>Just keep swimming … 
+swimming … 
+swimming …</ns1:SAYING>
+			<ns1:AUTHOR>Dory</ns1:AUTHOR>
+			<ns1:COMMENT>Also Dr. Suess's birthday</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:DAY>2</ns1:DAY>
-			<ns1:NAME>Dr Seuss</ns1:NAME>
-			<ns1:SAYING>Be who you are and say what you feel, because those who mind don't matter and those who matter don't mind.</ns1:SAYING>
-			<ns1:AUTHOR>Dr. Seuss</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>3</ns1:DAY>
-			<ns1:NAME>National Anthem Day</ns1:NAME>
-			<ns1:SAYING>I'm a Caribbean Amphibian. I like to hop in the tropical … sea.</ns1:SAYING>
+			<ns1:HOLIDAY>National Anthem Day</ns1:HOLIDAY>
+			<ns1:SAYING>I'm a Caribbean Amphibian
+I like to hop in the tropical … 
+… sea.</ns1:SAYING>
 			<ns1:AUTHOR>Kermit the Frog</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -790,12 +812,12 @@ and don’t hurry back!</ns1:SAYING>
 			<ns1:AUTHOR>David Zeke</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>Michael</ns1:NAME>
-			<ns1:SAYING>Excuse me sir, where do you keep your nuts?</ns1:SAYING>
-			<ns1:AUTHOR>Michael</ns1:AUTHOR>
+			<ns1:BIRTHDAY>Mikey</ns1:BIRTHDAY>
+			<ns1:SAYING>He was pretty good…for him.</ns1:SAYING>
+			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>3</ns1:MONTH>
@@ -806,8 +828,7 @@ and don’t hurry back!</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
-			<ns1:SAYING>He was pretty good…for him.</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>3</ns1:MONTH>
@@ -842,10 +863,8 @@ but he kept right on going.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:NAME>Pi Approximation Day</ns1:NAME>
 			<ns1:SAYING>Try not. 
 Do… or do not. 
 There is no try.</ns1:SAYING>
@@ -864,18 +883,11 @@ There is no try.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>17</ns1:DAY>
-			<ns1:NAME>St. Patrick's Day</ns1:NAME>
-			<ns1:SAYING>The night that Paddy Murphy died, I never will forget.  The Irish all got Stinking drunk, and some aren't sober yet.  The one thing that they did that night that filled my heart with fear, they took the ice right off the corpse and put it on the beer!
-Oh, that's how we showed our respect for Paddy Murphy, that's how we showed our honor and our pride.  Oh, baby!  That's how we showed our respect to Paddy Murphy, on the night that Paddy died!</ns1:SAYING>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:DAY>17</ns1:DAY>
-			<ns1:NAME>Abby</ns1:NAME>
+			<ns1:HOLIDAY>St. Patrick's Day</ns1:HOLIDAY>
+			<ns1:BIRTHDAY>Abby</ns1:BIRTHDAY>
 			<ns1:SAYING>The night that Paddy Murphy died, I never will forget.  The Irish all got Stinking drunk, and some aren't sober yet.  The one thing that they did that night that filled my heart with fear, they took the ice right off the corpse and put it on the beer!
 Oh, that's how we showed our respect for Paddy Murphy, that's how we showed our honor and our pride.  Oh, baby!  That's how we showed our respect to Paddy Murphy, on the night that Paddy died!</ns1:SAYING>
 		</ns1:PAGE>
@@ -893,10 +905,10 @@ How we look so much alike.</ns1:SAYING>
 			<ns1:AUTHOR>Chester O'Chimp</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:NAME>First day of Spring</ns1:NAME>
+			<ns1:HOLIDAY>First day of Spring</ns1:HOLIDAY>
 			<ns1:SAYING>What did he have to claim?</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 			<ns1:COMMENT>First day of Spring is not really fixed but it happens to be the same day for the next several years (2017 - 2020)</ns1:COMMENT>
@@ -908,10 +920,10 @@ How we look so much alike.</ns1:SAYING>
 			<ns1:AUTHOR>Obi Wan Kenobi</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
-			<ns1:NAME>National Goof Off Day</ns1:NAME>
+			<ns1:HOLIDAY>National Goof Off Day</ns1:HOLIDAY>
 			<ns1:SAYING>Monkey with a cold.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -939,13 +951,13 @@ her eyelashes?</ns1:SAYING>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
 			<ns1:SAYING>Where's the beef?</ns1:SAYING>
-			<ns1:AUTHOR>Clara Peller from a Wendy's commercial</ns1:AUTHOR>
+			<ns1:AUTHOR>Clara Peller</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
-			<ns1:NAME>National "Joe" Day</ns1:NAME>
+			<ns1:HOLIDAY>National "Joe" Day</ns1:HOLIDAY>
 			<ns1:SAYING>WTF? 
 I thought it means What The Fish!</ns1:SAYING>
 			<ns1:AUTHOR>Emily</ns1:AUTHOR>
@@ -969,26 +981,26 @@ I thought it means What The Fish!</ns1:SAYING>
 			<ns1:AUTHOR>Irish Proverb</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>31</ns1:DAY>
-			<ns1:NAME>Adelynn</ns1:NAME>
+			<ns1:BIRTHDAY>Adelynn</ns1:BIRTHDAY>
 			<ns1:SAYING>Biggie girl, no tiny baby.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>April Fool's Day</ns1:NAME>
+			<ns1:HOLIDAY>April Fool's Day</ns1:HOLIDAY>
 			<ns1:SAYING>April Foo</ns1:SAYING>
 			<ns1:AUTHOR>Maridith</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>2</ns1:DAY>
-			<ns1:NAME>National Peanut Butter and Jelly Day</ns1:NAME>
+			<ns1:HOLIDAY>National Peanut Butter and Jelly Day</ns1:HOLIDAY>
 			<ns1:SAYING>My gum will be lonely 
 down there by itself.</ns1:SAYING>
 			<ns1:AUTHOR>Vicki</ns1:AUTHOR>
@@ -1019,7 +1031,7 @@ Want to come?</ns1:SAYING>
 			<ns1:DAY>6</ns1:DAY>
 			<ns1:SAYING>They all died in a freak 
 gasoline fight accident.</ns1:SAYING>
-			<ns1:AUTHOR>Derek Zoolander</ns1:AUTHOR>
+			<ns1:AUTHOR>Zoolander</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
@@ -1030,8 +1042,9 @@ gasoline fight accident.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
-			<ns1:SAYING>Have you ever killed anyone? Yeah, but they were all bad.</ns1:SAYING>
-			<ns1:AUTHOR>the movie True Lies</ns1:AUTHOR>
+			<ns1:SAYING>Have you ever killed anyone?
+Yeah, but they were all bad.</ns1:SAYING>
+			<ns1:AUTHOR>True Lies</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
@@ -1040,18 +1053,18 @@ gasoline fight accident.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
-			<ns1:NAME>National Siblings Day</ns1:NAME>
+			<ns1:HOLIDAY>National Siblings Day</ns1:HOLIDAY>
 			<ns1:SAYING>Right, Chief!</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Sir</ns1:NAME>
+			<ns1:BIRTHDAY>Sir</ns1:BIRTHDAY>
 			<ns1:SAYING>Woooooooo. Pig. Sooie!
 Woooooooo. Pig. Sooie!
 Woooooooo. Pig. Sooie!
@@ -1059,10 +1072,10 @@ Razorbacks!</ns1:SAYING>
 			<ns1:AUTHOR>Arkansas Hog Call</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
-			<ns1:NAME>Maridith</ns1:NAME>
+			<ns1:BIRTHDAY>Maridith</ns1:BIRTHDAY>
 			<ns1:SAYING>Yes, Law.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1077,26 +1090,23 @@ and look stupid.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:SAYING>April hath put a spirit of youth in everything</ns1:SAYING>
-			<ns1:AUTHOR>William Shakespeare</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:SAYING>Republicans believe every day is the Forth of July, but the democrats believe every day is April 15th.</ns1:SAYING>
-			<ns1:AUTHOR>Ronald Reagan</ns1:AUTHOR>
+			<ns1:SAYING>Can you hear me now?</ns1:SAYING>
+			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:SAYING>Elections should be held on April 16th -- the day after we pay our income taxes. That is one of the few things that might discourage politicians from being big spenders.</ns1:SAYING>
-			<ns1:AUTHOR>Thomas Sowell</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>17</ns1:DAY>
-			<ns1:SAYING>Can you hear me now?</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
@@ -1114,7 +1124,7 @@ and look stupid.</ns1:SAYING>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
 			<ns1:SAYING>Sharkbait OO HA HA.</ns1:SAYING>
-			<ns1:AUTHOR>Bloat, Gurgle and Bubbles from the movie Finding Nemo</ns1:AUTHOR>
+			<ns1:AUTHOR>Finding Nemo</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
@@ -1123,10 +1133,10 @@ and look stupid.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
-			<ns1:NAME>Earth Day</ns1:NAME>
+			<ns1:HOLIDAY>Earth Day</ns1:HOLIDAY>
 			<ns1:SAYING>Wine is constant proof that God loves us and loves to see us happy.</ns1:SAYING>
 			<ns1:AUTHOR>Benjamin Franklin</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1137,10 +1147,10 @@ and look stupid.</ns1:SAYING>
 			<ns1:AUTHOR>Cathy</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>Claire</ns1:NAME>
+			<ns1:BIRTHDAY>Claire</ns1:BIRTHDAY>
 			<ns1:SAYING>Eat this fruit.  
 Do you want to die of the scurvy?</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
@@ -1156,7 +1166,7 @@ tooth-eating machine.</ns1:SAYING>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
 			<ns1:SAYING>Live long and prosper.</ns1:SAYING>
-			<ns1:AUTHOR>Mr. Spock from Star Trek</ns1:AUTHOR>
+			<ns1:AUTHOR>Spock</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>4</ns1:MONTH>
@@ -1165,10 +1175,10 @@ tooth-eating machine.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>4</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>Great Poetry Reading Day</ns1:NAME>
+			<ns1:HOLIDAY>Great Poetry Reading Day</ns1:HOLIDAY>
 			<ns1:SAYING>Write when you learn how.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1185,34 +1195,27 @@ snowball’s chance in Hell.</ns1:SAYING>
 			<ns1:SAYING>Can't we all just get along?</ns1:SAYING>
 			<ns1:AUTHOR>Rodney King</ns1:AUTHOR>
 		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>May Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>Granny and Papa</ns1:NAME>
-			<ns1:SAYING>Marry in haste, repent at leisure.</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-      <ns1:YEAR>1985</ns1:YEAR>
-      <ns1:NAME>Barry and Becky</ns1:NAME>
-			<ns1:SAYING>Marry in haste, repent at leisure.</ns1:SAYING>
-			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
+    <ns1:PAGE>
+      <ns1:TYPE>Fixed</ns1:TYPE>
+      <ns1:MONTH>5</ns1:MONTH>
+      <ns1:DAY>1</ns1:DAY>
+      <ns1:EVENT>Granny and Papa</ns1:EVENT>
+      <ns1:SAYING>Marry in haste, repent at leisure.</ns1:SAYING>
+      <ns1:AUTHOR>Granny</ns1:AUTHOR>
+    </ns1:PAGE>
+    <ns1:PAGE>
+      <ns1:TYPE>Fixed</ns1:TYPE>
+      <ns1:MONTH>5</ns1:MONTH>
+      <ns1:DAY>1</ns1:DAY>
+      <ns1:EVENT>Barry and Becky</ns1:EVENT>
+      <ns1:SAYING>Marry in haste, repent at leisure.</ns1:SAYING>
+      <ns1:AUTHOR>Granny</ns1:AUTHOR>
+    </ns1:PAGE>
+    <ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>2</ns1:DAY>
 			<ns1:SAYING>You had me at hello.</ns1:SAYING>
-			<ns1:AUTHOR>Dorothy Boyd from the movie Jerry McGuire</ns1:AUTHOR>
+			<ns1:AUTHOR>Dorothy Boyd</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
@@ -1221,27 +1224,27 @@ snowball’s chance in Hell.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Star Wars Day</ns1:NAME>
+			<ns1:HOLIDAY>Star Wars Day</ns1:HOLIDAY>
 			<ns1:SAYING>May the force be with you.</ns1:SAYING>
-			<ns1:AUTHOR>Obi Wan Kenobi</ns1:AUTHOR>
+			<ns1:AUTHOR>Star Wars</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>5</ns1:DAY>
-			<ns1:NAME>Cinco De Mayo</ns1:NAME>
+			<ns1:HOLIDAY>Cinco De Mayo</ns1:HOLIDAY>
 			<ns1:SAYING>The test of one's manliness is how much spicy stuff he can eat…
 I am not the man I was anymore.</ns1:SAYING>
 			<ns1:AUTHOR>Barry (drunk)</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>National Nurses Day</ns1:NAME>
+			<ns1:HOLIDAY>National Nurses Day</ns1:HOLIDAY>
 			<ns1:SAYING>My memory of you is better than you.</ns1:SAYING>
 			<ns1:AUTHOR>Lao Tzu</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1252,12 +1255,11 @@ I am not the man I was anymore.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
-			<ns1:NAME>World Red Cross Day</ns1:NAME>
-			<ns1:SAYING>You can't go wrong with the Red Cross. I know it's boring. But they're there, and they are ready."</ns1:SAYING>
-			<ns1:AUTHOR>Trent Stamp</ns1:AUTHOR>
+			<ns1:HOLIDAY>World Red Cross Day</ns1:HOLIDAY>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
@@ -1281,7 +1283,8 @@ you're neither fish nor fowl.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
-			<ns1:SAYING>Efforts don't count. Results do.</ns1:SAYING>
+			<ns1:SAYING>Efforts don't count.
+Results do.</ns1:SAYING>
 			<ns1:AUTHOR>David Zeke</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -1298,7 +1301,7 @@ ARE YOU CRYING?
 There's no crying!
 THERE'S NO CRYING 
 IN BASEBALL!</ns1:SAYING>
-			<ns1:AUTHOR>Jimmy Dugan from the movie A League of Their Own</ns1:AUTHOR>
+			<ns1:AUTHOR>Jimmy Dugan</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
@@ -1309,18 +1312,18 @@ and the easy ones twice!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>Carl and Cathy</ns1:NAME>
+			<ns1:EVENT>Carl and Cathy</ns1:EVENT>
 			<ns1:SAYING>She was all over him like a cheap suit.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>17</ns1:DAY>
-			<ns1:NAME>Rachel</ns1:NAME>
+			<ns1:BIRTHDAY>Rachel</ns1:BIRTHDAY>
 			<ns1:SAYING>My darlink!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1332,10 +1335,10 @@ Vegas. Except herpes. That stuff'll come back with you.</ns1:SAYING>
 			<ns1:AUTHOR>The Hangover</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>19</ns1:DAY>
-			<ns1:NAME>Matt and Kate</ns1:NAME>
+			<ns1:EVENT>Matt and Kate</ns1:EVENT>
 			<ns1:SAYING>For better or worse, but not for lunch.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1346,18 +1349,18 @@ Vegas. Except herpes. That stuff'll come back with you.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:NAME>Rob</ns1:NAME>
+			<ns1:BIRTHDAY>Rob</ns1:BIRTHDAY>
 			<ns1:SAYING>Chuck, meet Buck.</ns1:SAYING>
 			<ns1:AUTHOR>Barry</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
-			<ns1:NAME>National Maritime Day</ns1:NAME>
+			<ns1:HOLIDAY>National Maritime Day</ns1:HOLIDAY>
 			<ns1:SAYING>I need to take a comfort break.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1374,7 +1377,7 @@ you’ve got another think a’comin’.</ns1:SAYING>
 			<ns1:SAYING>Cause we were like, woaaaah…
 and I was like, woaaah…
  and you were like, woaaah…</ns1:SAYING>
-			<ns1:AUTHOR>Crush from the movie Finding Nemo</ns1:AUTHOR>
+			<ns1:AUTHOR>Finding Nemo</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
@@ -1392,7 +1395,7 @@ and I was like, woaaah…
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
 			<ns1:SAYING>Go drink a bottle of yourself.</ns1:SAYING>
-			<ns1:AUTHOR>Mary Catherine Gallagher from the movie Superstar</ns1:AUTHOR>
+			<ns1:AUTHOR>Mary Catherine Gallagher</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>5</ns1:MONTH>
@@ -1419,10 +1422,10 @@ and I was like, woaaah…
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>Flip a Coin Day</ns1:NAME>
+			<ns1:HOLIDAY>Flip a Coin Day</ns1:HOLIDAY>
 			<ns1:SAYING>Don't get sore at me.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1439,10 +1442,10 @@ and I was like, woaaah…
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Hug Your Cat Day</ns1:NAME>
+			<ns1:HOLIDAY>Hug Your Cat Day</ns1:HOLIDAY>
 			<ns1:SAYING>You are in deep, dark trouble.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1451,20 +1454,14 @@ and I was like, woaaah…
 			<ns1:DAY>5</ns1:DAY>
 			<ns1:SAYING>I should know this. 
 My uncle's a painter.</ns1:SAYING>
-			<ns1:AUTHOR>Mac from the movie Little Big League</ns1:AUTHOR>
+			<ns1:AUTHOR>Little Big League</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>D Day</ns1:NAME>
-			<ns1:COMMENT>Left blank so Cathy's birthday quote appears.</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>6</ns1:MONTH>
-			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>Cathy</ns1:NAME>
+			<ns1:HOLIDAY>D Day</ns1:HOLIDAY>
+			<ns1:BIRTHDAY>Cathy</ns1:BIRTHDAY>
 			<ns1:SAYING>Mama loved her baby girl.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1476,18 +1473,19 @@ panics the cat.</ns1:SAYING>
 			<ns1:AUTHOR>P. J. O'Rourke</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
-			<ns1:NAME>Best Friends Day</ns1:NAME>
+			<ns1:HOLIDAY>Best Friends Day</ns1:HOLIDAY>
 			<ns1:SAYING>What? Like, it's hard?</ns1:SAYING>
-			<ns1:AUTHOR>Elle Woods from the movie Legally Blonde</ns1:AUTHOR>
+			<ns1:AUTHOR>Elle Woods</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
-			<ns1:SAYING>Les Averman: Just so you know, we really suck. Gordon Bombay: Hey, I'll decide who sucks around here.</ns1:SAYING>
-			<ns1:AUTHOR>Les Averman and Gordon Bombay from the movie The Mighty Ducks</ns1:AUTHOR>
+			<ns1:SAYING>Les Averman: Just so you know, we really suck.
+Gordon Bombay: Hey, I'll decide who sucks around here.</ns1:SAYING>
+			<ns1:AUTHOR>The Mighty Ducks</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>6</ns1:MONTH>
@@ -1497,10 +1495,10 @@ panics the cat.</ns1:SAYING>
 			<ns1:AUTHOR>Matt G</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>National Corn on the Cob Day</ns1:NAME>
+			<ns1:HOLIDAY>National Corn on the Cob Day</ns1:HOLIDAY>
 			<ns1:SAYING>He was 3 sheets to the wind.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1515,21 +1513,21 @@ panics the cat.</ns1:SAYING>
 			<ns1:DAY>13</ns1:DAY>
 			<ns1:SAYING>Remember kid, there's heroes and there's legends. Heroes get remembered but legends never die. 
 Follow your heart kid and you'll never go wrong.</ns1:SAYING>
-			<ns1:AUTHOR>The Babe from the movie The Sandlot</ns1:AUTHOR>
+			<ns1:AUTHOR>The Babe (from The Sandlot)</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:NAME>Flag Day</ns1:NAME>
+			<ns1:HOLIDAY>Flag Day</ns1:HOLIDAY>
 			<ns1:SAYING>It's time to rally around the flag.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:NAME>Emily</ns1:NAME>
+			<ns1:BIRTHDAY>Emily</ns1:BIRTHDAY>
 			<ns1:SAYING>She is too clever by half.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1551,7 +1549,7 @@ Teacher let the monkey's out.</ns1:SAYING>
 			<ns1:DAY>18</ns1:DAY>
 			<ns1:SAYING>I shall call him Squishy and he shall be mine and he shall be my Squishy. Come on, Squishy. 
 Come on, little Squishy.</ns1:SAYING>
-			<ns1:AUTHOR>Dory from the movie Finding Nemo</ns1:AUTHOR>
+			<ns1:AUTHOR>Finding Nemo</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>6</ns1:MONTH>
@@ -1566,10 +1564,10 @@ Come on, little Squishy.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:NAME>Dead Dad Day</ns1:NAME>
+			<ns1:HOLIDAY>Dead Dad Day</ns1:HOLIDAY>
 			<ns1:SAYING>Everything is going to be O. K.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1586,10 +1584,10 @@ Come on, little Squishy.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>Ben</ns1:NAME>
+			<ns1:BIRTHDAY>Ben</ns1:BIRTHDAY>
 			<ns1:SAYING>Put another candle on the birthday CAKE, the birthday CAKE, the birthday CAKE. Put another candle on the birthday CAKE, you're another year older today. Boop boop.</ns1:SAYING>
 			<ns1:AUTHOR>Cathy</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1602,10 +1600,10 @@ Fruitcake?    … Nasty crap.</ns1:SAYING>
 			<ns1:AUTHOR>Jim Gaffigan</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>National Beautician's Day</ns1:NAME>
+			<ns1:HOLIDAY>National Beautician's Day</ns1:HOLIDAY>
 			<ns1:SAYING>Ain’t that a kick in the Kimono.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1619,16 +1617,16 @@ Fruitcake?    … Nasty crap.</ns1:SAYING>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
 			<ns1:SAYING>What makes you think I'm a lawyer?</ns1:SAYING>
-			<ns1:AUTHOR>Edward Lewis from the movie Pretty Woman</ns1:AUTHOR>
+			<ns1:AUTHOR>Edward Lewis</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>6</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
-			<ns1:NAME>Hug Holiday</ns1:NAME>
+			<ns1:HOLIDAY>Hug Holiday</ns1:HOLIDAY>
 			<ns1:SAYING>You have that sharp, 
 useless look about you.</ns1:SAYING>
-			<ns1:AUTHOR>Vivian Ward from the movie Pretty Woman</ns1:AUTHOR>
+			<ns1:AUTHOR>Vivian Ward</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>6</ns1:MONTH>
@@ -1637,10 +1635,10 @@ useless look about you.</ns1:SAYING>
 			<ns1:AUTHOR>Walter Cronkite</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>Canada Day</ns1:NAME>
+			<ns1:HOLIDAY>Canada Day</ns1:HOLIDAY>
 			<ns1:SAYING>Waste not, want not, but when in doubt throw it out!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1658,12 +1656,12 @@ allowed upstairs.</ns1:SAYING>
 			<ns1:AUTHOR>Rachel</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>4th of July</ns1:NAME>
+			<ns1:HOLIDAY>4th of July</ns1:HOLIDAY>
 			<ns1:SAYING>You'll shoot your eye out.</ns1:SAYING>
-			<ns1:AUTHOR>Santa Claus (and others) from the movie A Christmas Story</ns1:AUTHOR>
+			<ns1:AUTHOR>A Christmas Story</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1679,39 +1677,21 @@ the hobgoblin of little minds.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>7</ns1:DAY>
-			<ns1:NAME>Chocolate Day (disputed)</ns1:NAME>
-			<ns1:COMMENT>National Chocolate day is reported as July 7, October 28 and December 28 in various sources.</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>10</ns1:MONTH>
-			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>Chocolate Day (disputed)</ns1:NAME>
-			<ns1:COMMENT>National Chocolate day is reported as July 7, October 28 and December 28 in various sources.</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>Chocolate Day (disputed)</ns1:NAME>
-			<ns1:COMMENT>National Chocolate day is reported as July 7, October 28 and December 28 in various sources.</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:MONTH>7</ns1:MONTH>
-			<ns1:DAY>7</ns1:DAY>
+			<ns1:HOLIDAY>Chocolate Day (disputed)</ns1:HOLIDAY>
 			<ns1:SAYING>He's suffering from 
 the meepus mopus.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
+			<ns1:COMMENT>National Chocolate day is reported as July 7, October 28 and December 28 in various sources.</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
 			<ns1:SAYING>I'm taking a vacation 
 from my problems.</ns1:SAYING>
-			<ns1:AUTHOR>Bob Wiley from the movie What About Bob</ns1:AUTHOR>
+			<ns1:AUTHOR>Bob Wiley</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1726,10 +1706,10 @@ from my problems.</ns1:SAYING>
 			<ns1:AUTHOR>Matt G</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Cheer up the Lonely Day</ns1:NAME>
+			<ns1:HOLIDAY>Cheer up the Lonely Day</ns1:HOLIDAY>
 			<ns1:SAYING>He's tighter than the bark on a tree.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1737,7 +1717,7 @@ from my problems.</ns1:SAYING>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
 			<ns1:SAYING>Show me the money!</ns1:SAYING>
-			<ns1:AUTHOR>Rod Tidwell from the movie Jerry McGuire</ns1:AUTHOR>
+			<ns1:AUTHOR>Rod Tidwell</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1752,12 +1732,12 @@ from my problems.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:NAME>Cow Appreciation Day</ns1:NAME>
+			<ns1:HOLIDAY>Cow Appreciation Day</ns1:HOLIDAY>
 			<ns1:SAYING>You can't handle the truth!</ns1:SAYING>
-			<ns1:AUTHOR>Col. Nathan R. Jessep from the movie A Few Good Men</ns1:AUTHOR>
+			<ns1:AUTHOR>Col. Nathan R. Jessep</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1786,12 +1766,12 @@ Let the wookie win.</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:NAME>Moon Day (Man Walks on the Moon)</ns1:NAME>
+			<ns1:HOLIDAY>Moon Day (Man Walks on the Moon)</ns1:HOLIDAY>
 			<ns1:SAYING>That's one small step for a man, one giant leap for mankind.</ns1:SAYING>
-			<ns1:AUTHOR>Neil Armstrong on July 20, 1969</ns1:AUTHOR>
+			<ns1:AUTHOR>Neil Armstrong on July 7, 1969</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1822,13 +1802,13 @@ I must Lux out my undies.</ns1:SAYING>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>25</ns1:DAY>
 			<ns1:SAYING>Wow! I wish I could speak whale…</ns1:SAYING>
-			<ns1:AUTHOR>Dory from Finding Nemo</ns1:AUTHOR>
+			<ns1:AUTHOR>Dory</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>Aunt and Uncle Day</ns1:NAME>
+			<ns1:HOLIDAY>Aunt and Uncle Day</ns1:HOLIDAY>
 			<ns1:SAYING>Your tupperware is in my suitcase.</ns1:SAYING>
 			<ns1:AUTHOR>Matt G</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1836,30 +1816,31 @@ I must Lux out my undies.</ns1:SAYING>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
 			<ns1:SAYING>Fine, I'll meet you in the lobby, but only 'cuz you're payin' me to.</ns1:SAYING>
-			<ns1:AUTHOR>Vivian Ward from the movie Pretty Woman</ns1:AUTHOR>
+			<ns1:AUTHOR>Vivian Ward</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
-			<ns1:SAYING>California is a fine place to live -- if you happen to be an orange.</ns1:SAYING>
+			<ns1:SAYING>California is a fine place to live -- 
+if you happen to be an orange.</ns1:SAYING>
 			<ns1:AUTHOR>Fred Allen</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
-			<ns1:NAME>Carl</ns1:NAME>
+			<ns1:BIRTHDAY>Carl</ns1:BIRTHDAY>
 			<ns1:SAYING>I have a case of the 
 conkus of the bonkus.</ns1:SAYING>
 			<ns1:AUTHOR>Carl</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>National Cheesecake Day</ns1:NAME>
+			<ns1:HOLIDAY>National Cheesecake Day</ns1:HOLIDAY>
 			<ns1:SAYING>Listen to me, mister. You're my knight in shining armor. Don't you forget it. You're going to get back on that horse, and I'm going to be right behind you, holding on tight, and away we're gonna go, go, go!</ns1:SAYING>
-			<ns1:AUTHOR>Ethel Thayer from the movie On Golden Pond</ns1:AUTHOR>
+			<ns1:AUTHOR>Ethel Thayer</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>7</ns1:MONTH>
@@ -1888,10 +1869,10 @@ is at the door for you.</ns1:SAYING>
 			<ns1:AUTHOR>Becky</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>US Coast Guard Day</ns1:NAME>
+			<ns1:HOLIDAY>US Coast Guard Day</ns1:HOLIDAY>
 			<ns1:SAYING>I only regret what I didn't buy.</ns1:SAYING>
 			<ns1:AUTHOR>Cathy</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -1922,13 +1903,13 @@ We are the best of pals!</ns1:SAYING>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
 			<ns1:SAYING>You're killing me Smalls!</ns1:SAYING>
-			<ns1:AUTHOR>Ham Porter from the movie The Sandlot</ns1:AUTHOR>
+			<ns1:AUTHOR>Ham Porter</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
-			<ns1:NAME>Book Lover's Day</ns1:NAME>
+			<ns1:HOLIDAY>Book Lover's Day</ns1:HOLIDAY>
 			<ns1:SAYING>How am I?  
 Just barely.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
@@ -1936,7 +1917,10 @@ Just barely.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
-			<ns1:SAYING>Betty please… Betty please pickup… Please don't harass Betty, please.</ns1:SAYING>
+			<ns1:SAYING>Betty please…
+Betty please pickup…
+…
+Please don't harass Betty, please.</ns1:SAYING>
 			<ns1:AUTHOR>Laverne DeFazio</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -1946,18 +1930,21 @@ Just barely.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
-			<ns1:NAME>Wizard of Oz released (1939)</ns1:NAME>
-			<ns1:SAYING>Toto, I've a feeling we're not in Kansas anymore.</ns1:SAYING>
+			<ns1:HOLIDAY>Wizard of Oz 
+released 
+(1939)</ns1:HOLIDAY>
+			<ns1:SAYING>Toto, I've a feeling we're not 
+in Kansas anymore.</ns1:SAYING>
 			<ns1:AUTHOR>Dorothy Gale</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>13</ns1:DAY>
-			<ns1:NAME>Left-Hander's Day</ns1:NAME>
+			<ns1:HOLIDAY>Left-Hander's Day</ns1:HOLIDAY>
 			<ns1:SAYING>Don’t let the door hit you 
 on the way out.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
@@ -1971,14 +1958,17 @@ on the way out.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:SAYING>Did you all take Stupid Pills this morning?</ns1:SAYING>
-			<ns1:AUTHOR>Mr. Potato Head from the movie Toy Story</ns1:AUTHOR>
+			<ns1:SAYING>Did you all take Stupid Pills 
+this morning?</ns1:SAYING>
+			<ns1:AUTHOR>Mr. Potato Head</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:SAYING>Lewis: I tell any girl I'm going out with to assume that all plans are soft until she receives confirmation from me thirty minutes beforehand. Robin: And they find this romantic? Lewis: Well, I say it with a great deal of charm.</ns1:SAYING>
-			<ns1:AUTHOR>Lewis and Robin from the movie The American President</ns1:AUTHOR>
+			<ns1:SAYING>Lewis: I tell any girl I'm going out with to assume that all plans are soft until she receives confirmation from me thirty minutes beforehand.
+Robin: And they find this romantic?
+Lewis: Well, I say it with a great deal of charm.</ns1:SAYING>
+			<ns1:AUTHOR>The American President</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
@@ -1987,30 +1977,32 @@ on the way out.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>18</ns1:DAY>
-			<ns1:NAME>Papa</ns1:NAME>
+			<ns1:BIRTHDAY>Papa</ns1:BIRTHDAY>
 			<ns1:SAYING>CHAIRS! (a toast)</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>19</ns1:DAY>
-			<ns1:SAYING>I'll need some kinda riggin' to secure this.</ns1:SAYING>
+			<ns1:SAYING>I'll need some kinda riggin' 
+to secure this.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:SAYING>Wax on … wax off. Wax on … wax off.</ns1:SAYING>
-			<ns1:AUTHOR>Mr. Miyagi from the movie The Karate Kid</ns1:AUTHOR>
+			<ns1:SAYING>Wax on … wax off.
+Wax on … wax off.</ns1:SAYING>
+			<ns1:AUTHOR>Mr. Miyagi</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:NAME>Senior Citizens Day</ns1:NAME>
+			<ns1:HOLIDAY>Senior Citizens Day</ns1:HOLIDAY>
 			<ns1:SAYING>You may know her, 
 but does she know you?</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
@@ -2024,8 +2016,10 @@ but does she know you?</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>23</ns1:DAY>
-			<ns1:SAYING>Phil: I'm a god. Rita: You're God? Phil: I'm a god. I'm not THE God… I don't think.</ns1:SAYING>
-			<ns1:AUTHOR>Phil and Rita from the movie Groundhog Day</ns1:AUTHOR>
+			<ns1:SAYING>Phil: I'm a god
+Rita: You're God?
+Phil: I'm a god. I'm not THE God… I don't think.</ns1:SAYING>
+			<ns1:AUTHOR>Groundhog Day</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
@@ -2041,10 +2035,10 @@ eight day clock.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>Women's Equality Day</ns1:NAME>
+			<ns1:HOLIDAY>Women's Equality Day</ns1:HOLIDAY>
 			<ns1:SAYING>Pardon my French.</ns1:SAYING>
 			<ns1:AUTHOR>Vicki</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2066,26 +2060,17 @@ garden walk.</ns1:SAYING>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
 			<ns1:SAYING>You probably get this a lot. This isn't the real Caesar's Palace is it?</ns1:SAYING>
-			<ns1:AUTHOR>Alan Garner from the movie The Hangover</ns1:AUTHOR>
+			<ns1:AUTHOR>Alan Garner</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>Frankenstein Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
-			<ns1:MONTH>8</ns1:MONTH>
-			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>Mary Shelley</ns1:NAME>
-			<ns1:COMMENT>Mary Shelley (author of Frankenstein) was born August 30, 1797</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:MONTH>8</ns1:MONTH>
-			<ns1:DAY>30</ns1:DAY>
+			<ns1:HOLIDAY>Frankenstein Day</ns1:HOLIDAY>
+			<ns1:BIRTHDAY>Mary Shelley</ns1:BIRTHDAY>
 			<ns1:SAYING>Do your ears hang low? Do they wobble to and fro? Can you tie them in a knot? Can you tie them in a bow? Can you swing them over your shoulder like a continental soldier? Do your ears hang low?</ns1:SAYING>
 			<ns1:AUTHOR>Cathy</ns1:AUTHOR>
+			<ns1:COMMENT>Mary Shelley (author of Frankenstein) was born August 30, 1797</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>8</ns1:MONTH>
@@ -2096,8 +2081,10 @@ garden walk.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:SAYING>Ted Striker: Surely you can't be serious! Rumack: I am serious… and don't call me Shirley.</ns1:SAYING>
-			<ns1:AUTHOR>Ted Striker and Rumack from the movie Airplane!</ns1:AUTHOR>
+			<ns1:SAYING>Surely you can't be serious!
+I am serious… 
+and don't call me Shirley.</ns1:SAYING>
+			<ns1:AUTHOR>Airplane</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>9</ns1:MONTH>
@@ -2112,10 +2099,10 @@ garden walk.</ns1:SAYING>
 			<ns1:AUTHOR>Any FunFam Child</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Matt A</ns1:NAME>
+			<ns1:BIRTHDAY>Matt A</ns1:BIRTHDAY>
 			<ns1:SAYING>Never go to a doctor whose office plants have died.</ns1:SAYING>
 			<ns1:AUTHOR>Erma Bombeck</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2126,10 +2113,10 @@ garden walk.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>Read A Book Day</ns1:NAME>
+			<ns1:HOLIDAY>Read A Book Day</ns1:HOLIDAY>
 			<ns1:SAYING>Large, warm, quarrelsome family.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2160,10 +2147,10 @@ until 5, you were lying?</ns1:SAYING>
 			<ns1:AUTHOR>Barry</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Patriot Day</ns1:NAME>
+			<ns1:HOLIDAY>Patriot Day</ns1:HOLIDAY>
 			<ns1:SAYING>Carnsarn the carnsarn.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2183,10 +2170,10 @@ What stunk- the skunk or the stump?</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
-			<ns1:NAME>National Cream-Filled Doughnuts Day</ns1:NAME>
+			<ns1:HOLIDAY>National Cream-Filled Doughnuts Day</ns1:HOLIDAY>
 			<ns1:SAYING>It hurts like the deuce.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2198,11 +2185,13 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:AUTHOR>Becky</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>National Play-Doh Day</ns1:NAME>
-			<ns1:SAYING>Rita (or Becky): This day was perfect. You couldn't have planned a day like this. Phil (or Barry): Well, you can. It just takes an awful lot of work.</ns1:SAYING>
+			<ns1:HOLIDAY>National Play-Doh Day</ns1:HOLIDAY>
+			<ns1:SAYING>Rita (or Becky): This day was perfect. You couldn't have planned 
+a day like this.
+Phil (or Barry): Well, you can. It just takes an awful lot of work.</ns1:SAYING>
 			<ns1:AUTHOR>Groundhog day</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -2212,10 +2201,10 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>18</ns1:DAY>
-			<ns1:NAME>Justin</ns1:NAME>
+			<ns1:BIRTHDAY>Justin</ns1:BIRTHDAY>
 			<ns1:SAYING>Ya done good.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2223,7 +2212,7 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>19</ns1:DAY>
 			<ns1:SAYING>Help me Tom Cruise.</ns1:SAYING>
-			<ns1:AUTHOR>Ricky Bobby from the movie Talledega Nights</ns1:AUTHOR>
+			<ns1:AUTHOR>Ricky Bobby</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>9</ns1:MONTH>
@@ -2241,7 +2230,7 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
 			<ns1:SAYING>Curse you, Aqua Scum.</ns1:SAYING>
-			<ns1:AUTHOR>Gurgle from the movie Finding Nemo</ns1:AUTHOR>
+			<ns1:AUTHOR>Finding Nemo</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>9</ns1:MONTH>
@@ -2262,10 +2251,10 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:AUTHOR>Emily</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>Johnny Appleseed Day</ns1:NAME>
+			<ns1:HOLIDAY>Johnny Appleseed Day</ns1:HOLIDAY>
 			<ns1:SAYING>What can I do for you Osifer?</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2273,20 +2262,21 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
 			<ns1:SAYING>Ride like the wind, Bullseye.</ns1:SAYING>
-			<ns1:AUTHOR>Woody from the movie Toy Story</ns1:AUTHOR>
+			<ns1:AUTHOR>Woody</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
-			<ns1:NAME>National Good Neighbor Day</ns1:NAME>
+			<ns1:HOLIDAY>National Good Neighbor Day</ns1:HOLIDAY>
 			<ns1:SAYING>How’s by you?</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
-			<ns1:SAYING>A word to the wise ain't necessary -- it's the stupid ones that need the advice.</ns1:SAYING>
+			<ns1:SAYING>A word to the wise ain't necessary -- it's the stupid ones that 
+need the advice.</ns1:SAYING>
 			<ns1:AUTHOR>Bill Cosby</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -2296,10 +2286,10 @@ Becky: No contest -- Hummel factory.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>National Homemade Cookie Day</ns1:NAME>
+			<ns1:HOLIDAY>National Homemade Cookie Day</ns1:HOLIDAY>
 			<ns1:SAYING>This feels like déjà vu all over again.</ns1:SAYING>
 			<ns1:AUTHOR>Yogi Berra</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2323,18 +2313,19 @@ I get the sun.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>5</ns1:DAY>
-			<ns1:NAME>World Teacher's Day</ns1:NAME>
+			<ns1:HOLIDAY>World Teacher's Day</ns1:HOLIDAY>
 			<ns1:SAYING>Maybe yes, maybe NOT.</ns1:SAYING>
 			<ns1:AUTHOR>Abigail</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:SAYING>Do you feel lucky? Well, do ya, punk?</ns1:SAYING>
-			<ns1:AUTHOR>Harry Callahan from the movie Dirty Harry</ns1:AUTHOR>
+			<ns1:SAYING>Do you feel lucky?
+Well, do ya, punk?</ns1:SAYING>
+			<ns1:AUTHOR>Harry Callahan</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
@@ -2346,34 +2337,35 @@ I get the sun.</ns1:SAYING>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
 			<ns1:SAYING>Yes sir, Mr. Ducksworth. Thank you very much, Mr. Ducksworth. Quack, quack, quack, Mr. Ducksworth!</ns1:SAYING>
-			<ns1:AUTHOR>Gordon Bombay from the movie The Mighty Ducks</ns1:AUTHOR>
+			<ns1:AUTHOR>Gordon Bombay</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
-			<ns1:NAME>Fire Prevention Day</ns1:NAME>
-			<ns1:SAYING>Only you can prevent forest fires</ns1:SAYING>
-			<ns1:AUTHOR>Smokey the Bear</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
 			<ns1:SAYING>Oh my God, they killed Kenny!
 …You bastards!</ns1:SAYING>
-			<ns1:AUTHOR>Stan from the TV show South Park</ns1:AUTHOR>
+			<ns1:AUTHOR>South Park</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Matt G</ns1:NAME>
+			<ns1:BIRTHDAY>Matt G</ns1:BIRTHDAY>
 			<ns1:SAYING>Too soon old, too late smart.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
-			<ns1:SAYING>Beckaaaaa…. Beckaaaaa…. SMACK... Whaaaaa!</ns1:SAYING>
+			<ns1:SAYING>Beckaaaaa….
+Beckaaaaa….
+&lt;smack&gt;
+Whaaaaa!</ns1:SAYING>
 			<ns1:AUTHOR>Maridith</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -2391,14 +2383,15 @@ I get the sun.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:SAYING>Don't let the beard fool you. He's a child.</ns1:SAYING>
-			<ns1:AUTHOR>Stu Price from the movie The Hangover</ns1:AUTHOR>
+			<ns1:SAYING>Don't let the beard fool you. 
+He's a child.</ns1:SAYING>
+			<ns1:AUTHOR>Stu Price</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>Boss's  Day</ns1:NAME>
+			<ns1:HOLIDAY>Boss's  Day</ns1:HOLIDAY>
 			<ns1:SAYING>This will set them crazy.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 			<ns1:COMMENT>Actually not fixed. Rule is "if it falls on a weekend, it is the closest day. This isn't a rule I've implemented. Closest is WeekdayOnOrAfter</ns1:COMMENT>
@@ -2413,28 +2406,28 @@ I get the sun.</ns1:SAYING>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>18</ns1:DAY>
 			<ns1:SAYING>You know, if I had your job, I'd kill myself. Wait here, I'll see if I can dig up a pistol.</ns1:SAYING>
-			<ns1:AUTHOR>Ernie Capadino from the movie A League of Their Own</ns1:AUTHOR>
+			<ns1:AUTHOR>Ernie Capadino</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>19</ns1:DAY>
 			<ns1:SAYING>Perhaps I didn't properly explain the fundamentals of the slowdown plan.</ns1:SAYING>
-			<ns1:AUTHOR>Andrew Shepherd from the movie The American President</ns1:AUTHOR>
+			<ns1:AUTHOR>Andrew Shepherd</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
 			<ns1:SAYING>Frankly, my dear, I don't give a damn.</ns1:SAYING>
-			<ns1:AUTHOR>Rhett Butler from the movie Gone with the Wind</ns1:AUTHOR>
+			<ns1:AUTHOR>Rhett Butler</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>21</ns1:DAY>
-			<ns1:NAME>Jack</ns1:NAME>
+			<ns1:BIRTHDAY>Jack</ns1:BIRTHDAY>
 			<ns1:SAYING>Pull my string! 
 The birthday party's today.</ns1:SAYING>
-			<ns1:AUTHOR>Woody from the movie Toy Story</ns1:AUTHOR>
+			<ns1:AUTHOR>Woody</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
@@ -2452,7 +2445,7 @@ Doodley, doodely, doodely dum.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>Breast Cancer Awareness Day</ns1:NAME>
+			<ns1:HOLIDAY>Breast Cancer Awareness Day</ns1:HOLIDAY>
 			<ns1:SAYING>Girlies!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2460,14 +2453,13 @@ Doodley, doodely, doodely dum.</ns1:SAYING>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>25</ns1:DAY>
 			<ns1:SAYING>I'll have what she's having.</ns1:SAYING>
-			<ns1:AUTHOR>Estelle Reiner in the movie When Harry Met Sally</ns1:AUTHOR>
+			<ns1:AUTHOR>When Harry Met Sally</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:YEAR>1965</ns1:YEAR>
-			<ns1:NAME>Becky</ns1:NAME>
+			<ns1:BIRTHDAY>Becky</ns1:BIRTHDAY>
 			<ns1:SAYING>It's Beauteous!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2498,20 +2490,23 @@ the train moves, not the station!</ns1:SAYING>
 			<ns1:AUTHOR>Benjamin</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>31</ns1:DAY>
-			<ns1:NAME>Halloween</ns1:NAME>
+			<ns1:HOLIDAY>Halloween</ns1:HOLIDAY>
 			<ns1:SAYING>Trick or treat.
 Smell my feet.
 Give me something good to eat.</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>All Saints Day</ns1:NAME>
-			<ns1:SAYING>Winter is an etching, spring a watercolor, summer an oil painting and autumn a mosaic of them all.</ns1:SAYING>
+			<ns1:HOLIDAY>All Saints Day</ns1:HOLIDAY>
+			<ns1:SAYING>Winter is an etching, 
+spring a watercolor, 
+summer an oil painting and 
+autumn a mosaic of them all.</ns1:SAYING>
 			<ns1:AUTHOR>Stanley Horowitz</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
@@ -2523,8 +2518,7 @@ Give me something good to eat.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>3</ns1:DAY>
-			<ns1:SAYING>You can't wait for inspiration. You have to go after it with a club.</ns1:SAYING>
-			<ns1:AUTHOR>Jack London</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>11</ns1:MONTH>
@@ -2546,10 +2540,10 @@ but making good time.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>7</ns1:DAY>
-			<ns1:NAME>Judith and Marcus</ns1:NAME>
+			<ns1:EVENT>Judith and Marcus</ns1:EVENT>
 			<ns1:SAYING>Doesn’t get much better than that.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2560,10 +2554,10 @@ but making good time.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>ANNIVERSARY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
-			<ns1:NAME>Vicki and Mike</ns1:NAME>
+			<ns1:EVENT>Vicki and Mike</ns1:EVENT>
 			<ns1:SAYING>It’s just as easy to love a rich man as it is to love a poor man.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2574,10 +2568,10 @@ but making good time.</ns1:SAYING>
 			<ns1:AUTHOR>Forest Gump</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Veteran's Day</ns1:NAME>
+			<ns1:HOLIDAY>Veteran's Day</ns1:HOLIDAY>
 			<ns1:SAYING>Ready! Fire! Aim!</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2589,10 +2583,10 @@ but I can't, so I won't.</ns1:SAYING>
 			<ns1:AUTHOR>Sir</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>13</ns1:DAY>
-			<ns1:NAME>Caregiver Appreciation Day</ns1:NAME>
+			<ns1:HOLIDAY>Caregiver Appreciation Day</ns1:HOLIDAY>
 			<ns1:SAYING>These are my childers.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2603,18 +2597,18 @@ but I can't, so I won't.</ns1:SAYING>
 			<ns1:AUTHOR>Obi Wan Kenobi</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
-			<ns1:NAME>Laura</ns1:NAME>
+			<ns1:BIRTHDAY>Laura</ns1:BIRTHDAY>
 			<ns1:SAYING>I did not have three thousand pairs of shoes, I had one thousand and sixty.</ns1:SAYING>
 			<ns1:AUTHOR>Imelda Marcos</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>Jenny</ns1:NAME>
+			<ns1:BIRTHDAY>Jenny</ns1:BIRTHDAY>
 			<ns1:SAYING>Good night, nurse.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2637,10 +2631,10 @@ but I can't, so I won't.</ns1:SAYING>
 			<ns1:AUTHOR>Abigail</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>20</ns1:DAY>
-			<ns1:NAME>Universal Children's Day</ns1:NAME>
+			<ns1:HOLIDAY>Universal Children's Day</ns1:HOLIDAY>
 			<ns1:SAYING>That’s my story and I’m stuck with it.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2654,20 +2648,21 @@ he’s mean to everyone.</ns1:SAYING>
 		<ns1:PAGE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
-			<ns1:SAYING>Glinda: I've decided to make you my new project. Elphaba: You really don't have to do that. Glinda: I know. That's what makes me so nice!</ns1:SAYING>
-			<ns1:AUTHOR>The play Wicked</ns1:AUTHOR>
+			<ns1:SAYING>Glinda: I've decided to make you my new project.
+Elphaba: You really don't have to do that.
+Glinda: I know. That's what makes me so nice!</ns1:SAYING>
+			<ns1:AUTHOR>Wicked</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>23</ns1:DAY>
-			<ns1:SAYING>Share what you love, Honor what you consume, Give away what you can, And embrace those who inspire you.</ns1:SAYING>
-			<ns1:AUTHOR>Katherine Cerulean</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need a quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>Mike P</ns1:NAME>
+			<ns1:BIRTHDAY>Mike P</ns1:BIRTHDAY>
 			<ns1:SAYING>Kah-Rahm-Bah!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2696,21 +2691,21 @@ HUGE!</ns1:SAYING>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>28</ns1:DAY>
 			<ns1:SAYING>We are going to be spending an obscene amount of money in here. So we're going to need a lot more help sucking up to us, 'cause that's what we really like.</ns1:SAYING>
-			<ns1:AUTHOR>Edward Lewis from the movie Pretty Woman</ns1:AUTHOR>
+			<ns1:AUTHOR>Edward Lewis</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>29</ns1:DAY>
-			<ns1:NAME>Square Dance Day</ns1:NAME>
+			<ns1:HOLIDAY>Square Dance Day</ns1:HOLIDAY>
 			<ns1:SAYING>I must be off, but then you knew that!</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>11</ns1:MONTH>
 			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>Virginia</ns1:NAME>
+			<ns1:BIRTHDAY>Virginia</ns1:BIRTHDAY>
 			<ns1:SAYING>She was like a house afire.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2745,18 +2740,18 @@ HUGE!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
-			<ns1:NAME>St Nicholas Day</ns1:NAME>
+			<ns1:HOLIDAY>St Nicholas Day</ns1:HOLIDAY>
 			<ns1:SAYING>Dolly Doyle!  Polly Pyle!</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>7</ns1:DAY>
-			<ns1:NAME>Pearl Harbor Day</ns1:NAME>
+			<ns1:HOLIDAY>Pearl Harbor Day</ns1:HOLIDAY>
 			<ns1:SAYING>Praise the lord and 
 pass the ammunition.</ns1:SAYING>
 			<ns1:AUTHOR>Lt. Howell Forgy</ns1:AUTHOR>
@@ -2774,10 +2769,10 @@ pass the ammunition.</ns1:SAYING>
 			<ns1:AUTHOR>MoMam</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>BIRTHDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
-			<ns1:NAME>Granny our Matriarch</ns1:NAME>
+			<ns1:BIRTHDAY>Our Matriarch!  Granny</ns1:BIRTHDAY>
 			<ns1:SAYING>She’s a biddy, 
 but she's a tough old biddy.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
@@ -2789,17 +2784,11 @@ but she's a tough old biddy.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>11</ns1:DAY>
-			<ns1:YEAR>2017</ns1:YEAR>
-			<ns1:NAME>#DisneyWorld2017</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
-			<ns1:SAYING>There has got to be more to life than just being really, really, really ridiculously good-looking.</ns1:SAYING>
-			<ns1:AUTHOR>Derek Zoolander</ns1:AUTHOR>
+			<ns1:SAYING>There has got to be more to life than just being really, really, really 
+ridiculously good-looking.</ns1:SAYING>
+			<ns1:AUTHOR>Zoolander</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:MONTH>12</ns1:MONTH>
@@ -2823,13 +2812,13 @@ but she's a tough old biddy.</ns1:SAYING>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>16</ns1:DAY>
 			<ns1:SAYING>Bazinga!</ns1:SAYING>
-			<ns1:AUTHOR>Sheldon Cooper from the TV show The Big Bang Theory</ns1:AUTHOR>
+			<ns1:AUTHOR>Sheldon Cooper</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>17</ns1:DAY>
-			<ns1:NAME>Wright Brothers Day</ns1:NAME>
+			<ns1:HOLIDAY>Wright Brothers Day</ns1:HOLIDAY>
 			<ns1:SAYING>He's cross as a bear.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2870,35 +2859,39 @@ but she's a tough old biddy.</ns1:SAYING>
 			<ns1:AUTHOR>Cathy</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>Christmas Eve</ns1:NAME>
+			<ns1:HOLIDAY>Christmas Eve</ns1:HOLIDAY>
 			<ns1:SAYING>The best way to spread Christmas cheer is singing loud for all to hear.</ns1:SAYING>
 			<ns1:AUTHOR>Buddy the Elf</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>25</ns1:DAY>
-			<ns1:NAME>Christmas</ns1:NAME>
+			<ns1:HOLIDAY>Christmas</ns1:HOLIDAY>
 			<ns1:SAYING>It's a Christmas miracle 
 (often uttered in non-holiday months).</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>Boxing Day</ns1:NAME>
-			<ns1:SAYING>Margot: You're going to need this. Elle: Your scrunchie? Margot: My LUCKY scrunchie. It helped me pass Spanish class. Serena: You passed Spanish because you gave Professor Montoya a lap dance after the final. Margot: Yeahhhhh, luckily!</ns1:SAYING>
-			<ns1:AUTHOR>The movie Legally Blonde</ns1:AUTHOR>
+			<ns1:HOLIDAY>Boxing Day</ns1:HOLIDAY>
+			<ns1:SAYING>Margot: You're going to need this.
+Elle: Your scrunchie?
+Margot: My LUCKY scrunchie. It helped me pass Spanish class.
+Serena: You passed Spanish because you gave Professor Montoya a lap dance after the final.
+Margot: Yeahhhhh, luckily!</ns1:SAYING>
+			<ns1:AUTHOR>Legally Blonde</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
-			<ns1:NAME>National Fruitcake Day</ns1:NAME>
+			<ns1:HOLIDAY>National Fruitcake Day</ns1:HOLIDAY>
 			<ns1:SAYING>You know you are getting old when the candles cost more than the cake.</ns1:SAYING>
 			<ns1:AUTHOR>Bob Hope</ns1:AUTHOR>
 		</ns1:PAGE>
@@ -2916,24 +2909,17 @@ more girl than dress.</ns1:SAYING>
 			<ns1:AUTHOR>Papa</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>30</ns1:DAY>
-			<ns1:NAME>National Bacon Day (not to be confused with International Bacon Day)</ns1:NAME>
-			<ns1:SAYING>Bippity boppity bacon!</ns1:SAYING>
-			<ns1:AUTHOR>Jim Gaffigan</ns1:AUTHOR>
+			<ns1:SAYING>TBD: Need quote</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>Fixed</ns1:TYPE>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>31</ns1:DAY>
-			<ns1:NAME>New Year's Eve</ns1:NAME>
+			<ns1:HOLIDAY>New Year's Eve</ns1:HOLIDAY>
 			<ns1:SAYING>A good time was had by all.</ns1:SAYING>
 			<ns1:AUTHOR>Granny</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:SAYING>This page has nothing to say</ns1:SAYING>
-			<ns1:AUTHOR>Alexa</ns1:AUTHOR>
 		</ns1:PAGE>
 	</ns1:PAGES>
 </ns1:PAGEADAY>
