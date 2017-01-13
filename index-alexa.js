@@ -55,7 +55,7 @@ const https          = require( 'https' );
 const AlexaSkill     = require( './AlexaSkill' );
 const alexaDateUtil  = require( './alexaDateUtil' );
 const PAD            = require( './PageADay' );
-const xmlURL         = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydata.xml';
+const xmlURL         = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydatav5.xml';
 const tzFudge_ms     = ( -8 * 60 * 60 * 1000 );
 const dayFudge_ms    = ( 24 * 60 * 60 * 1000 );
 var MyPAD = new PAD( "" );
@@ -244,10 +244,6 @@ function handlePageADayRequest( intent, session, response ) {
             var speechOutput = {
                 speech: "<speak>" + speechText + "</speak>",
                 type: AlexaSkill.speechOutputType.SSML
-            };
-            var repromptOutput = {
-                speech: repromptText,
-                type: AlexaSkill.speechOutputType.PLAIN_TEXT
             };
 
             response.tellWithCard( speechOutput, cardTitle, cardContent );

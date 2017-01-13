@@ -8,7 +8,7 @@
 var MyPAD = new PAD( "" );
 
 // Change this to change where the data comes from...
-var xmlSource = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydata.xml';
+var xmlSource = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydatav5.xml';
 
 
 function PADWebInit() {
