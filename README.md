@@ -86,3 +86,8 @@ To run this skill you need to do two things. The first is to deploy the code in 
 8. In order to test it, try to say some of the Sample Utterances from the Examples section below.
 9. Your skill is now saved and once you are finished testing you can continue to publish your skill.
 
+### Icon and Image Copyright Notice
+
+The current icons being used (as of 2017-05-08) were downloaded from clker.com and are
+in the public domain.  The art was originally uploaded (and presumably created) by 
+Frantz Leuenberger.
