@@ -1,6 +1,7 @@
 ﻿'use strict';
 /**
- * Copyright 2016 - 2017 Barry GerhardtAll Rights Reserved.
+ * Copyright 2016 - 2017 Barry Gerhardt
+ * All Rights Reserved.
  * Derived from historyBuff Amazon Alexa Sample. The original sample contained the following license text:
  *
  *     Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -30,6 +31,10 @@
  *   Alexa: "This skill is a Page-A-Day calendar. What day would you like hear?"
  *   User:  "Tomorrow"
  *   Alexa: "Your Page-A-Day for tomorrow, Saturday, December thirty-first 2016 is [...]"
+ *
+ * TODO: 
+ *   Learn about persisting data (see score keeper sample) to allow users to specify their own data set
+ *   If persistance won't work, build a web server to support account linking.
  */
 
 
