@@ -7,11 +7,12 @@
 //
 // FUTURE ENHANCEMENTS AND CHANGES:
 // 1. Simplify and normalize Excel data source. Maybe use Excel date serial numbers and convert. Or, just add non-schema fields to show a more readable date
-// 2. Generate a full year calendar (probably as an XML)
+// 2. Generate a full year calendar (for mail merge)
 // 3. Add URL links for web version of output
 // 4. Add Media links for audio version of output
 // 5. Add pronunciation hints and inflection for audio version of output
 // 6. Take alternate file as input.
+// 7. Find additional holidays from web sources (note: need to avoid duplicate holidays when doing this)
 //
 
 var PAD = function (xml) {
@@ -91,7 +92,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     var xmlAge;
     var xmlSpecial = [];
 
-    // We're going to be using these alot. Reduce the overhad of Date() function calls.
+    // We're going to be using these alot. Reduce the overhead of Date() function calls.
     tMonth = result.date.getMonth();
     tDate = result.date.getDate();
     tYear = result.date.getFullYear();
@@ -170,6 +171,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
             case "WEEKDAYONORAFTER":
                 // Must occur on a weekday (TODO BUG: Requires tDate to be 3 or larger.)
+                // TODO BUG: Need to improve tax day calculations. For example, Tuesday April 18 is tax day in 2017 due to a Monday holiday.
 
                 if (tMonth == xmlMonth && tDay != 0 && tDay != 6) {
                     // Match: Normal date is on a Saturday or Sunday this year so move to Monday...
