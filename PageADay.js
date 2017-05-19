@@ -15,11 +15,31 @@
 // 7. Find additional holidays from web sources (note: need to avoid duplicate holidays when doing this)
 //
 
-var PAD = function (xml) {
-    this.xmlRaw = xml;
+var PAD = function (data) {
+    this.xml = {
+        isValid: false,
+        raw: "",
+        title: "",
+        version: "",
+        pages: [],
+    };
+
+    this.initData( data );
     this.initResult();
 };
 
+PAD.prototype.initData = function (data) {
+
+    if (data && data.length > 0 ) {
+        this.xml.isValid = true;
+        this.xml.raw = data;
+        this.xml.title = fakeDOM.getValue ( data, "TITLE" );
+        this.xml.version = fakeDOM.getValue (data, "VERSION" );
+        this.xml.pages = fakeDOM.getValueArray ( data, "PAGE" );
+    }
+
+    return this.xml;
+}
 PAD.prototype.initResult = function (d) {
     this.result = {
         isValid: false,
@@ -34,35 +54,38 @@ PAD.prototype.initResult = function (d) {
         sayingWeb: "",
         sayingSpoken: ""
     };
-    this.setDate( d );
+    this.result.date = d || new Date( Date.now() );
 
     return this.result;
 }
 
-// Force date to align to midnight on current day. This simplifies date manipulation
-PAD.prototype.normalizeDate = function (d) {
-    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+// NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
+// These helper functions are used to make working in the local time zone easier
 
+// Return an ISO-like string but with local time.
+PAD.prototype.toISOStringNoTZ = function ( d ) {
+    var noTZ = new Date( d.getTime() - d.getTimezoneOffset() * 60 * 1000 );
+
+    return noTZ.toISOString();
+}
+
+// Set the local time to be the passed GMT time.
+PAD.prototype.getDateNoTZ = function ( d ) {
+    d.setTime( d.getTime() + d.getTimezoneOffset() * 60 * 1000 );
     return d;
 }
 
-// Sets the target date using the passed date object. If no date is passed, uses today.
-PAD.prototype.setDate = function (d) {
-    //var padDate = d || new Date(Date.now());
-    this.result.date = this.normalizeDate ( d || new Date(Date.now()) );
-    //this.result.date = this.normalizeDate( padDate );
-}
-
-PAD.prototype.getQuote = function (d) {
-    var data   = this.xmlRaw;
+PAD.prototype.getQuote = function ( d ) {
+    var data = this.xml;
+    //var data   = this.xmlRaw;
     var result = this.initResult(d);
     
     // basic sanity checks...
-    if (!data || data.length === 0) {
-        result.saying = "Data did not load in time...";
+    if ( !data || !data.isValid ) {
+        result.saying = "Error loading data...";
     } else {
-        result.title   = fakeDOM.getValue (data, "TITLE");
-        result.version = fakeDOM.getValue( data, "VERSION" );
+        result.title   = data.title;
+        result.version = data.version;
 
         // XML schema allows for HOLIDAYS, BIRTHDAYS, ANNIVERSARIES and GENERAL dates to be in separate sections
         // Since we're using a simplified, Fake DOM, we can pass the entire XML data set and it will parse out all PAGE entries.
@@ -76,13 +99,13 @@ PAD.prototype.getQuote = function (d) {
 }
 
 PAD.prototype.parseSection = function (data, result, bFindAll) {
-    if ( !data || data.length === 0 ) {
+    if ( !data || data.isValid === false ) {
         return;
     }
 
-    var xmlPages = fakeDOM.getValueArray ( data, "PAGE" );
+    var xmlPages = data.pages;
 
-    if ( !xmlPages ){
+    if ( !xmlPages || xmlPages.length === 0 ){
         return;
     }
 
@@ -200,7 +223,8 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
             case "LISTOFDATES":
                 // Event occurs on a specific list of dates. SPECIAL=<YYYY-MM-DD> <...>
-                var specialDate = result.date.toISOString().substring( 0, 10 );
+                var specialDate = this.toISOStringNoTZ( result.date ).substr( 0, 10 );
+                //var specialDate = result.date.toISOString().substring( 0, 10 );
 
                 if ( xmlSpecial.indexOf( specialDate ) !== -1 ) {
                     break;              // Match
@@ -271,6 +295,116 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     }
 }
 
+PAD.prototype.getFormattedResult = function ( result, fmt ) {
+    var fmtResult = {
+        title: "",
+        version: "",
+        date: "",
+        dDay: "",
+        dMonth: "",
+        dYear: "",
+        dDOW: "",
+        holidays: "",
+        birthdays: "",
+        anniversaries: "",
+        saying: "",
+        author: ""
+    };
+
+    if ( result.isValid ) {
+        fmtResult.title = result.title;
+        fmtResult.version = result.version;
+        fmtResult.date = this.getFormattedDate( result.date, fmt );
+        fmtResult.dDay = this.getFormattedDate( result.date, "DAY" );
+        fmtResult.dMonth = this.getFormattedDate( result.date, "MONTH" );
+        fmtResult.dYear = this.getFormattedDate( result.date, "YEAR" );
+        fmtResult.dDOW = this.getFormattedDate( result.date, "DOW" );
+        fmtResult.holidays = this.getFormattedHoliday ( result.holidays );
+        fmtResult.birthdays = this.getFormattedBirthday ( result.birthdays );
+        fmtResult.anniversaries = this.getFormattedAnniversary ( result.anniversaries );
+        fmtResult.saying = this.getFormattedSaying( result, fmt );
+        fmtResult.author = "- " + result.author;
+    }
+    return fmtResult;
+}
+
+PAD.prototype.getFormattedSaying = function ( result, fmt ) {
+    var s = "";
+
+    if ( result && result.isValid ) {
+        switch ( fmt ) {
+            case "SPOKEN":
+                s = result.sayingSpoken;
+                break;
+
+            case "WEB":
+                s = result.sayingWeb;
+                break;
+        }
+
+        if ( s.length === 0 ) {
+            s = result.saying;
+        }
+
+        if ( fmt !== "WEB" && result.saying.length > 0 ) {
+            if ( result.author.length > 0 ) {
+                s = "As " + result.author + " says..." + s + ".";
+            } else {
+                s = s + ".";
+            }
+        }
+    }
+    return s;
+}
+
+PAD.prototype.getFormattedDate = function ( d, fmt ) {
+    var dowNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var s = "";
+
+    switch ( fmt ) {
+        // For CSV, output as "YEAR,MONTH,DAY,MONTH-NAME,DAY-OF-WEEK"
+        // Example: "2017,5,12,May,Friday"
+        case "CSV":
+            s = d.getFullYear() + "," + d.getMonth() + "," + d.getDate() + "," + monthNames[d.getMonth()] + "," + dowNames[d.getDay()];
+            break;
+
+        // Suitable for speech output
+        // Example: "Friday May 12th" if current year and "Friday May 12th 2017" otherwise.
+        case "SPOKEN":
+            var today = new Date();
+
+            s = dowNames[d.getDate()] + " " + monthNames[d.getMonth()] + " " + this.getFormattedOrdinal( d.getDate() );
+
+            if ( today.getFullYear() !== d.getFullYear() ) {
+                s += " " + d.getFullYear();
+            }
+            break;
+
+        case "DAY":
+            s = d.getDate();
+            break;
+
+        case "MONTH":
+            s = monthNames[d.getMonth()];
+            break;
+
+        case "YEAR":
+            s = d.getFullYear();
+            break;
+
+        case "DOW":
+            s = dowNames[d.getDay()];
+            break;
+
+        case "WEB":
+        default:
+            s = dowNames[d.getDay()] + ", " + monthNames[d.getMonth()] + d.getDate() + ", " + d.getFullYear();
+            break;
+    }
+    return s ;
+}
+
 PAD.prototype.getFormattedHoliday = function ( holidays ) {
     var s = "";
 
@@ -287,6 +421,14 @@ PAD.prototype.getFormattedHoliday = function ( holidays ) {
 }
 
 PAD.prototype.getFormattedAnniversary = function ( anniversaries ) {
+    // Sample output:
+    // One name:
+    //     "Joe and Sally are celebrating their 30th anniversary today."
+    //
+    // Multiple names:
+    //     "Joe and Sally are celebrating their 30th anniversary today, and Billy and Ann are celebrating their 5th anniversary today."
+    //
+
     var s = "";
 
     if ( anniversaries.length ) {
@@ -315,7 +457,7 @@ PAD.prototype.getFormattedBirthday = function ( birthdays ) {
     // Sample output:
     // One name:
     //     "Joe is having a birthday today."
-    //     "Joe is turning 30 today."
+    // or  "Joe is turning 30 today."
     //
     // Multiple names:
     //     "Joe, Billy and Sally are having birthdays today. It's Joe's 30th. It's Sally's 45th. "
@@ -357,6 +499,7 @@ PAD.prototype.getFormattedBirthday = function ( birthdays ) {
 }
 
 PAD.prototype.getFormattedOrdinal = function ( n ) {
+
     var ORDINAL_AGE = [
     '0th',
     '1st',

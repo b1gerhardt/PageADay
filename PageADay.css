@@ -1,2 +1,61 @@
-﻿body {
+﻿TITLE {
+    font-family: serif;
+    font-size: xx-large;
+    background: white;
+    color: black;
+}
+VERSION{
+    font-family: serif;
+    font-size: x-large;
+    background: white;
+    color: black;
+    margin-bottom: 2em
+}
+PAGES{
+    font-family: sans-serif;
+    font-size: medium;
+    background: white;
+    color: black;
+}
+PAGE{
+    margin-left: 1em;
+    margin-bottom: 8px;
+    display:block
+}
+TYPE {
+    margin-left: 1em;
+    font-size: larger;
+}
+MONTH, DAY, YEAR, SPECIAL {
+    display: inline;
+}
+NAME {
+    margin-left: 2em;
+    font-weight: bolder;
+    display: block;
+}
+SAYING {
+    margin-left: 2em;
+    font-style: italic;
+    display: block;
+}
+AUTHOR {
+    margin-left: 3em;
+    display: block;
+}
+WEB, SPOKEN {
+    font-family:serif;
+    margin-left: 3em;
+    text_size: smaller;
+    display: block;
+    color: green;
+}
+WEB, SPOKEN, COMMENT{
+    font-family:serif;
+    margin-left: 3em;
+    text_size: smaller;
+    display: block;
+    color: brown;
+}
+body {
 }

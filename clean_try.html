@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Page-A-Day</title>
+    <!--
+	<meta name="Page-A-Day Calendar" content="The web wrapper for the Page-A-Day JS class" charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="pageaday.css" />
+    -->
+    <script src="pageaday.js"></script>
+    <script src="index-web.js"></script>
+    <style type="text/css">
+        .auto-style1 {
+            width: 744px;
+            height: 580px;
+            float: left;
+            text-align: center;
+        }
+        #PADDoExport {
+            margin-left: 32px;
+        }
+        #PADHoliday {
+            width: 830px;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body style="background-color: #3399FF">
+    <h1 align="center">Page-A-Day Calendar</h1>
+    <br />
+    <form name="nameGetDate" id="PADGetDate" action="#">
+        <div>
+        Enter start date:<input type="date" id="PADStartDate" name="nameStartDate" />
+        Enter end   date:<input type="date" id="PADEndDate" name="nameEndDate" />
+        </div>
+        <input type="button" id="PADDoSubmit" value="Get Quote of the Day" onclick="PADWebGetQuote(0)"/>
+        <input type="button" id="PADDoExport" value="Export for MailMerge" onclick="PADWebDoExport()"/><br />
+        <input type="button" id="PADDoYesterday" value="<< Previous Day" onclick="PADWebGetQuote(-1)" />
+        <input type="button" id="PADDoTomorrow" value="Next Day >>" onclick="PADWebGetQuote(1)" />
+    </form>
+    <h5 id="PADQuote">No Date Chosen Yet...</h5>
+    <p id="PADHoliday"></p>
+    <p id="PADAnniversary"></p>
+    <p id="PADBirthday"></p>
+    <p id="PADSaying"></p>
+    <p></p>
+    <p id="PADExport"></p>
+    
+    <script type="text/javascript">
+        window.onload = PADWebInit;
+    </script>
+    <img class="auto-style1" itemid="PADPicture" name="namePicture" itemtype="artassets/winter_medium.png" src="artassets/winter_medium.png" style="display: run-in" />
+</body>
+</html>

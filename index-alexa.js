@@ -57,10 +57,9 @@
  */
 const APP_ID         = 'amzn1.ask.skill.cc717bf1-68de-41ba-ba1e-a9eced0440fe'; 
 const https          = require( 'https' );
-const AlexaSkill     = require( './AlexaSkill' );
-const alexaDateUtil  = require( './alexaDateUtil' );
-const PAD            = require( './PageADay' );
-const xmlURL         = 'https://dl.dropboxusercontent.com/u/78793611/pageadaydatav5.xml';
+const AlexaSkill     = require( './alexaskill' );
+const PAD            = require( './pageaday' );
+const xmlURL         = 'https://www.pageaday.org/pageadaydatav5.xml';
 const tzFudge_ms     = ( -8 * 60 * 60 * 1000 );
 const dayFudge_ms    = ( 24 * 60 * 60 * 1000 );
 var MyPAD = new PAD( "" );
@@ -178,6 +177,8 @@ function handlePageADayRequest( intent, session, response ) {
     var genericText = "";
     var date = "";
 
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0" // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+
     // If the user provides a date, then use that, otherwise use today.
     // Hack: Added a custom slot to capture relative date utterances (today, tomorrow, yesterday). Without it, Alexa converts "today" 
     // to an actual date based on GMT. Without this hack, when a user says "Alexa, ask Page-A-Day for today" they will get tomorrow
@@ -214,8 +215,39 @@ function handlePageADayRequest( intent, session, response ) {
 
         } else {
             console.log( "Title: " + result.title + " version " + result.version + "." );
+            var formattedResult = MyPAD.getFormattedResult( result, "SPEECH" );
 
-            var formattedDate = alexaDateUtil.getFormattedDate( result.date );
+            var speechText = "<p>" + formattedResult.title + " Page-A-Day for " + formattedDate + "</p>";
+            var cardTitle = formattedResult.title + " Page-A-Day";
+            var cardContent = formattedResult.date + ". ";
+
+            if ( formattedResult.holidays.length > 0 ) {
+                speechText += "<p> " + formattedResult.holidays + "</p> ";
+                cardContent += formattedResult.holidays + ". ";
+            }
+
+            if ( formattedResult.anniversaries.length > 0 ) {
+                speechText += "<p> " + formattedResult.anniversaries+ "</p> ";
+                cardContent += formattedResult.anniversaries + ". ";
+            }
+
+            if ( formattedResult.birthdays.length > 0 ) {
+                speechText += "<p> " + formattedResult.birthdays + "</p> ";
+                cardContent += formattedResult.birthdays + ". ";
+            }
+
+            if ( formattedResult.saying.length > 0 ) {
+                speechText += "<p> " + formattedResult.saying + "</p> ";
+                cardContent += formattedResult.saying + ". ";
+            }
+
+
+
+            -------------------------------------------
+
+
+
+            var formattedDate = MyPAD.getFormattedDate( result.date, "SPEECH" );
 
             var speechText = "<p>" + result.title + " Page-A-Day for " + formattedDate + "</p>";
             var cardTitle = result.title + " Page-A-Day";
@@ -245,6 +277,9 @@ function handlePageADayRequest( intent, session, response ) {
                 speechText += "<p>" + genericText + "</p> ";
                 cardContent += genericText + " ";
             }
+
+
+            -------------------------------------------------------------
 
             var speechOutput = {
                 speech: "<speak>" + speechText + "</speak>",

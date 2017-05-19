@@ -24,15 +24,33 @@ The Page-A-Day result is a pseudo-merge of HOLIDAYS(all matching) + PAGES(first 
 The XML schema and source desribe additional detail.
 
 ## TODO LIST
-1. Ask for the next holiday, anniversary or birthday
-2. Restructure XML Schema so Birthdays and Anniversarys are more natural to enter and support starting year so we can say "Happy Nth Birthday", etc.
-3. Support enhanced content for voice (either Alexa SSML or MP3), Web (links, pictures), and Print (pictures)
-4. Support differentiated response for voice, web and print. For example, voice might say "Happy 32nd Anniversary Mary and Joe" while Web and Print would say "Mary and Joe 32nd Anniversay"
-5. Support list of un-dated sayings. Avoid duplicates throughout the year and ensure same order every year (use year as random seed)
+1. Full web support using modern methods (any screen, etc.). OK to use a tool for this but wire to my back end.
+	1.a. Support swappable background image
+	1.b. Start with today's date (need to fix issue that tries first render before data is ready)
+1.5 Output merged text + png to simplify export, print and possibly Alexa card.
+	Looks like PHP has some built-in ways to do this.
+2. Support accounts (including Alexa accounts)
+3. Support user generated data
+	3.a. Start with just storing XML files
+	3.b. Enhance with generic template plus separate user data
+	3.c. UI to allow user to enter their own data and store with their account. Use CMS or other system.
+4. Support alternate data sources for holidays and user data (birthdays and events)
+5. Improve quote handling
+	5.a. Undated sayings and set random seed to the year to ensure consistency. Also avoid duplicates.
+	5.b. Larger backing quote database
+	5.c. Allow quote themes
+	5.d. Support overridden quotes in a more intuitive way (once user generated data is mature)
+6. Better content
+	6.a. Real support for web links, audio, etc.
 
 ## WEB USAGE
 
 The page takes no parameters. It will allow you to select a date and will display the quote information for that date
+
+### ART REQUIREMENTS
+
+Each Page-A-Day page is rendered on an art background. The picture must be 744px wide by 580px tall. File should be in PNG (but not required)
+TODO: document (or, better, parameterize) sizes for the elements that populate within the picture.
 
 ## ALEXA USAGE
 
