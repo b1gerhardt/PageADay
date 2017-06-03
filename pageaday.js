@@ -62,14 +62,14 @@ PAD.prototype.initResult = function (d) {
 // NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
 // These helper functions are used to make working in the local time zone easier
 
-// Return an ISO-like string but with local time.
+// Return an ISO-like string using local time instead of GMT. Truncate to just the date.
 PAD.prototype.toISOStringNoTZ = function ( d ) {
     var noTZ = new Date( d.getTime() - d.getTimezoneOffset() * 60 * 1000 );
 
-    return noTZ.toISOString();
+    return noTZ.toISOString().substr(0,10);
 }
 
-// Set the local time to be the passed GMT time.
+// Set GMT to be midnight on the local time day (simplifies date handling so everything is GMT)
 PAD.prototype.getDateNoTZ = function ( d ) {
     d.setTime( d.getTime() + d.getTimezoneOffset() * 60 * 1000 );
     return d;
@@ -223,8 +223,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
             case "LISTOFDATES":
                 // Event occurs on a specific list of dates. SPECIAL=<YYYY-MM-DD> <...>
-                var specialDate = this.toISOStringNoTZ( result.date ).substr( 0, 10 );
-                //var specialDate = result.date.toISOString().substring( 0, 10 );
+                var specialDate = this.toISOStringNoTZ( result.date );
 
                 if ( xmlSpecial.indexOf( specialDate ) !== -1 ) {
                     break;              // Match

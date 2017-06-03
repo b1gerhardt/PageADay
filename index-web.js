@@ -10,13 +10,18 @@ var MyPAD = new PAD( "" );
 // Change this to change where the data comes from...
 var xmlSource = 'pageadaydatav5.xml';
 
+// Pre-load images for better response...
+for ( var i = 1 ; i <= 12 ; i++ ) {
+    var image = new Image();
+    image.src = "./artassets/medium-" + i + ".png";
+}
 
 function PADWebInit() {
     // Start the asynch XML data source load
     PADWebLoadXML( xmlSource );
 
     // Initialize to today for first page load
-    var s = MyPAD.toISOStringNoTZ( new Date( Date.now() ) ).substr( 0, 10 );
+    var s = MyPAD.toISOStringNoTZ( new Date( Date.now() ) );
 
     document.forms[0]["nameStartDate"].value = s;
     document.forms[0]["nameEndDate"].value = s;
@@ -42,24 +47,47 @@ function PADWebLoadXML( src ) {
 
 function PADWebDataReady( xml ) {
     MyPAD.initData( xml );
-    PADWebGetQuote( 0 );
+    PADWebProcessForm( "StartDate" );
 }
 
-function PADWebGetQuote(delta) {
-    // Get user selected date and fix timezone so the full date object is midnight local time on the proper day
-    var d = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
+function PADWebProcessForm( command ) {
+    var startDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
+    var endDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
 
-    if ( delta ) {
-        d.setDate( d.getDate() + delta );
-        document.forms[0]["nameStartDate"].value = MyPAD.toISOStringNoTZ( d ).substr( 0, 10 );
+    switch ( command ) {
+        case "Today":
+            startDate = MyPAD.getDateNoTZ( new Date (MyPAD.toISOStringNoTZ( new Date ( Date.now() ) ) ) );
+            break;
+
+        case "Previous":
+            startDate.setDate( startDate.getDate() - 1 );
+            break;
+
+        case "Next":
+            startDate.setDate( startDate.getDate() + 1 );
+            break;
+
+        case "Export":
+            break;
+
+        case "StartDate":
+        default:
+            break;
     }
 
-    //MyPAD.getQuote(new Date(document.forms[0]["nameStartDate"].value));
-    var result = MyPAD.getQuote( d );
+    if ( endDate < startDate ) {
+        endDate = startDate;
+    }
+
+    // Update Form...
+    document.forms[0]["nameStartDate"].value = MyPAD.toISOStringNoTZ( startDate );
+    document.forms[0]["nameEndDate"  ].value = MyPAD.toISOStringNoTZ( endDate   );
+
+    var result = MyPAD.getQuote( startDate );
 
     //document.getElementById( "PADExport" ).innerHTML = ""; // Clear export (TODO: clean up presentation)
 
-    if (result.isValid == false) {
+    if ( result.isValid === false ) {
         document.getElementById( "PADVersion" ).innerHTML = "";
         document.getElementById( "PADMonthYear" ).innerHTML = "";
         document.getElementById( "PADDay" ).innerHTML = "";
@@ -74,7 +102,7 @@ function PADWebGetQuote(delta) {
 
         document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( Number( result.date.getMonth() ) + 1 ) + ".png";
 
-        document.getElementById( "PADVersion" ).innerHTML = fmtResult.title + " version " +fmtResult.version;
+        document.getElementById( "PADVersion" ).innerHTML = fmtResult.title + " version " + fmtResult.version;
         document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.dMonth + " " + fmtResult.dYear;
         document.getElementById( "PADDay" ).innerHTML = fmtResult.dDay;
         document.getElementById( "PADDOW" ).innerHTML = fmtResult.dDOW;
@@ -84,9 +112,6 @@ function PADWebGetQuote(delta) {
         document.getElementById( "PADBirthday" ).innerHTML = fmtResult.birthdays;
         document.getElementById( "PADAnniversary" ).innerHTML = fmtResult.anniversaries;
     }
-
-    // This is now processed via a button and onclick. No need to return anything.
-    //return false; // TBD: Always return false for now to avoid a page reload that would clear the results
 }
 
 function PADWebDoExport() {

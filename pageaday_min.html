@@ -1929,37 +1929,37 @@
                 <!-- CONTENT -->
                 <p class="font_2" style="font-size:24px; text-align:center;">
                     <span class="color_16" id=PADMonthYear style="font-size:24px; font-family:open sans condensed,sans-serif;">
-                        {{Month}}&nbsp;{{Year}}
+                        
                     </span></p></div>
             <div style="left: 562px; width: 220px; position: absolute; top: 85px;" class="txtNew" id="comp-j2s6nnfi" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1aea_DESKTOP.1.$comp-j2s6nnfi">
                 
                 <!-- CONTENT -->
                 <p class="font_2" id=PADDay style="font-size:72px; text-align:center; font-family:open sans-serif condensed,sans-serif;">
-                    {{Day}}
+                    
                 </p></div>
             <div style="left: 562px; width: 219px; position: absolute; top: 195px;" class="txtNew" id="comp-j2s8wxtx" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1aea_DESKTOP.1.$comp-j2s8wxtx">
 
                 <!-- CONTENT -->
                 <p class="font_2" style="font-size:26px; text-align:center;">
                     <span class="color_16" id=PADDOW style="font-size:26px; font-family:open sans-serif condensed,sans-serif;">
-                        {{DOW}}
+                        
                     </span></p></div>
             <div style="left: 562px; width: 219px; position: absolute; top: 257px;" class="txtNew" id="comp-j2s6pzcb" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1aea_DESKTOP.1.$comp-j2s6pzcb">
 
                 <!-- CONTENT -->
-                <p class="font_6" id="PADHoliday">{{Holiday}}</p>
+                <p class="font_6" id="PADHoliday"></p>
                 <p />
-                <p class="font_6" id="PADBirthday">{{Birthday}}</p>
+                <p class="font_6" id="PADBirthday"></p>
                 <p />
-                <p class="font_6" id="PADAnniversary">{{Anniversary}}</p>
+                <p class="font_6" id="PADAnniversary"></p>
 
                 </div>
 
             <div class="auto-style2" id="comp-j2s6dczt" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1aea_DESKTOP.1.$comp-j2s6dczt">
 
                 <!-- CONTENT -->
-                <p class="font_8" id=PADSaying style="text-align:justify; font-style:italic">{{Saying}}</p>
-                <p class="font_8" id=PADAuthor style="text-align:right;">-{{Author}}</p>
+                <p class="font_8" id=PADSaying style="text-align:justify; font-style:italic"></p>
+                <p class="font_8" id=PADAuthor style="text-align:right;"></p>
 
                 </div>
             <div style="left: 199px; width: 585px; position: absolute; top: 492px; height: 135px;" class="htco1" data-state="hasContent" id="comp-j2s93svu" data-reactid=".0.$SITE_ROOT.$desktop_siteRoot.$PAGES_CONTAINER.1.1.$SITE_PAGES.$c1aea_DESKTOP.1.$comp-j2s93svu">
@@ -1973,11 +1973,12 @@
                         End Date:<input type="date" id="PADEndDate" name="nameEndDate" />
                         </span>
                     <br /><br />
-                    <input type="button" id="PADDoSubmit" value="Get Quote of the Day" onclick="PADWebGetQuote(0)"/>
-                    <input type="button" id="PADDoExport" value="Export for MailMerge" onclick="PADWebDoExport()"/>
+                    <input type="button" id="PADDoSubmit" value="Get Quote of the Day" onclick="PADWebProcessForm('StartDate')"/>
+                    <input type="button" id="PADDoExport" value="Export for MailMerge" onclick="PADWebProcessForm('Export')"/>
                     <br /><br />
-                    <input type="button" id="PADDoYesterday" value="<< Previous Day" onclick="PADWebGetQuote(-1)" />
-                    <input type="button" id="PADDoTomorrow" value="Next Day >>" onclick="PADWebGetQuote(1)" /></form>
+                    <input type="button" id="PADDoYesterday" value="<< Previous Day" onclick="PADWebProcessForm('Previous')" />
+                    <input type="button" id="PADDoToday" value="Today" onclick="PADWebProcessForm('Today')" />
+                    <input type="button" id="PADDoTomorrow" value="Next Day >>" onclick="PADWebProcessForm('Next')" /></form>
 
                 </div>
             </div>
