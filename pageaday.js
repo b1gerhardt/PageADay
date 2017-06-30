@@ -90,6 +90,7 @@ PAD.prototype.getQuote = function ( d ) {
         // XML schema allows for HOLIDAYS, BIRTHDAYS, ANNIVERSARIES and GENERAL dates to be in separate sections
         // Since we're using a simplified, Fake DOM, we can pass the entire XML data set and it will parse out all PAGE entries.
         // This saves some parsing.
+        // TODO: But, doesn't guarantee the order is preserved so may need to revisit this.
         this.parseSection( data, result, true );
     }
 
@@ -110,16 +111,15 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     }
 
     var i, j, thisPage, thisEl;
-    var tMonth, tDate, tYear, tDay;
     var xmlType, xmlMonth, xmlDate, xmlYear;
     var xmlAge;
     var xmlSpecial = [];
 
     // We're going to be using these alot. Reduce the overhead of Date() function calls.
-    tMonth = result.date.getMonth();
-    tDate = result.date.getDate();
-    tYear = result.date.getFullYear();
-    tDay = result.date.getDay();
+    var tMonth = result.date.getMonth();
+    var tDate = result.date.getDate();
+    var tYear = result.date.getFullYear();
+    var tDay = result.date.getDay();
 
     // TODO: May want to use Excel date serial numbers. Here's the formula (get to same mm/dd/yyyy resolution as the form data. Still need to adjust for local time
     // var utc_days = Math.floor(serialFromExcel - 25569);
@@ -136,6 +136,8 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
         if ( xmlType === "IGNORE" ) {
             continue;
         }
+
+        // NOTE: xmlMonth, xmlDate, and xmlYear will be NaN if the field was blank.
 
         // Adjust for data(1-based) and Javascript (0-based)
         xmlMonth = parseInt(fakeDOM.getValue (thisPage, "MONTH"), 10) - 1;
@@ -159,7 +161,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
                 continue;
 
             case "WEEKDAYOFMONTH":
-                // The Nth occurrence of a specific day of week in the month. Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> <optional: delta)
+                // The Nth occurrence of a specific day of week in the month. Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> [<delta>]
 
                 if (xmlSpecial.length === 2 || xmlSpecial.length === 3) {
                     var specialDate = new Date(result.date.valueOf());
@@ -211,14 +213,113 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
                 continue;
 
             case "SPECIFICYEARS":
-                // Occurs only on specific years. SPECIAL=<StartYear> <Interval>
+                // Occurs only on specific years. SPECIAL=<StartYear> <Interval> [<EndYear>]
 
-                if (tMonth == xmlMonth && tDate == xmlDate) {
-                    if (xmlSpecial.length == 2 && ((tYear - xmlSpecial[0]) % xmlSpecial[1]) == 0) {
-                        break;          // Found a match...
+                if (xmlSpecial.length == 2 || (xmlSpecial.length == 3 && tYear <= xmlSpecial[2]) ) {
+                    if ( tYear >= xmlSpecial[0] && tMonth == xmlMonth && tDate == xmlDate) {
+                        if ((tYear - xmlSpecial[0]) % xmlSpecial[1] == 0) {
+                            break;          // Found a match...
+                        }
                     }
                 }
+                
+                continue;
 
+            case "CHRISTIAN":
+                // Special handling for Christian holidays. SPECIAL=CHRISTIAN <holiday> [<delta>]
+                if (xmlSpecial.length == 1 || xmlSpecial.length == 2) {
+                    xmlSpecial[0] = xmlSpecial[0].toUpperCase();
+
+                    if (xmlSpecial[0] == "CHRISTMAS" && tMonth == 11 && tDate === 25) {
+                            break;  // match
+                    } else if (xmlSpecial[0] == "ADVENT") {
+                        // 4th Sunday before Christmas
+                        var specialDate = new Date(tYear, tMonth, tDate);
+                        var eventDate = new Date(tYear, 11, 25);
+                        eventDate.setDate(eventDate.getDate() - ((7 - eventDate.getDay()) + 21));
+
+                        // Account for the offset by faking like we're looking for the non-offset day.
+                        if (xmlSpecial.length === 2) {
+                            specialDate.setDate(specialDate.getDate() - xmlSpecial[1]);
+                        }
+
+                        if (specialDate.valueOf() === eventDate.valueOf()) {
+                            break;      // match
+                        }
+                    } else if (xmlSpecial[0] == "EASTER") {
+                        var specialDate = new Date(tYear, tMonth, tDate);
+                        var eventDate = getEasterW ( tYear );
+
+                        if ( specialDate.valueOf() === eventDate.valueOf()) {
+                            break;      // match
+                        }
+                    }
+                }
+                continue;
+
+            case "HEBREW":
+                // Special handling for Hebrew calendar. SPECIAL = HEBREW [<delayed>]. MONTH and DAY are the Hebrew month number and day.
+                // <delayed>, if present and "true" will match Sunday if the date falls on Saturday. This is useful for Tisha B'Av.
+
+                var delayed = (xmlSpecial.length && xmlSpecial[0].toLowerCase() == "true") ? true : false;
+
+                // If target day is Saturday and delayed == true, it's never a match.
+                if (delayed && tDay != 6) {
+
+                    // Check for a natural match first...
+                    var jd = gregorianToJulian(tYear, tMonth, tDate);
+                    var hebDate = julianToHebrew(jd);
+
+                    if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
+                        break;      // Match
+                    }
+
+                    // If delayed == true and today is Sunday, check if day before was a match
+                    if (delayed == true & tDay == 0) {
+                        jd -= 1;
+                        hebDate = julianToHebrew(jd);
+
+                        if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
+                            break;      // Match
+                        }
+                    }
+                }
+                continue;
+
+            case "ISLAMIC":
+                // Special handling for Islamic calendar. SPECIAL = ISLAMIC. MONTH and DAY are the Islamic month number and day.
+                continue;   // TBD: Not supported yet.
+
+                var delayed = (xmlSpecial.length && xmlSpecial[0].toLowerCase() == "true") ? true : false;
+
+                // If target day is Saturday and delayed == true, it's never a match.
+                if (delayed && tDay != 6) {
+
+                    // Check for a natural match first...
+                    var jd = gregorianToJulian(tYear, tMonth, tDate);
+                    var hebDate = julianToHebrew(jd);
+
+                    if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
+                        break;      // Match
+                    }
+
+                    // If delayed == true and today is Sunday, check if day before was a match
+                    if (delayed == true & tDay == 0) {
+                        jd -= 1;
+                        hebDate = julianToHebrew(jd);
+
+                        if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
+                            break;      // Match
+                        }
+                    }
+                }
+                continue;
+
+            case "FRIDAY13":
+                // Event occurs when it's Friday the 13th
+                if (tDate == 13 && tDay == 5 && matchOrNaN(xmlMonth, tMonth, xmlDate, tDate, xmlYear, tYear)) {
+                    break;              // Match
+                }
                 continue;
 
             case "LISTOFDATES":
@@ -241,7 +342,10 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
                 // Fall through to FIXED to check for a match...
 
             case "FIXED":
-                if ((isNaN(xmlMonth) || tMonth == xmlMonth) && (isNaN(xmlDate) || tDate == xmlDate) && (isNaN (xmlYear ) || tYear == xmlYear)) {
+                if ( matchOrNaN(xmlMonth, tMonth, xmlDate, tDate, xmlYear, tYear) ) {
+                    if (!isNaN (xmlYear)) {
+                        xmlAge = Number.NaN;    // If the Year is intact, clear Age -- fix-up for "FIXED" case.
+                    }
                     break;      // Match...
                 }
 
@@ -251,13 +355,10 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
         // If you get here, you have a match and should populate the result object...
 
-        thisEl = fakeDOM.getValue ( thisPage, "NAME");
+        thisEl = fakeDOM.getValue(thisPage, "NAME");
 
         if ( thisEl.length !== 0 ) {
             switch ( xmlType ) {
-                case "IGNORE":
-                    break;
-
                 case "HOLIDAY":
                     result.holidays.push ( thisEl );
                     break;
@@ -270,9 +371,11 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
                     result.anniversaries.push ( {name: thisEl, age: xmlAge} );
                     break;
 
-                // no default -- above cases require extra handling. 
-
-                }
+                case "IGNORE":
+                case "GENERAL":
+                default:
+                    break;
+            }
         }
 
         // Sayings and authors are singular -- first one wins.
@@ -531,6 +634,238 @@ PAD.prototype.getFormattedOrdinal = function ( n ) {
     }
 
     return s + ORDINAL_AGE[n];
+}
+
+// Pass in comparison pairs. Returns true if, for each pair, if first is NaN or if the numbers match
+// TODO: Research if there is a more natural way to handle this...
+function matchOrNaN() {
+    if (arguments.length % 2 != 0) {        // Even number of arguments is required
+        return false;
+    }
+    for (var i = 0; i < arguments.length; i += 2) {
+        if (!isNaN(arguments[i]) && arguments[i] != arguments[i + 1]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+// Internal support functions
+
+function getEasterW ( year ) {
+    // Calculates Western Easter
+    // Adapted rom https://en.wikipedia.org/wiki/Computus#Algorithms
+
+    var a, b, c, d, e;
+    var rMonth, rDate;
+
+    // Dates before 1900 and after 2299 are not supported...
+    if      ( year < 1900 ) { year = 1900; } 
+    else if ( year > 2299 ) { year = 2299; }
+
+    a = year % 19;
+
+    if ( year < 2200 ) {
+        b = (11 * a + 5) % 30;
+    } else {
+        b = ( 11 * a + 4) % 30;
+    }
+
+    if ( b === 0 || (b === 1 && a > 10)) {
+        c = b + 1;
+    } else {
+        c = b;
+    }
+    if ( c >= 1 && c <= 19 ) {
+        rMonth = 3;  // April
+    } else /* if ( c >= 20 && c <= 29 ) */ {
+        rMonth = 2;  // March
+    }
+    rDate = (50 - c) % 31;
+
+    var result = new Date(year, rMonth, rDate);
+    result.setDate(result.getDate() + (7 - result.getDay()));     // Align to next Sunday (even if it falls on a Sunday)
+
+    return result;
+}
+
+// Various Calendar system conversion functions
+// Adapted from http://www.math.harvard.edu/computing/javascript/Calendar/
+
+
+/*  MOD  --  Modulus function which works for non-integers.  */
+
+function calMod(a, b) {
+    return a - (b * Math.floor(a / b));
+}
+
+//  AMOD  --  Modulus function which returns numerator if modulus is zero
+
+function calAmod(a, b) {
+    return mod(a - 1, b) + 1;
+}
+
+//  Julian / Gregorian Conversion ===================
+// GREGORIAN_EPOCH = 1721425.5;
+
+// Is it leap year? Credit to Kevin P. Rice
+
+function gregorianIsLeap(year) {
+    // Copied from https://stackoverflow.com/questions/3220163/how-to-find-leap-year-programatically-in-c/11595914#11595914
+    return (year & 3) == 0 && ((year % 25) != 0 || (year & 15) == 0);
+}
+
+// Convert Gregorian year, month (0-based), day to Julian Date
+function gregorianToJulian(year, month, day) {
+    month += 1;             // Convert to 1-based month
+    yminus = year - 1;      // Simplify calculations below
+    return 1721424.5 + (365 * yminus) + Math.floor(yminus / 4) - Math.floor(yminus / 100) + Math.floor(yminus / 400)
+         + Math.floor((((367 * month) - 362) / 12) + ((month <= 2) ? 0 :(leap_gregorian(year) ? -1 : -2)) + day);
+}
+
+// Convert Julian date to Javascript Date (Gregorian).
+function julianToGregorian(jd) {
+    var wjd = Math.floor(jd - 0.5) + 0.5;           // Always align to 0.5 (Julian days start at noon)
+    var depoch = wjd - 1721425.5;                   // Delta from GREGORIAN_EPOCH
+    var quadricent = Math.floor(depoch / 146097);
+    var dqc = mod(depoch, 146097);
+    var cent = Math.floor(dqc / 36524);
+    var dcent = mod(dqc, 36524);
+    var quad = Math.floor(dcent / 1461);
+    var dquad = mod(dcent, 1461);
+    var yindex = Math.floor(dquad / 365);
+    var year = (quadricent * 400) + (cent * 100) + (quad * 4) + yindex;
+
+    if (!((cent == 4) || (yindex == 4))) {
+        year++;
+    }
+
+    // Let JS do the math for the month and day... 
+    return new Date(year, 0, wjd - gregorianToJulian(year, 0, 1));
+}
+
+// Julian / Hebrew Conversion ===================
+var HEBREW_EPOCH = 347995.5;
+
+// Hebrew leap year utilities
+function hebrewIsLeap(year) {
+    return calMod(((year * 7) + 1), 19) < 7;
+}
+
+function hebrewyearMonths(year) {
+    return hewbrewIsLeap(year) ? 13 : 12;
+}
+
+//  Test for delay of start of new year and to avoid
+//  Sunday, Wednesday, and Friday as start of the new year.
+
+function hebrewDelay1(year) {
+    var months = Math.floor(((235 * year) - 234) / 19);
+    var parts = 12084 + (13753 * months);
+    var day = (months * 29) + Math.floor(parts / 25920);
+
+    if (calMod((3 * (day + 1)), 7) < 3) {
+        day++;
+    }
+    return day;
+}
+
+//  Check for delay in start of new year due to length of adjacent years
+
+function hebrewDelay2(year) {
+    var last = hebrewDelay1(year - 1);
+    var present = hebrewDelay1(year);
+    var next = hebrewDelay1(year + 1);
+
+    return ((next - present) == 356) ? 2 : (((present - last) == 382) ? 1 : 0);
+}
+
+//  How many days are in a Hebrew year ?
+
+function hebrewYearDays(year) {
+    return hebrewToJulian(year + 1, 7, 1) - hebrewtoJulian(year, 7, 1);
+}
+
+//  How many days are in a given month of a given year
+
+function hebrewMonthDays(year, month) {
+    //  First of all, dispose of fixed-length 29 day months
+
+    if (month == 2 || month == 4 || month == 6 ||
+        month == 10 || month == 13) {
+        return 29;
+    }
+
+    //  If it's not a leap year, Adar has 29 days
+
+    if (month == 12 && !hebrewIsLeap(year)) {
+        return 29;
+    }
+
+    //  If it's Heshvan, days depend on length of year
+
+    if (month == 8 && !(calMod(hebrewYearDays(year), 10) == 5)) {
+        return 29;
+    }
+
+    //  Similarly, Kislev varies with the length of year
+
+    if (month == 9 && (calMod(hebrewYearDays(year), 10) == 3)) {
+        return 29;
+    }
+
+    //  Nope, it's a 30 day month
+
+    return 30;
+}
+
+//  Finally, wrap it all up into...
+
+// Convert Hebrew year, month (1 based) and day to Julian Date
+function hebrewToJulian(year, month, day) {
+    var months = hebrewYearMonths(year);
+    var jd = HEBREW_EPOCH + hebrewDelay1(year) + hebrewDelay2(year) + day + 1;
+
+    if (month < 7) {
+        var mon;
+        for (mon = 7; mon <= months; mon++) {
+            jd += hebrewMonthDays(year, mon);
+        }
+        for (mon = 1; mon < month; mon++) {
+            jd += hebrewMonthDays(year, mon);
+        }
+    } else {
+        for (mon = 7; mon < month; mon++) {
+            jd += hebrewMonthDays(year, mon);
+        }
+    }
+
+    return jd;
+}
+
+// Convert Julian Date to Hebrew Date. (Note: This is an expensive function)
+function julianToHebrew(jd) {
+    var jd = Math.floor(jd) + 0.5;
+    var count = Math.floor(((jd - HEBREW_EPOCH) * 98496.0) / 35975351.0);
+    var year = count - 1;
+    for (var i = count; jd >= hebrewToJulian(i, 7, 1); i++) {
+        year++;
+    }
+
+    var first = (jd < hebrewToJulian(year, 1, 1)) ? 7 : 1;
+    var month = first;
+    for (i = first; jd > hebrewToJulian(year, i, hebrewMonthDays(year, i)); i++) {
+        month++;
+    }
+    var day = (jd - hebrewToJulian(year, month, 1)) + 1;
+
+    return {
+        yy: year,
+        mm: month,
+        dd: day
+    };
 }
 
 //

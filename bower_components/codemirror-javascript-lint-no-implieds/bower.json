@@ -1,0 +1,23 @@
+{
+  "name": "codemirror-javascript-lint-no-implieds",
+  "homepage": "https://github.com/stowball/codemirror-javascript-lint-no-implieds",
+  "authors": [
+    "Matt Stow <matt@mattstow.com>"
+  ],
+  "description": "CodeMirror JavaScript Linting with JSHint, which also throws undefined implied globals as errors",
+  "main": "javascript-lint.js",
+  "keywords": [
+    "codemirror",
+    "jshint",
+    "lint",
+    "javascript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

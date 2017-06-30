@@ -1,0 +1,31 @@
+{
+  "name": "github-markdown-css",
+  "description": "The minimal amount of CSS to replicate the GitHub Markdown style",
+  "license": "MIT",
+  "main": "github-markdown.css",
+  "keywords": [
+    "github",
+    "markdown",
+    "md",
+    "css",
+    "style",
+    "stylesheet"
+  ],
+  "ignore": [
+    "**/.*",
+    "package.json",
+    "index.html"
+  ],
+  "homepage": "https://github.com/sindresorhus/github-markdown-css",
+  "version": "2.6.0",
+  "_release": "2.6.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.6.0",
+    "commit": "cabb9a4efbe9c5d89ffb457a115e73ef6bcdb4f0"
+  },
+  "_source": "https://github.com/sindresorhus/github-markdown-css.git",
+  "_target": "v2.6.0",
+  "_originalSource": "github-markdown-css",
+  "_direct": true
+}
