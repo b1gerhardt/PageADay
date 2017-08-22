@@ -5,6 +5,10 @@
     <title>How To Create Page-A-Day Data</title>
 
     <style>
+        .indent {
+            position: relative;
+            left: 30px;
+        }
         table {
             border-collapse: collapse;
         }
@@ -36,7 +40,7 @@
 
     <h1>How To Create Your Own Data For Page-A-Day</h1>
     <h2>Getting Started</h2>
-    Create an account at <a href="http://pageaday.org/&r=login">http://pageaday.org</a> and download the 
+    Download the 
     <a href="http://pageaday.org/samples/template.xlsx">sample Excel file</a> and 
     <a href="http://pageaday.org/samples/pageaday.xsd">XML schema</a>.
     <br />
@@ -47,7 +51,7 @@
             <colgroup span9 width="90px"></colgroup>
             <tr>
                 <th>Title</th>
-                <td colspan="8">Smith Family Sayings</td>
+                <td colspan="8">Sample Page-A-Day Family Sayings</td>
             </tr>
             <tr>
                 <th>Version</th>
@@ -55,7 +59,7 @@
             </tr>
             <tr>
                 <th>Theme</th>
-                <td colspan="8">&lt Pick a theme...&gt</Pick></td>
+                <td colspan="8">&lt Pick a theme...&gt</td>
             </tr>
             <tr><td colspan="9"></td></tr>
             <tr >
@@ -72,7 +76,6 @@
                 <td colspan="9"><i>&lt Page-A-Day Database entries... &gt</i></td>
             </tr>
         </table>
-        </div>
     </div>
     <br />
     <strong>Title</strong> is used as a heading on web and print output and at the beginning of voice output.<br />
@@ -84,7 +87,7 @@
 
     <h2>Database Overview</h2>
 
-    Each record <strong>TYPE</strong> is either <code>BIRTHDAY</code>, <code>ANNIVERSARY</code>, <code>HOLIDAY</code> or <code>GENERAL</code>. Page-A-Day will search the database 
+    Each record <strong>TYPE</strong> is either <code>BIRTHDAY</code>, <code>ANNIVERSARY</code>, <code>HOLIDAY</code>, <code>EVENT</code> or <code>GENERAL</code>. Page-A-Day will search the database 
     sequentially and combine all matching records to create a calendar page for the target date. 
     <br /><br />
     Only the first <strong>SAYING</strong> and <strong>AUTHOR</strong> are used. By carefully ordering your records, you can ensure birthdays or holiday sayings
@@ -117,14 +120,14 @@
                 </td>
             </tr>
             <tr>
-                <td><code>HOLIDAY</code></td>
+                <td><code>HOLIDAY</code> | <code>EVENT</code></td>
                 <td>Use for holidays or special events<br />
                     <strong>MONTH</strong> and <strong>DAY</strong> specify the holiday's date.<br />
                     <strong>YEAR</strong>, if present, will match only on the specified year. This can be useful for
                     family vacations or other one-time events.<br />
                     <strong>NAME</strong> is the name of the holiday. For example <i>National Pancake Day</i><br />
                     <br />
-                    Use the <strong>SPECIAL</strong> field to describe holidays that do not occur on fixed dates.
+                    Use the <strong>SPECIAL</strong> field to describe holidays and events that do not occur on fixed dates.
                 </td>
             </tr>
             <tr>
@@ -168,34 +171,31 @@
             </td>
         </tr>
         <tr>
-            <td><code>WeekdayOfMonth</code></td>
+            <td><code>WeekOfMonth</code></td>
             <td id="nowrap"><var>week dow </var>[<var>delta</var>]</td>
             <td>
-                Events that occur on a specific day of a specific week within a specific month.<br />
+                Events that occur in a specific week of the month.<br />
                 <br />
                 <strong>MONTH</strong> is required.<br />
                 <strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
                 <br />
                 <var>week</var> is the one-based week of the month. (<code>1</code> = First week, <code>2</code> = Second week, ...)<br />
                 <var>dow</var> is the zero based day of the week. (<code>0</code> = Sunday, <code>1</code> = Monday, ...)<br />
-                <var>delta</var> (optional) is the offset in days. (<code>-1</code> = Day before, <code>0</code> = Day of, <code>1</code> = Day after)<br />
+                <var>delta</var> (optional) is the offset in days. (<code>-1</code> = Day before, <code>0</code> = Day of, <code>1</code> = Day after, ...)<br />
                 <br />
                 Examples:
                 <div id="indent">
-                    <li>
                         Mother's Day falls on the second Sunday of May and Military Spouse Day is the Friday before Mother's day in the US. 
                         <table>
                             <tr style="font-weight: bold">
                                 <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                             </tr>
                             <tr>
-                                <td><code>HOLIDAY</code></td><td><code>WeekdayOfMonth 2 0</code></td><td><code>5</code></td><td></td><td></td><td><code>Mother's Day</code></td><td></td>
+                                <td><code>HOLIDAY</code></td><td><code>WeekOfMonth 2 0</code></td><td><code>5</code></td><td></td><td></td><td><code>Mother's Day</code></td><td></td>
                             </tr><tr>
-                                <td><code>HOLIDAY</code></td><td><code>WeekdayOfMonth 2 0 -2</code></td><td><code>5</code></td><td></td><td></td><td><code>Military Spouse Day</code></td><td></td>
+                                <td><code>HOLIDAY</code></td><td><code>WeekOfMonth 2 0 -2</code></td><td><code>5</code></td><td></td><td></td><td><code>Military Spouse Day</code></td><td></td>
                             </tr>
                         </table>
-                    </li>
-
                 </div>
             </td>
         </tr>
@@ -210,17 +210,47 @@
                 <br />
                 Example:
                 <div id="indent">
-                    <li>
-                        Tax Day falls on the first weekday on or after April 15 in the US.
+                    Tax Day falls on the first weekday on or after April 15 in the US.
+                    <table>
+                        <tr style="font-weight: bold">
+                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                        </tr>
+                        <tr>
+                            <td><code>EVENT</code></td><td><code>WeekdayOnOrAfter</code></td><td><code>4</code></td><td><code>15</code></td><td></td><td><code>Tax Day</code></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><code>NearestWeekday</code></td>
+            <td id="nowrap">[<code>observed</code>] [<code>actual</code> | <code>exclusive</code>]</td>
+            <td>
+                Events that are observed on the nearest weekday when they fall on a weekend.<br />
+                <br />
+                <strong>MONTH</strong> and <strong>DAY</strong> are required.<br />
+                <strong>YEAR</strong> is not used.<br />
+                <br />
+                <code>observed</code>, if present, will append "(observed)" to the event name when moving to a weekday.<br />
+                <code>actual</code>, if present, will match weekend instances of the holiday and append &quot;(actual)&quot; to the event name. The observed day is also matched.<br />
+                <code>exclusive</code>, if present, will match ONLY when the event is moved. This simplifies cases like New Years Day.<br />
+                <br /><br />
+
+                Examples:
+                <div id="indent">
                         <table>
                             <tr style="font-weight: bold">
-                                <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
-                            </tr>
-                            <tr>
-                                <td><code>HOLIDAY</code></td><td><code>WeekdayOnOrAfter</code></td><td><code>4</code></td><td><code>15</code></td><td></td><td><code>Tax Day</code></td><td></td>
+                                <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>SAYING</td><td>...</td>
+                            </tr><tr>
+                                <td><code>HOLIDAY</code></td><td><code>Fixed</code></td><td><code>1</code></td><td><code>1</code></td><td></td><td><code>New Year's Day</code></td><td><code>Happy New Year!</code></td><td></td>
+                            </tr><tr>
+                                <td><code>HOLIDAY</code></td><td><code>NearestWeekday observed exclusive</code></td><td><code>1</code></td><td><code>1</code></td><td></td><td><code>New Year's Day</code></td><td><code>Enjoy the day off</code></td><td></td>
+                            </tr><tr>
+                                <td><code>HOLIDAY</code></td><td><code>NearestWeekday observed actual</code></td><td><code>7</code></td><td><code>4</code></td><td></td><td><code>Independence Day</code></td><td><code>Happy Birthday America</code></td><td></td>
+                            </tr><tr>
+                                <td><code>HOLIDAY</code></td><td><code>NearestWeekday</code></td><td><code>11</code></td><td><code>11</code></td><td></td><td><code>Veterans Day</code></td><td><code>Honor our veterans</code></td><td></td>
                             </tr>
                         </table>
-                    </li>
                 </div>
             </td>
         </tr>
@@ -239,25 +269,23 @@
                 <br />
                 Example:
                 <div id="indent">
-                    <li>
-                        Starting in 1937, Inauguration Day is January 20th following a presidential election in the US.
-                        <table>
-                            <tr style="font-weight: bold">
-                                <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
-                            </tr>
-                            <tr>
-                                <td><code>HOLIDAY</code></td><td><code>SpecificYears 1937 4</code></td><td><code>1</code></td><td><code>20</code></td><td></td><td><code>Inauguration Day</code></td><td></td>
-                            </tr>
-                        </table>
-                    </li>
+                    Starting in 1937, Inauguration Day is January 20th following a presidential election in the US.
+                    <table>
+                        <tr style="font-weight: bold">
+                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                        </tr>
+                        <tr>
+                            <td><code>EVENT</code></td><td><code>SpecificYears 1937 4</code></td><td><code>1</code></td><td><code>20</code></td><td></td><td><code>Inauguration Day</code></td><td></td>
+                        </tr>
+                    </table>
                 </div>
             </td>
         </tr>
         <tr>
-            <td><code>LastWeekdayOfMonth</code></td>
+            <td><code>LastDayOfMonth</code></td>
             <td id="nowrap"><var>dow</var></td>
             <td>
-                Events that occur on the last specific day of a specific month.<br />
+                Events that occur on the last day of the week in a month.<br />
                 <br />
                 <strong>MONTH</strong> is required.<br />
                 <strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
@@ -266,149 +294,19 @@
                 <br />
                 Example:
                 <div id="indent">
-                    <li>
-                        For Memorial Day (the last Monday of May in the US), add a record like this:
-                        <table>
-                            <tr style="font-weight: bold">
-                                <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
-                            </tr>
-                            <tr>
-                                <td><code>HOLIDAY</code></td><td><code>LastWeekdayOfMonth 1</code></td><td><code>5</code></td><td></td><td></td><td><code>Memorial Day</code></td><td></td>
-                            </tr>
-                        </table>
-                    </li>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td><var>Christian</var></td>
-            <td id="nowrap"><var>holiday</var> [<var>delta</var>]</td>
-            <td>
-                Provides a simplified way to describe Christian holidays.<br />
-                <br />
-                <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
-                <br />
-                <var>holiday</var>&nbsp;&nbsp;can be one of the following:
-                    <ul style="white-space:nowrap;list-style-type:none;">
-                        <li><code>Easter</code>&nbsp;&nbsp;Easter Sunday.</li>
-                        <li><code>Advent</code>&nbsp;&nbsp;The first day of Advent. (Fourth Sunday before Christmas).</li>
-                        <li><code>Christmas</code>&nbsp;&nbsp;Christmas day. Always December 25th.</li>
-                    </ul>
-                <var>delta</var>&nbsp;&nbsp;(optional) is the offset in days. (<code>-1=Day before, 0=Day of, 1=Day after</code>)<br />
-                <br />
-                Notes:<br />
-                <div id="indent">
-                    <li><i>Shrove Tuesday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter -47</code></li>
-                    <li><i>Ash Wednesday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter -46</code></li>
-                    <li><i>Palm Sunday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter -7</code></li>
-                    <li><i>Good Friday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter -2</code></li>
-                    <li><i>Ascension Thursday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter 40</code></li>
-                    <li><i>Ascension Sunday</i> can be encoded as <strong>SPECIAL</strong> = <code>Christian Easter 43</code></li>
-                </div>
-                <br />
-                Examples:
-                <div id="indent">
+                    Memorial Day is the last Monday of May in the US.
                     <table>
                         <tr style="font-weight: bold">
                             <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                         </tr>
                         <tr>
-                            <td><code>HOLIDAY</code></td><td><code>Christian Easter</code></td><td></td><td></td><td></td><td><code>Easter Day</code></td><td></td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Christian Easter -46</code></td><td></td><td></td><td></td><td><code>Ash Wednesday</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>LastDayOfMonth 1</code></td><td><code>5</code></td><td></td><td></td><td><code>Memorial Day</code></td><td></td>
                         </tr>
                     </table>
                 </div>
             </td>
         </tr>
-        <tr>
-            <td><code>Hebrew</code></td>
-            <td id="nowrap">[<var>delayed</var>]</td>
-            <td>
-                Provides a simplified way to describe dates and holidays based on the Hebrew calendar.<br />
-                <br />
-                <strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hewbrew date.<br />
-                <br />
-                <var>delayed</var>&nbsp;&nbsp;(optional) <code>true</code> or <code>false</code>. Matches Sunday when the date falls on Saturday.
-                Useful for holidays like Tisha B'Av. Default is <code>false</code>.<br />
-                <br />
-                Notes:<br />
-                <div id="indent">
-                    <lu>
-                        <li><i>Rosh Hashanah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>1</code></li>
-                        <li><i>Yom Kippur</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>10</code></li>
-                        <li><i>Sukkot</i> can be encoded as <strong>SPECIAL</strong> = <code>Hewbrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>15</code></li>
-                        <li><i>Shemini Atzeret</i> can be encoded as <strong>SPECIAL</strong> = <code>Hewbrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>22</code></li>
-                        <li><i>Simchat Torah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>23</code></li>
-                        <li><i>Hanukkah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>9</code></coe> and <code>DAY=25</code></li>
-                        <li><i>Purim</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>12</code>, <strong>DAY</strong> = <code>14</code></li>
-                        <li><i>Passover</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>1</code>, <strong>DAY</strong> = <code>15</code></li>
-                        <li><i>Shavuot</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>3</code>, <strong>DAY</strong> = <code>6</code></li>
-                        <li><i>Tisha B'Av</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew true</code>, <strong>MONTH</strong> = <code>5</code>, <strong>DAY</strong> = <code>9</code></li>
-                    </lu>
-                </div>
-                <br />
-                Examples:
-                <div id="indent">
-                    <table>
-                        <tr style="font-weight: bold">
-                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>1</code></td><td></td><td><code>Rosh Hashanah</code></td><td></td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>1</code></td><td><code>15</code></td><td></td><td><code>Passover</code></td><td></td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew true</code></td><td><code>5</code></td><td><code>9</code></td><td></td><td><code>Tisha B'Av</code></td><td></td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td><code>Islamic</code></td>
-            <td id="nowrap">[<var>delayed</var>]</td>
-            <td>
-                Provides a simplified way to describe dates and holidays based on the Islamic calendar.<br />
-                <br /><strong>TBD ... below is currently just a copy of the Hebrew row...</strong><br />
-                <br />
-                <strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hewbrew date.<br />
-                <br />
-                <var>delayed</var>&nbsp;&nbsp;(optional) <code>true</code> or <code>false</code>. Matches Sunday when the date falls on Saturday.
-                Useful for holidays like Tisha B'Av. Default is <code>false</code>.<br />
-                <br />
-                Notes:<br />
-                <div id="indent">
-                    <lu>
-                        <li><i>Rosh Hashanah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>1</code></li>
-                        <li><i>Yom Kippur</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>10</code></li>
-                        <li><i>Sukkot</i> can be encoded as <strong>SPECIAL</strong> = <code>Hewbrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>15</code></li>
-                        <li><i>Shemini Atzeret</i> can be encoded as <strong>SPECIAL</strong> = <code>Hewbrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>22</code></li>
-                        <li><i>Simchat Torah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>7</code>, <strong>DAY</strong> = <code>23</code></li>
-                        <li><i>Hanukkah</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>9</code></coe> and <code>DAY=25</code></li>
-                        <li><i>Purim</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>12</code>, <strong>DAY</strong> = <code>14</code></li>
-                        <li><i>Passover</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>1</code>, <strong>DAY</strong> = <code>15</code></li>
-                        <li><i>Shavuot</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew</code>, <strong>MONTH</strong> = <code>3</code>, <strong>DAY</strong> = <code>6</code></li>
-                        <li><i>Tisha B'Av</i> can be encoded as <strong>SPECIAL</strong> = <code>Hebrew true</code>, <strong>MONTH</strong> = <code>5</code>, <strong>DAY</strong> = <code>9</code></li>
-                    </lu>
-                </div>
-                <br />
-                Examples:
-                <div id="indent">
-                    <table>
-                        <tr style="font-weight: bold">
-                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>1</code></td><td></td><td><code>Rosh Hashanah</code></td><td></td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>1</code></td><td><code>15</code></td><td></td><td><code>Passover</code></td><td></td>
-                        </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew true</code></td><td><code>5</code></td><td><code>9</code></td><td></td><td><code>Tisha B'Av</code></td><td></td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-        <tr>
+                <tr>
             <td><code>Friday13</code></td>
             <td id="nowrap"><i>none</i></td>
             <td>
@@ -422,17 +320,189 @@
                     <tr style="font-weight: bold">
                         <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                     </tr><tr>
-                        <td><code>HOLIDAY</code></td><td><code>Friday13</code></td><td></td><td></td><td></td><td><code>Friday the 13th</code></td><td></td>
+                        <td><code>EVENT</code></td><td><code>Friday13</code></td><td></td><td></td><td></td><td><code>Friday the 13th</code></td><td></td>
+                    </tr>
+                </table>
+            </div>
+            </td>
+        </tr>
+                <tr>
+            <td><code>Season</code></td>
+            <td id="nowrap">[<code>north</code> | <code>south</code>] <code>spring</code> | <code>summer</code> | <code>fall</code> | <code>winter</code></td>
+            <td>
+                Will return the start of the given season.<br />
+                <br />
+                <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
+                <br />
+                <code>north</code> (default) or <code>south</code> indicate the hemisphere.<br />
+                <code>spring</code>, <code>summer</code>, <code>fall</code>, and <code>winter</code> specify the season.<br />
+                <br />
+
+            Example:
+            <div id="indent">
+                <table>
+                    <tr style="font-weight: bold">
+                        <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                    </tr><tr>
+                        <td><code>EVENT</code></td><td><code>Summer</code></td><td></td><td></td><td></td><td><code>First Day of Summer (Northern Hemisphere)</code></td><td></td>
+                    </tr>
+                </table>
+            </div>
+            </td>
+        </tr>
+                <tr>
+            <td><code>Span</code></td>
+            <td id="nowrap"><var>days</var></td>
+            <td>
+                Will match for multiple days.<br />
+                <br />
+                <strong>MONTH, </strong><strong>DAY</strong> and optional <strong>YEAR</strong> indicate the start date.<br />
+                <br />
+                <var>days</var> specifies the number of days to match and includes the specified day. Minimum value is <code>1</code>.<br />
+                <br />
+
+            Example:
+            <div id="indent">
+                <table>
+                    <tr style="font-weight: bold">
+                        <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                    </tr><tr>
+                        <td><code>EVENT</code></td><td><code>Span 45</code></td><td>7</td><td>13</td><td></td><td><code>Perseids Meteor Shower</code></td><td></td>
                     </tr>
                 </table>
             </div>
             </td>
         </tr>
         <tr>
+            <td><code>Christian</code></td>
+            <td id="nowrap"><var>holiday</var> [<var>delta</var>]</td>
+            <td>
+                Provides a simplified way to describe Christian holidays.<br />
+                <br />
+                <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
+                <br />
+                <var>holiday</var>&nbsp;&nbsp;can be one of the following:
+                    <ul style="white-space:nowrap;list-style-type:none;">
+                        <li><code>Easter</code>&nbsp;&nbsp;Easter Sunday.</li>
+                        <li><code>Advent</code>&nbsp;&nbsp;The first day of Advent. (Fourth Sunday before Christmas).</li>
+                        <li><code>Christmas</code>&nbsp;&nbsp;Christmas day. Always December 25th.</li>
+                    </ul>
+                <var>delta</var>&nbsp;&nbsp;(optional) is the offset in days. (<code>-1=Day before, 0=Day of, 1=Day after, ...</code>)<br />
+                <br />
+                Examples:
+                <div id="indent">
+                    <table>
+                        <tr style="font-weight: bold">
+                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter -47</code></td><td></td><td></td><td></td><td><code>Shrove Tuesday</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter -46</code></td><td></td><td></td><td></td><td><code>Ash Wednesday</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter -7</code></td><td></td><td></td><td></td><td><code>Palm Sunday</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter -2</code></td><td></td><td></td><td></td><td><code>Good Friday</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter</code></td><td></td><td></td><td></td><td><code>Easter Day</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter 40</code></td><td></td><td></td><td></td><td><code>Ascension Thursday</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Christian Easter 43</code></td><td></td><td></td><td></td><td><code>Ascension Sunday</code></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><code>Hebrew</code></td>
+            <td id="nowrap">[<code>delayed</code>]</td>
+            <td>
+                Provides a simplified way to describe dates and holidays based on the Hebrew calendar.<br />
+                <br />
+                <strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hewbrew date.<br />
+                <br />
+                <code>delayed</code>&nbsp;&nbsp;(optional) If present, matches Sunday when the date falls on Saturday. Useful for holidays like Tisha B&#39;Av.<br />
+                <br />
+                Note: Event is displayed for the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
+                <br />
+                Examples:
+                <div id="indent">
+                    <table>
+                        <tr style="font-weight: bold">
+                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>1</code></td><td><code>15</code></td><td></td><td><code>Passover</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>3</code></td><td><code>6</code></td><td></td><td><code>Shavuot</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew true</code></td><td><code>5</code></td><td><code>9</code></td><td></td><td><code>Tisha B'Av</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>1</code></td><td></td><td><code>Rosh Hashanah</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>10</code></td><td></td><td><code>Yom Kippur</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>15</code></td><td></td><td><code>Sukkot</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>22</code></td><td></td><td><code>Shemini Atzeret</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>23</code></td><td></td><td><code>Simchat Torah</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>9</code></td><td><code>25</code></td><td></td><td><code>Hanukkah</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>12</code></td><td><code>14</code></td><td></td><td><code>Purim</code></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><code>Hijri</code></td>
+            <td id="nowrap"><i>none</i></td>
+            <td>
+                Provides a simplified way to describe dates and holidays based on the Hijri calendar.<br />
+                <br /><strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hijri date.<br />
+                <br />
+                Note: Event is displayed for the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
+                <br />
+                Examples:
+                <div id="indent">
+                    <table>
+                        <tr style="font-weight: bold">
+                            <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>1</code></td><td><code>1</code></td><td></td><td><code>Islamic New Year</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>1</code></td><td><code>10</code></td><td></td><td><code>Day of Ashura</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>3</code></td><td><code>12</code></td><td></td><td><code>Mawlid (Sunni)</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>3</code></td><td><code>17</code></td><td></td><td><code>Mawlid (Shia)</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>7</code></td><td><code>27</code></td><td></td><td><code>Isra and Mi'raj</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>8</code></td><td><code>15</code></td><td></td><td><code>Mid-Sha&#39;bān</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>9</code></td><td><code>1</code></td><td></td><td><code>Ramadan Begins</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>9</code></td><td><code>27</code></td><td></td><td><code>Nuzul al-Qur'an</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>10</code></td><td><code>1</code></td><td></td><td><code>Eid ul-Fitr</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>8</code></td><td></td><td><code>Hajj begins</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>9</code></td><td></td><td><code>Day of Arafa</code></td><td></td>
+                        </tr><tr>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>10</code></td><td></td><td><code>Eid al-Adha</code></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
             <td><var>ListOfDates</var></td>
             <td id="nowrap"><var>date </var>[<var>...</var>]</td>
             <td>
-                Identifies a specific list of dates. Useful when no other Keyword works.The drawback is the list isn't perpetual. 
+                Identifies a specific list of dates. Useful when no other keyword works. The drawback is the list isn't perpetual. 
                 This is equivalent to using <var>Fixed</var> with multiple similar records.<br />
                 <br />
                 <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
@@ -441,12 +511,11 @@
                 <br />
                 Example:
                 <div id="indent">
-                <li>To highlight upcoming total solar eclipses, add a record like this:</li>
                 <table>
                     <tr style="font-weight: bold">
                         <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                     </tr><tr>
-                        <td><code>HOLIDAY</code></td><td><code>ListOfDates 2017&#8209;08&#8209;21 2020&#8209;12&#8209;14 2021&#8209;12&#8209;04 2023&#8209;04&#8209;20 2024&#8209;04&#8209;08 2026&#8209;08&#8209;12 2027&#8209;08&#8209;02 2028&#8209;07&#8209;22</code></td><td></td><td></td><td></td><td><code>Total Eclipse of the Sun</code></td><td></td>
+                        <td><code>EVENT</code></td><td><code>ListOfDates 2017&#8209;08&#8209;21 2020&#8209;12&#8209;14 2021&#8209;12&#8209;04 2023&#8209;04&#8209;20 2024&#8209;04&#8209;08 2026&#8209;08&#8209;12 2027&#8209;08&#8209;02 2028&#8209;07&#8209;22</code></td><td></td><td></td><td></td><td><code>Total Eclipse of the Sun</code></td><td></td>
                     </tr>
                 </table>
                 </div>
@@ -455,21 +524,19 @@
     </table>
     <h2>Tips for Creating Your Database</h2>
     The sample 
-    <lu>
+    <ul>
         <li>Order is important. Page-A-Day reads your database from top to bottom. All matching holidays, birthdays and 
             anniversaries will be combined in the order they appear. But, only the first matching quote will be used.</li>
-        <div id="indent">
-            <li>The indended use is to put quotes for all general dates at the end of the database as a "default" (or use a theme).
+            <li class="indent">The intended use is to put quotes for all general dates at the end of the database as a "default" (or use a theme).
             Then, selectively enter quotes for special days and events near the beginning of the database as an override.</li>
-            <li>If you want the quote for a moving event (i.e., records using the <code>SPECIAL</code> field) to appear, make 
+            <li class="indent">If you want the quote for a moving event (i.e., records using the <code>SPECIAL</code> field) to appear, make 
                 sure it is before any records that event might fall on.</li>
-            <li>If you want to have a special quote for a landmark anniversary or birthday, create a new record just before the 
+            <li class="indent">If you want to have a special quote for a landmark anniversary or birthday, create a new record just before the 
                 event and enter a specific month, day and year plus your custom quote. <i>Note:</i> The extra record should be
                 <code>TYPE=GENERAL</code> and just contain the quote. Otherwise, both records will match and you'll have a duplicate 
                 holiday, birthday or anniversary announcement.</li>
-        </div>
         <li>todo: FIXED to highlight specific years.</li>
-    </lu>
+    </ul>
     <br /><br />
 
         FOR TIPS SECTION:
@@ -482,7 +549,8 @@
 
     -->
     <h2>Exporting to XML</h2>
-    <h2>Uploading to Page-A-Day</h2>
+    <h2>Publishing Your Data</h2>
+    <h2>Calling Page-A-Day With Your Data</h2>
 
 
 </body>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{3294fed7-978e-4428-916c-452469459939}</ProjectGuid>
+        <ProjectHome />
+        <ProjectView>ShowAllFiles</ProjectView>
+        <StartupFile>node-tester.js</StartupFile>
+        <WorkingDirectory>.</WorkingDirectory>
+        <OutputPath>.</OutputPath>
+        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+    <ItemGroup>
+        <Content Include="how-to.html" />
+        <Content Include="index.html" />
+        <Content Include="pageaday.html" />
+        <Content Include="pageaday_min.html" />
+        <Content Include="pageaday.css" />
+        <Content Include="params.json" />
+        <Content Include="README.md" />
+        <Content Include="pageadaydatav5.xml" />
+        <Compile Include="alexaskills.js" />
+        <Compile Include="index-alexa.js" />
+        <Compile Include="index-web.js" />
+        <Compile Include="node-tester.js" />
+        <Compile Include="pageaday.js" />
+        <Content Include="artassets\calendar-empty-108x108.png" />
+        <Content Include="artassets\calendar-empty-512x512.png" />
+        <Content Include="artassets\calendar-empty-large.png" />
+        <Content Include="artassets\calendar-empty-medium.png" />
+        <Content Include="artassets\calendar-empty-small.png" />
+        <Content Include="artassets\large-1.png" />
+        <Content Include="artassets\large-10.png" />
+        <Content Include="artassets\large-11.png" />
+        <Content Include="artassets\large-12.png" />
+        <Content Include="artassets\large-2.png" />
+        <Content Include="artassets\large-3.png" />
+        <Content Include="artassets\large-4.png" />
+        <Content Include="artassets\large-5.png" />
+        <Content Include="artassets\large-6.png" />
+        <Content Include="artassets\large-7.png" />
+        <Content Include="artassets\large-8.png" />
+        <Content Include="artassets\large-9.png" />
+        <Content Include="artassets\medium-1.png" />
+        <Content Include="artassets\medium-10.png" />
+        <Content Include="artassets\medium-11.png" />
+        <Content Include="artassets\medium-12.png" />
+        <Content Include="artassets\medium-2.png" />
+        <Content Include="artassets\medium-3.png" />
+        <Content Include="artassets\medium-4.png" />
+        <Content Include="artassets\medium-5.png" />
+        <Content Include="artassets\medium-6.png" />
+        <Content Include="artassets\medium-7.png" />
+        <Content Include="artassets\medium-8.png" />
+        <Content Include="artassets\medium-9.png" />
+        <Content Include="artassets\small-1.png" />
+        <Content Include="artassets\small-10.png" />
+        <Content Include="artassets\small-11.png" />
+        <Content Include="artassets\small-12.png" />
+        <Content Include="artassets\small-2.png" />
+        <Content Include="artassets\small-3.png" />
+        <Content Include="artassets\small-4.png" />
+        <Content Include="artassets\small-5.png" />
+        <Content Include="artassets\small-6.png" />
+        <Content Include="artassets\small-7.png" />
+        <Content Include="artassets\small-8.png" />
+        <Content Include="artassets\small-9.png" />
+        <Content Include="Bin\CsQuery.xml" />
+        <Content Include="Bin\MarkdownWeb.xml" />
+        <Content Include="dataSamples\admin_test.xml" />
+        <Content Include="dataSamples\pageadaydatav4.xml" />
+        <Content Include="dataSamples\pageadaydatav5.xml" />
+        <Content Include="dataSamples\test.xml" />
+        <Compile Include="javascripts\scale.fix.js" />
+        <Content Include="speechAssets\mytodayliterals.txt" />
+        <Content Include="speechAssets\sampleutterances.txt" />
+        <Content Include="speechAssets\intentschema.json" />
+        <Content Include="stylesheets\github-light.css" />
+        <Content Include="stylesheets\languages.css" />
+        <Content Include="stylesheets\styles.css" />
+        <Content Include="packages\CsQuery.1.3.4\lib\net40\CsQuery.XML" />
+        <Content Include="packages\JSLintNet.MSBuild.2.3.0\tools\License.txt" />
+        <Content Include="packages\MarkdownToHtml.1.0.2\tools\LICENSE.txt" />
+        <Content Include="packages\MarkdownToHtml.1.0.2\tools\README.htm" />
+        <Content Include="packages\MarkdownToHtml.1.0.2\tools\Release-Notes.htm" />
+        <Content Include="packages\MarkdownWeb.1.3.0\lib\net45\MarkdownWeb.XML" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="artassets" />
+        <Folder Include="Bin" />
+        <Folder Include="dataSamples" />
+        <Folder Include="javascripts" />
+        <Folder Include="packages" />
+        <Folder Include="packages\CsQuery.1.3.4" />
+        <Folder Include="packages\CsQuery.1.3.4\lib" />
+        <Folder Include="packages\CsQuery.1.3.4\lib\net40" />
+        <Folder Include="packages\JSLintNet.MSBuild.2.3.0" />
+        <Folder Include="packages\JSLintNet.MSBuild.2.3.0\build" />
+        <Folder Include="packages\JSLintNet.MSBuild.2.3.0\tools" />
+        <Folder Include="packages\Markdown.2.2.1" />
+        <Folder Include="packages\Markdown.2.2.1\lib" />
+        <Folder Include="packages\Markdown.2.2.1\lib\net451" />
+        <Folder Include="packages\Markdown.2.2.1\lib\netstandard1.3" />
+        <Folder Include="packages\MarkdownDeep.NET.1.5" />
+        <Folder Include="packages\MarkdownDeep.NET.1.5\lib" />
+        <Folder Include="packages\MarkdownToHtml.1.0.2" />
+        <Folder Include="packages\MarkdownToHtml.1.0.2\tools" />
+        <Folder Include="packages\MarkdownWeb.1.3.0" />
+        <Folder Include="packages\MarkdownWeb.1.3.0\lib" />
+        <Folder Include="packages\MarkdownWeb.1.3.0\lib\net45" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib\net45" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib\net451" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib\net452" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib\net46" />
+        <Folder Include="packages\MysticMind.HtmlAgilityPack.1.4.9.4\lib\netstandard1.6" />
+        <Folder Include="packages\ReverseMarkdown.1.0.0" />
+        <Folder Include="packages\ReverseMarkdown.1.0.0\lib" />
+        <Folder Include="packages\ReverseMarkdown.1.0.0\lib\net45" />
+        <Folder Include="packages\ReverseMarkdown.1.0.0\lib\net46" />
+        <Folder Include="packages\ReverseMarkdown.1.0.0\lib\netstandard1.6" />
+        <Folder Include="release" />
+        <Folder Include="speechAssets" />
+        <Folder Include="stylesheets" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+            <WebProjectProperties>
+              <UseIIS>False</UseIIS>
+              <AutoAssignPort>True</AutoAssignPort>
+              <DevelopmentServerPort>0</DevelopmentServerPort>
+              <DevelopmentServerVPath>/</DevelopmentServerVPath>
+              <IISUrl>http://localhost:48022/</IISUrl>
+              <NTLMAuthentication>False</NTLMAuthentication>
+              <UseCustomServer>True</UseCustomServer>
+              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+            </WebProjectProperties>
+          </FlavorProperties>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+            <WebProjectProperties>
+              <StartPageUrl>
+              </StartPageUrl>
+              <StartAction>CurrentPage</StartAction>
+              <AspNetDebugging>True</AspNetDebugging>
+              <SilverlightDebugging>False</SilverlightDebugging>
+              <NativeDebugging>False</NativeDebugging>
+              <SQLDebugging>False</SQLDebugging>
+              <ExternalProgram>
+              </ExternalProgram>
+              <StartExternalURL>
+              </StartExternalURL>
+              <StartCmdLineArguments>
+              </StartCmdLineArguments>
+              <StartWorkingDirectory>
+              </StartWorkingDirectory>
+              <EnableENC>False</EnableENC>
+              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+            </WebProjectProperties>
+          </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
+</Project>

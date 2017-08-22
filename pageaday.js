@@ -1,45 +1,60 @@
-﻿'use strict';
+﻿/* jslint node: true */
+/* jshint node: true */
+/* eslint no-extra-parens: { "nestedBinaryExpressions": false } */
+
+'use strict';
+
 // PAD the Page-A-Day generator
 // Written by Barry Gerhardt
 // 2016-12-28
 //
 // This JS contains the Page-A-Day class, PAD. 
 //
-// FUTURE ENHANCEMENTS AND CHANGES:
-// 1. Simplify and normalize Excel data source. Maybe use Excel date serial numbers and convert. Or, just add non-schema fields to show a more readable date
-// 2. Generate a full year calendar (for mail merge)
-// 3. Add URL links for web version of output
-// 4. Add Media links for audio version of output
-// 5. Add pronunciation hints and inflection for audio version of output
-// 6. Take alternate file as input.
-// 7. Find additional holidays from web sources (note: need to avoid duplicate holidays when doing this)
-//
+
 
 var PAD = function (data) {
+    if (! (this instanceof PAD)) {
+        return new PAD(data);
+    }
+
     this.xml = {
         isValid: false,
         raw: "",
         title: "",
         version: "",
-        pages: [],
+        pages: []
     };
 
     this.initData( data );
     this.initResult();
 };
 
+//
+// PAD.initData -- Reset object with new XML data
+//
+// This function takes a read-only XML string and parses it into it's consituent XML sections
+// Since this is a relatively expensive operation, it should be done only once for a particular data set.
+//
+
 PAD.prototype.initData = function (data) {
 
-    if (data && data.length > 0 ) {
+    if (data && data.length > 0) {
         this.xml.isValid = true;
         this.xml.raw = data;
-        this.xml.title = fakeDOM.getValue ( data, "TITLE" );
-        this.xml.version = fakeDOM.getValue (data, "VERSION" );
-        this.xml.pages = fakeDOM.getValueArray ( data, "PAGE" );
+        this.xml.title = fakeDOM.getValue(data, "TITLE");
+        this.xml.version = fakeDOM.getValue(data, "VERSION");
+        this.xml.pages = fakeDOM.getValueArray(data, "PAGE");
     }
 
     return this.xml;
-}
+};
+
+//
+// PAD.initResult -- Initialize result data while preserving XML data
+//
+// This function initializes the result object. This is done at the start of each call to PAD.getQuote
+//
+
 PAD.prototype.initResult = function (d) {
     this.result = {
         isValid: false,
@@ -54,350 +69,579 @@ PAD.prototype.initResult = function (d) {
         sayingWeb: "",
         sayingSpoken: ""
     };
-    this.result.date = d || new Date( Date.now() );
+    this.result.date = d || new Date(Date.now());
 
     return this.result;
-}
+};
 
 // NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
 // These helper functions are used to make working in the local time zone easier
 
 // Return an ISO-like string using local time instead of GMT. Truncate to just the date.
-PAD.prototype.toISOStringNoTZ = function ( d ) {
-    var noTZ = new Date( d.getTime() - d.getTimezoneOffset() * 60 * 1000 );
+PAD.prototype.toISOStringNoTZ = function(d) {
+    var noTZ = new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
 
-    return noTZ.toISOString().substr(0,10);
-}
+    return noTZ.toISOString().substr(0, 10);
+};
 
 // Set GMT to be midnight on the local time day (simplifies date handling so everything is GMT)
-PAD.prototype.getDateNoTZ = function ( d ) {
-    d.setTime( d.getTime() + d.getTimezoneOffset() * 60 * 1000 );
+PAD.prototype.getDateNoTZ = function (d) {
+    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
     return d;
-}
+};
 
-PAD.prototype.getQuote = function ( d ) {
+PAD.prototype.getQuote = function (d) {
     var data = this.xml;
     //var data   = this.xmlRaw;
     var result = this.initResult(d);
-    
+
     // basic sanity checks...
-    if ( !data || !data.isValid ) {
+    if (!data || !data.isValid) {
         result.saying = "Error loading data...";
     } else {
-        result.title   = data.title;
+        result.title = data.title;
         result.version = data.version;
 
         // XML schema allows for HOLIDAYS, BIRTHDAYS, ANNIVERSARIES and GENERAL dates to be in separate sections
         // Since we're using a simplified, Fake DOM, we can pass the entire XML data set and it will parse out all PAGE entries.
         // This saves some parsing.
         // TODO: But, doesn't guarantee the order is preserved so may need to revisit this.
-        this.parseSection( data, result, true );
+        this.parseSection(data, result, true);
     }
 
-    console.log(result.title + ", " + result.version + ", " + result.saying + " (isValid=" + result.isValid + ")" );
-
+    //console.log(result.title + ", " + result.version + ", " + result.saying + " (isValid=" + result.isValid + ")");
     return result;
-}
+};
 
 PAD.prototype.parseSection = function (data, result, bFindAll) {
-    if ( !data || data.isValid === false ) {
+    if (!data || data.isValid === false) {
         return;
     }
 
     var xmlPages = data.pages;
 
-    if ( !xmlPages || xmlPages.length === 0 ){
+    if (!xmlPages || xmlPages.length === 0) {
         return;
     }
 
-    var i, j, thisPage, thisEl;
-    var xmlType, xmlMonth, xmlDate, xmlYear;
-    var xmlAge;
-    var xmlSpecial = [];
+    // TODO: Rework as a JS "class" like Alexa intent handlers. (learn more on this)
+    for (var i = 0; i < xmlPages.length; i++) {
+        // Normalize data to simplify code later on...
+        var thisPage = this.normalizePage (xmlPages[i], result.date);
 
-    // We're going to be using these alot. Reduce the overhead of Date() function calls.
-    var tMonth = result.date.getMonth();
-    var tDate = result.date.getDate();
-    var tYear = result.date.getFullYear();
-    var tDay = result.date.getDay();
-
-    // TODO: May want to use Excel date serial numbers. Here's the formula (get to same mm/dd/yyyy resolution as the form data. Still need to adjust for local time
-    // var utc_days = Math.floor(serialFromExcel - 25569);
-    // var utc_value = utc_days * 86400;
-    // var date_info = new Date(utc_value * 1000);
-    // date_info.setTime(date_info.getTime() + date_info.getTimezoneOffset() * 60 * 1000);
-
-    for (i = 0 ; i < xmlPages.length ; i++) {
-        thisPage = xmlPages[i];
-
-        // Pre-load and normalize data to simplify code later on...
-        xmlType = fakeDOM.getValue( thisPage, "TYPE" ).toUpperCase();
-
-        if ( xmlType === "IGNORE" ) {
-            continue;
-        }
-
-        // NOTE: xmlMonth, xmlDate, and xmlYear will be NaN if the field was blank.
-
-        // Adjust for data(1-based) and Javascript (0-based)
-        xmlMonth = parseInt(fakeDOM.getValue (thisPage, "MONTH"), 10) - 1;
-
-        // Day of month (Date in Javascript)
-        xmlDate = parseInt(fakeDOM.getValue (thisPage, "DAY"), 10);
-        xmlYear = parseInt(fakeDOM.getValue (thisPage, "YEAR"), 10);
-
-        // Save age year for BIRTHDAY and ANNIVERSARY types
-        (xmlType === "BIRTHDAY" || xmlType === "ANNIVERSARY") ? xmlAge = tYear - xmlYear : xmlAge = Number.NaN;
-
-        // Parse the SPECIAL keyword
-        thisEl = fakeDOM.getValue (thisPage, "SPECIAL").toUpperCase();
-        if (thisEl.length > 0 ) {
-            xmlSpecial = thisEl.split( ' ' );
-            thisEl = xmlSpecial.shift();    // Pop off the keyword. Leave the arguments...
-        }
-
-        switch (thisEl) {
+        switch (thisPage.special) {
             case "IGNORE":
+            case "COMMENT":
                 continue;
 
             case "WEEKDAYOFMONTH":
-                // The Nth occurrence of a specific day of week in the month. Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> [<delta>]
-
-                if (xmlSpecial.length === 2 || xmlSpecial.length === 3) {
-                    var specialDate = new Date(result.date.valueOf());
-
-                    // Account for the offset by faking like we're looking for the non-offset day.
-                    if (xmlSpecial.length === 3){
-                        specialDate.setDate(specialDate.getDate() - xmlSpecial[2]);
-                    }
-
-                    // Need to check month here since some deltas might move the month. (yea, we want type conversion -- no triple equal)
-                    if (specialDate.getMonth() == xmlMonth && xmlSpecial[1] == specialDate.getDay() && xmlSpecial[0] == Math.ceil(specialDate.getDate() / 7)) {
-                        break;  // Match
-                    }
+            case "WEEKOFMONTH":
+                if (isWeekOfMonth(thisPage, result.date) === true) {
+                    break;
                 }
+                continue;
 
-                continue;          // No match... next record
-
+            case "LASTDAYOFMONTH":
             case "LASTWEEKDAYOFMONTH":
-                // The last occurence of a specific day of week in the month.
-
-                if (tMonth == xmlMonth && xmlSpecial.length == 1 && xmlSpecial[0] == tDay) {
-                    var specialDate = new Date(result.date.valueOf());
-
-                    specialDate.setDate(specialDate.getDate() + 7);
-
-                    if (specialDate.getMonth() != tMonth) {
-                        break;          // Match
-                    }
+                if (isLastDayOfMonth(thisPage, result.date) === true) {
+                    break;
                 }
-
-                continue;       // No match... next record
+                continue;
 
             case "WEEKDAYONORAFTER":
-                // Must occur on a weekday (TODO BUG: Requires tDate to be 3 or larger.)
-                // TODO BUG: Need to improve tax day calculations. For example, Tuesday April 18 is tax day in 2017 due to a Monday holiday.
-
-                if (tMonth == xmlMonth && tDay != 0 && tDay != 6) {
-                    // Match: Normal date is on a Saturday or Sunday this year so move to Monday...
-                    if (tDay == 1 && (1 == tDate - xmlDate || 2 == tDate - xmlDate)) {
-                        break;
-                    }
-
-                    // Match: Normal date is on a weekday this year. No change...
-                    if (tDate == xmlDate) {
-                        break;
-                    }
+                if (isWeekdayOnOrAfter(thisPage, result.date) === true) {
+                    break;
                 }
+                continue;
 
+            case "NEARESTWEEKDAY":
+                if (isNearestWeekday(thisPage, result.date) === true) {
+                    break;
+                }
                 continue;
 
             case "SPECIFICYEARS":
-                // Occurs only on specific years. SPECIAL=<StartYear> <Interval> [<EndYear>]
-
-                if (xmlSpecial.length == 2 || (xmlSpecial.length == 3 && tYear <= xmlSpecial[2]) ) {
-                    if ( tYear >= xmlSpecial[0] && tMonth == xmlMonth && tDate == xmlDate) {
-                        if ((tYear - xmlSpecial[0]) % xmlSpecial[1] == 0) {
-                            break;          // Found a match...
-                        }
-                    }
+                if (isSpecificYear(thisPage, result.date) === true) {
+                    break;
                 }
-                
                 continue;
 
             case "CHRISTIAN":
-                // Special handling for Christian holidays. SPECIAL=CHRISTIAN <holiday> [<delta>]
-                if (xmlSpecial.length == 1 || xmlSpecial.length == 2) {
-                    xmlSpecial[0] = xmlSpecial[0].toUpperCase();
-
-                    if (xmlSpecial[0] == "CHRISTMAS" && tMonth == 11 && tDate === 25) {
-                            break;  // match
-                    } else if (xmlSpecial[0] == "ADVENT") {
-                        // 4th Sunday before Christmas
-                        var specialDate = new Date(tYear, tMonth, tDate);
-                        var eventDate = new Date(tYear, 11, 25);
-                        eventDate.setDate(eventDate.getDate() - ((7 - eventDate.getDay()) + 21));
-
-                        // Account for the offset by faking like we're looking for the non-offset day.
-                        if (xmlSpecial.length === 2) {
-                            specialDate.setDate(specialDate.getDate() - xmlSpecial[1]);
-                        }
-
-                        if (specialDate.valueOf() === eventDate.valueOf()) {
-                            break;      // match
-                        }
-                    } else if (xmlSpecial[0] == "EASTER") {
-                        var specialDate = new Date(tYear, tMonth, tDate);
-                        var eventDate = getEasterW ( tYear );
-
-                        if ( specialDate.valueOf() === eventDate.valueOf()) {
-                            break;      // match
-                        }
-                    }
+                if (this.isChristianDate(thisPage, result.date) === true) {
+                    break;
                 }
                 continue;
 
             case "HEBREW":
-                // Special handling for Hebrew calendar. SPECIAL = HEBREW [<delayed>]. MONTH and DAY are the Hebrew month number and day.
-                // <delayed>, if present and "true" will match Sunday if the date falls on Saturday. This is useful for Tisha B'Av.
-
-                var delayed = (xmlSpecial.length && xmlSpecial[0].toLowerCase() == "true") ? true : false;
-
-                // If target day is Saturday and delayed == true, it's never a match.
-                if (delayed && tDay != 6) {
-
-                    // Check for a natural match first...
-                    var jd = gregorianToJulian(tYear, tMonth, tDate);
-                    var hebDate = julianToHebrew(jd);
-
-                    if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
-                        break;      // Match
-                    }
-
-                    // If delayed == true and today is Sunday, check if day before was a match
-                    if (delayed == true & tDay == 0) {
-                        jd -= 1;
-                        hebDate = julianToHebrew(jd);
-
-                        if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
-                            break;      // Match
-                        }
-                    }
+            case "JEWISH":
+                if (isHebrewDate(thisPage, result.date) === true) {
+                    break;
                 }
                 continue;
 
             case "ISLAMIC":
-                // Special handling for Islamic calendar. SPECIAL = ISLAMIC. MONTH and DAY are the Islamic month number and day.
-                continue;   // TBD: Not supported yet.
+            case "MUSLIM":
+            case "HIJRI":
+                if (isHijriDate(thisPage, result.date) === true) {
+                    break;
+                }
+                continue;
 
-                var delayed = (xmlSpecial.length && xmlSpecial[0].toLowerCase() == "true") ? true : false;
+            case "SEASON":
+                if (isSeason(thisPage, result.date) === true) {
+                    break;
+                }
+                continue;
 
-                // If target day is Saturday and delayed == true, it's never a match.
-                if (delayed && tDay != 6) {
-
-                    // Check for a natural match first...
-                    var jd = gregorianToJulian(tYear, tMonth, tDate);
-                    var hebDate = julianToHebrew(jd);
-
-                    if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
-                        break;      // Match
-                    }
-
-                    // If delayed == true and today is Sunday, check if day before was a match
-                    if (delayed == true & tDay == 0) {
-                        jd -= 1;
-                        hebDate = julianToHebrew(jd);
-
-                        if (matchOrNaN(xmlYear, hebDate.yy, xmlMonth, hebDate.mm, xmlDay, hebDate.dd) {
-                            break;      // Match
-                        }
-                    }
+            case "SPAN":
+                if (isSpan(thisPage, result.date) === true) {
+                    break;
                 }
                 continue;
 
             case "FRIDAY13":
-                // Event occurs when it's Friday the 13th
-                if (tDate == 13 && tDay == 5 && matchOrNaN(xmlMonth, tMonth, xmlDate, tDate, xmlYear, tYear)) {
-                    break;              // Match
+                if (isFriday13(thisPage, result.date) === true) {
+                    break;
                 }
                 continue;
 
             case "LISTOFDATES":
-                // Event occurs on a specific list of dates. SPECIAL=<YYYY-MM-DD> <...>
-                var specialDate = this.toISOStringNoTZ( result.date );
-
-                if ( xmlSpecial.indexOf( specialDate ) !== -1 ) {
-                    break;              // Match
+                if (this.isListOfDates(thisPage, result.date) === true) {
+                    break;
                 }
-
                 continue;
-
-            case "":
-            default:
-                // Clear xmlYear for BIRTHDAY and ANNIVERSARY types...
-                if (xmlType === "BIRTHDAY" || xmlType === "ANNIVERSARY") {
-                    xmlYear = Number.NaN;
-                }
-
-                // Fall through to FIXED to check for a match...
 
             case "FIXED":
-                if ( matchOrNaN(xmlMonth, tMonth, xmlDate, tDate, xmlYear, tYear) ) {
-                    if (!isNaN (xmlYear)) {
-                        xmlAge = Number.NaN;    // If the Year is intact, clear Age -- fix-up for "FIXED" case.
-                    }
-                    break;      // Match...
+            case "":
+                /* falls through */
+            default:
+                if (isFixed(thisPage, result.date) === true) {
+                    break;
                 }
-
                 continue;
-
         }
 
         // If you get here, you have a match and should populate the result object...
-
-        thisEl = fakeDOM.getValue(thisPage, "NAME");
-
-        if ( thisEl.length !== 0 ) {
-            switch ( xmlType ) {
-                case "HOLIDAY":
-                    result.holidays.push ( thisEl );
-                    break;
-
-                case "BIRTHDAY":
-                    result.birthdays.push ( {name: thisEl, age: xmlAge} );
-                    break;
-
-                case "ANNIVERSARY":
-                    result.anniversaries.push ( {name: thisEl, age: xmlAge} );
-                    break;
-
-                case "IGNORE":
-                case "GENERAL":
-                default:
-                    break;
-            }
-        }
-
-        // Sayings and authors are singular -- first one wins.
-        if ( result.saying.length === 0 ) {
-            result.saying = fakeDOM.getValue( thisPage, "SAYING" );
-            result.sayingWeb = fakeDOM.getValue( thisPage, "WEB" );
-            result.sayingSpoken = fakeDOM.getValue( thisPage, "SPOKEN" );
-
-            if ( result.saying.length !== 0 ) {
-                result.author = fakeDOM.getValue ( thisPage, "AUTHOR");
-            }
-        }
-
-        result.isValid = true;
+        this.addToResult(thisPage, result);
 
         if (bFindAll === false) {
             break;
         }
     }
+};
+
+PAD.prototype.addToResult = function (page, result) {
+    if (page.name.length !== 0) {
+        switch (page.type) {
+            case "HOLIDAY":
+            case "EVENT":
+                result.holidays.push(page.name);
+                break;
+
+            case "BIRTHDAY":
+                result.birthdays.push({ name: page.name, age: page.age });
+                break;
+
+            case "ANNIVERSARY":
+                result.anniversaries.push({ name: page.name, age: page.age });
+                break;
+
+            case "IGNORE":
+            case "GENERAL":
+                /* falls through */
+            default:
+                break;
+        }
+    }
+
+    // Sayings and authors are singular -- first one wins.
+    if (result.saying.length === 0) {
+        result.saying = page.saying;
+        result.sayingWeb = page.web;
+        result.sayingSpoken = page.spoken;
+
+        if (result.saying.length !== 0) {
+            result.author = page.author;
+        }
+    }
+
+    result.isValid = true;
+};
+
+PAD.prototype.normalizePage = function (xmlPage, date) {
+    var page = {};
+    page.xml = xmlPage; 
+    page.type = fakeDOM.getValue(page.xml, "TYPE").toUpperCase();
+    page.name = fakeDOM.getValue(page.xml, "NAME");
+
+    // NOTE: month, date and year will be NaN if the field was blank.
+
+    // Adjust month. Data source is 1 based and Javascript 0 based
+    page.month = parseInt(fakeDOM.getValue(page.xml, "MONTH"), 10) - 1;
+
+    page.date = parseInt(fakeDOM.getValue(page.xml, "DAY"), 10);
+    page.year = parseInt(fakeDOM.getValue(page.xml, "YEAR"), 10);
+
+    page.special = fakeDOM.getValue(page.xml, "SPECIAL").toUpperCase();
+    if (page.special.length > 0) {
+        page.args = page.special.split(' ');
+        page.special = page.args.shift();
+    }
+
+    // For Birthdays and Anniversaries, determine age (and clear year) when appropriate
+    page.age = Number.NaN;
+    if (page.type === "BIRTHDAY" || page.type === "ANNIVERSARY") {
+        if (page.special !== "FIXED") {
+            page.age = date.getFullYear() - page.year;
+            page.year = Number.NaN;
+        }
+    }
+
+    page.saying = fakeDOM.getValue(page.xml, "SAYING");
+    page.author = fakeDOM.getValue(page.xml, "AUTHOR");
+    page.web = fakeDOM.getValue(page.xml, "WEB");
+    page.spoken = fakeDOM.getValue(page.xml, "SPOKEN");
+
+    return page;
+};
+
+///////////////////////////////////////////////////////
+//
+// SPECIAL Keyword parsing functions
+//
+// Terms:
+//      target date -- The date we're building a page-a-day for
+//      event date  -- The date represented in the data set.
+//      page        -- The specific data record being evaluated (TODO: change to record?)
+//
+///////////////////////////////////////////////////////
+
+//
+// isFixed
+//
+// Syntax: FIXED
+//
+// Compates the target date to a list of specific event dates in YYYY-MM-DD format
+//
+
+function isFixed (page, date) {
+    if (matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear())) {
+        return true;
+    }
+    return false;
 }
 
-PAD.prototype.getFormattedResult = function ( result, fmt ) {
+//
+// isWeekDayofMonth
+// 
+// Syntax: WEEKOFMONTH week dow [delta]
+//
+// the Nth occurrence of a specific day of week in a month.
+// Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> [<delta>]
+//
+function isWeekOfMonth (page, date) {
+    if (page.args.length === 2 || page.args.length === 3) {
+        var specialDate = new Date(date.valueOf());
+
+        // Account for the offset by faking like we're looking for the non-offset day.
+        if (page.args.length === 3) {
+            specialDate.setDate(specialDate.getDate() - parseInt(page.args[2], 10));
+        }
+
+        // Need to check month here since some deltas might move the month.
+        if (specialDate.getMonth() === page.month &&
+            parseInt(page.args[1], 10) % 7 === specialDate.getDay() &&
+            parseInt(page.args[0], 10) === Math.ceil(specialDate.getDate() / 7)) {
+            return true;  // Match
+        }
+    }
+    return false;
+}
+
+//
+// isLastDayOfMonth 
+//
+// Syntax: LASTDAYOFMONTH dow
+//
+// The last occurence of a specific day of week in the month.
+//
+
+function isLastDayOfMonth (page, date) {
+    var tMonth = date.getMonth();
+
+    if (tMonth === page.month && page.args.length === 1 && parseInt(page.args[0], 10) === date.getDay()) {
+        var specialDate = new Date(date.valueOf());
+
+        specialDate.setDate(specialDate.getDate() + 7);
+
+        if (specialDate.getMonth() !== tMonth) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//
+// isWeekdayOnOrAfter 
+//
+// Syntax: WEEKDAYONORAFTER
+//
+// Events that occur on the first weekday on or after a specified date
+//
+
+function isWeekdayOnOrAfter (page, date) {
+    // Must occur on a weekday (TODO BUG: Requires tDate to be 3 or larger.)
+    // TODO BUG: Need to improve tax day calculations. For example, Tuesday April 18 is tax day in 2017 due to a Monday holiday.
+    var tDay = date.getDay();
+    var tDate = date.getDate();
+
+    // Same month and target is not a weekend
+    if (date.getMonth() === page.month && tDay !== 0 && tDay !== 6) {
+        // Target is on a weekday. Check for a natural match
+        if (tDate === page.date) {
+            return true;
+        }
+        // If target is Monday, adjust event date and check for match
+        if (tDay === 1 && (1 === tDate - page.date || 2 === tDate - page.date)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//
+// isNearestWeekday
+//
+// Syntax: NEARESTWEEKDAY [observed] [actual | exclusive]
+//
+// Events that are observed on the nearest weekday when they fall on a weekend
+//
+
+function isNearestWeekday (page, date) {
+    var tDay = date.getDay();
+
+    // Is it a natural match?
+    if (matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear())) {
+        // Filter out natural matches when exclusive flag is used
+        if (page.args.indexOf("EXCLUSIVE") === -1) {
+            if (tDay > 0 && tDay < 6) {
+                return true;
+            } else if (page.args.indexOf("ACTUAL") !== -1) {
+                page.name += " (actual)";
+                return true;
+            }
+        }
+
+    // If target is Monday or Friday, check if moving event creates a match
+    } else if (tDay === 1 || tDay === 5) {
+        var specialDate = new Date(date.valueOf());
+
+        if (tDay === 1) {
+            specialDate.setDate(specialDate.getDate() - 1);
+        } else if (tDay === 5) {
+            specialDate.setDate(specialDate.getDate() + 1);
+        }
+        if (matchOrNaN(page.month, specialDate.getMonth(), page.date, specialDate.getDate(), page.year, specialDate.getYear())) {
+            if (page.args.indexOf("OBSERVED") !== -1) {
+                page.name += " (observed)";
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+//
+// isSpecificYear
+//
+// Syntax: SPECIFICYEARS start interval [end]
+//
+// Events that occur only on specific years
+//
+
+function isSpecificYear (page, date) {
+    var tYear = date.getFullYear();
+
+    if (page.args.length === 2 || (page.args.length === 3 && tYear <= parseInt(page.args[2], 10))) {
+        if (tYear >= parseInt(page.args[0], 10) && date.getMonth() === page.month && date.getDate() === page.date) {
+            if ((tYear - parseInt(page.args[0], 10)) % parseInt(page.args[1], 10) === 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+//
+// isChristianHoliday
+//
+// Syntax: CHRISTIAN holiday [delta]
+//
+// Dates based on Christian Holidays
+//
+
+PAD.prototype.isChristianDate = function (page, date) {
+    var delta = 0;
+    var eventDate;
+
+    switch (page.args[0]) {
+        case "CHRISTMAS":
+            eventDate = new Date(date.getFullYear(), 11, 25);
+            break;
+
+        case "ADVENT":      // 4th Sunday before Christmas
+            eventDate = new Date(date.getFullYear(), 11, 25);
+
+            if (eventDate.getDay() === 0) {
+                delta -= 7 * 4;
+            } else {
+                delta -= 7 * 3 + eventDate.getDay();
+            }
+            break;
+
+        case "EASTER":
+            eventDate = this.getEasterW(date.getFullYear());
+            break;
+    }
+
+    if (eventDate) {
+        if (page.args.length >= 2) {
+            delta += parseInt(page.args[1], 10);
+        }
+
+        eventDate.setDate(eventDate.getDate() + delta);
+
+        if (eventDate.valueOf() === date.valueOf()) {
+            return true;
+        }
+    }
+    return false;
+};
+
+//
+// isHebrewDate
+//
+// Syntax: HEBREW [delayed]
+//      Note: MONTH and DAY are interpreted as Hebrew month number and date
+//
+// Dates based on the Hebrew calendar
+//
+// IMPORTANT: 
+//      The underlying functions return the date for the nightfall before (the start of a Hebrew day)
+//      So, check for Friday instead of Saturday when determining adjustments for the delayed flag.
+//
+
+function isHebrewDate(page, date) {
+    var delayed = (page.args.length && (page.args[0].charAt(0) === "T" || page.args[0] === "DELAYED")) ? true : false;
+
+    // If it's Saturday (actually nightfall on Friday) and the delayed flag is set, there can not be a match.
+    if (delayed && date.getDay() === 5) {
+        return false;
+    }
+
+    var jd = gregorianToJulian(date.getFullYear(), date.getMonth(), date.getDate());
+    var hd = julianToHebrew(jd);
+
+    if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
+        page.name += " (at sunset)";
+        return true;
+    }
+
+    // If Today is Sunday (actually nightfall on Saturday) and the delayed flag is set, check if the day before was a match
+    if (delayed && date.getDay() === 6) {
+        hd = julianToHebrew(jd - 1);
+
+        if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
+            page.name += " (at sunset)";
+            return true;
+        }
+    }
+    return false;
+}
+
+//
+// isHijriDate
+//
+// Syntax: HIJRI
+//      Note: MONTH and DAY are interpreted as Hijri month number and date
+//
+// Dates based on the Hijri calendar
+//
+// IMPORTANT: 
+//      The underlying functions return the date for the nightfall before (the start of an Islamic day)
+//
+
+function isHijriDate (page, date) {
+    var hd = julianToIslamic(gregorianToJulian(date.getFullYear(), date.getMonth(), date.getDate()));
+
+    if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
+        page.name += " (at sunset)";
+        return true;
+    }
+    return false;
+}
+
+//
+// isSeason
+//
+// Syntax: SEASON [north | south] spring | summer | fall | winter
+//
+// Returns the first day of the specified season.
+//
+
+function isSeason (page, date) {
+    return false;       // TODO: Not implemented yet
+}
+
+//
+// isSpan
+//
+// Syntax: SPAN days
+//
+// Returns a match for any day in the range
+//
+
+function isSpan (page, date) {
+    return false;       // TODO: Not implemented yet
+}
+
+//
+// isFriday13
+//
+// Syntax: FRIDAY13
+//
+// Matches when the target date is Friday the 13th
+//
+
+function isFriday13(page, date) {
+    if (date.getDate() === 13 && date.getDay() === 5) {
+        return matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear());
+    }
+    return false;
+}
+
+//
+// isListOfDates
+//
+// Syntax: LISTOFDATES date [...]
+//
+// Compates the target date to a list of specific event dates in YYYY-MM-DD format
+//
+
+PAD.prototype.isListOfDates = function (page, date) {
+    if (page.args.indexOf(this.toISOStringNoTZ(date)) !== -1) {
+        return true;
+    }
+    return false;
+};
+
+///////////////////////////////////////////////////////
+//
+// Format result for various consumption styles
+//
+///////////////////////////////////////////////////////
+
+PAD.prototype.getFormattedResult = function (result, fmt) {
     var fmtResult = {
         title: "",
         version: "",
@@ -413,28 +657,27 @@ PAD.prototype.getFormattedResult = function ( result, fmt ) {
         author: ""
     };
 
-    if ( result.isValid ) {
+    if (result.isValid) {
         fmtResult.title = result.title;
         fmtResult.version = result.version;
-        fmtResult.date = this.getFormattedDate( result.date, fmt );
-        fmtResult.dDay = this.getFormattedDate( result.date, "DAY" );
-        fmtResult.dMonth = this.getFormattedDate( result.date, "MONTH" );
-        fmtResult.dYear = this.getFormattedDate( result.date, "YEAR" );
-        fmtResult.dDOW = this.getFormattedDate( result.date, "DOW" );
-        fmtResult.holidays = this.getFormattedHoliday ( result.holidays );
-        fmtResult.birthdays = this.getFormattedBirthday ( result.birthdays );
-        fmtResult.anniversaries = this.getFormattedAnniversary ( result.anniversaries );
-        fmtResult.saying = this.getFormattedSaying( result, fmt );
+        fmtResult.date = this.getFormattedDate(result.date, fmt);
+        fmtResult.dDay = this.getFormattedDate(result.date, "DAY");
+        fmtResult.dMonth = this.getFormattedDate(result.date, "MONTH");
+        fmtResult.dYear = this.getFormattedDate(result.date, "YEAR");
+        fmtResult.dDOW = this.getFormattedDate(result.date, "DOW");
+        fmtResult.holidays = this.getFormattedHoliday(result.holidays);
+        fmtResult.birthdays = this.getFormattedBirthday(result.birthdays);
+        fmtResult.anniversaries = this.getFormattedAnniversary(result.anniversaries);
+        fmtResult.saying = this.getFormattedSaying(result, fmt);
         fmtResult.author = "- " + result.author;
     }
     return fmtResult;
-}
-
-PAD.prototype.getFormattedSaying = function ( result, fmt ) {
+};
+PAD.prototype.getFormattedSaying = function (result, fmt) {
     var s = "";
 
-    if ( result && result.isValid ) {
-        switch ( fmt ) {
+    if (result && result.isValid) {
+        switch (fmt) {
             case "SPOKEN":
                 s = result.sayingSpoken;
                 break;
@@ -444,12 +687,12 @@ PAD.prototype.getFormattedSaying = function ( result, fmt ) {
                 break;
         }
 
-        if ( s.length === 0 ) {
+        if (s.length === 0) {
             s = result.saying;
         }
 
-        if ( fmt !== "WEB" && result.saying.length > 0 ) {
-            if ( result.author.length > 0 ) {
+        if (fmt !== "WEB" && result.saying.length > 0) {
+            if (result.author.length > 0) {
                 s = "As " + result.author + " says..." + s + ".";
             } else {
                 s = s + ".";
@@ -457,14 +700,14 @@ PAD.prototype.getFormattedSaying = function ( result, fmt ) {
         }
     }
     return s;
-}
+};
 
-PAD.prototype.getFormattedDate = function ( d, fmt ) {
+PAD.prototype.getFormattedDate = function (d, fmt) {
     var dowNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var s = "";
 
-    switch ( fmt ) {
+    switch (fmt) {
         // For CSV, output as "YEAR,MONTH,DAY,MONTH-NAME,DAY-OF-WEEK"
         // Example: "2017,5,12,May,Friday"
         case "CSV":
@@ -476,9 +719,9 @@ PAD.prototype.getFormattedDate = function ( d, fmt ) {
         case "SPOKEN":
             var today = new Date();
 
-            s = dowNames[d.getDate()] + " " + monthNames[d.getMonth()] + " " + this.getFormattedOrdinal( d.getDate() );
+            s = dowNames[d.getDate()] + " " + monthNames[d.getMonth()] + " " + this.getFormattedOrdinal(d.getDate());
 
-            if ( today.getFullYear() !== d.getFullYear() ) {
+            if (today.getFullYear() !== d.getFullYear()) {
                 s += " " + d.getFullYear();
             }
             break;
@@ -500,19 +743,20 @@ PAD.prototype.getFormattedDate = function ( d, fmt ) {
             break;
 
         case "WEB":
+            /* falls through */
         default:
             s = dowNames[d.getDay()] + ", " + monthNames[d.getMonth()] + d.getDate() + ", " + d.getFullYear();
             break;
     }
-    return s ;
-}
+    return s;
+};
 
-PAD.prototype.getFormattedHoliday = function ( holidays ) {
+PAD.prototype.getFormattedHoliday = function (holidays) {
     var s = "";
 
-    if ( holidays.length ) {
-        while ( holidays.length ) {
-            if ( s.length > 0 ) {
+    if (holidays.length) {
+        while (holidays.length) {
+            if (s.length > 0) {
                 s += ", and ";
             }
             s += holidays.shift();
@@ -520,9 +764,9 @@ PAD.prototype.getFormattedHoliday = function ( holidays ) {
         s = "It's " + s + ".";
     }
     return s;
-}
+};
 
-PAD.prototype.getFormattedAnniversary = function ( anniversaries ) {
+PAD.prototype.getFormattedAnniversary = function (anniversaries) {
     // Sample output:
     // One name:
     //     "Joe and Sally are celebrating their 30th anniversary today."
@@ -533,9 +777,9 @@ PAD.prototype.getFormattedAnniversary = function ( anniversaries ) {
 
     var s = "";
 
-    if ( anniversaries.length ) {
-        while ( anniversaries.length ) {
-            if ( s.length > 0 ) {
+    if (anniversaries.length) {
+        while (anniversaries.length) {
+            if (s.length > 0) {
                 s += ", and ";
             }
 
@@ -543,19 +787,19 @@ PAD.prototype.getFormattedAnniversary = function ( anniversaries ) {
 
             s += anniversary.name;
 
-            if ( isNaN( anniversary.age ) ) {
-                s += " are having an anniversary today"
+            if (isNaN(anniversary.age)) {
+                s += " are having an anniversary today";
             } else {
-                s += " are celebrating their " + this.getFormattedOrdinal( anniversary.age ) + " anniversary today";
+                s += " are celebrating their " + this.getFormattedOrdinal(anniversary.age) + " anniversary today";
             }
 
         }
         s += ".";
     }
     return s;
-}
+};
 
-PAD.prototype.getFormattedBirthday = function ( birthdays ) {
+PAD.prototype.getFormattedBirthday = function (birthdays) {
     // Sample output:
     // One name:
     //     "Joe is having a birthday today."
@@ -568,82 +812,84 @@ PAD.prototype.getFormattedBirthday = function ( birthdays ) {
     var s = "";
     var postfix = "";
 
-    if ( birthdays.length === 1) {
+    if (birthdays.length === 1) {
         s = birthdays[0].name;
 
-        if ( isNaN(birthdays[0].age) ) {
-            s += " is having a birthday today."
+        if (isNaN(birthdays[0].age)) {
+            s += " is having a birthday today.";
         } else {
             s += " is turning " + birthdays[0].age + " today.";
         }
-    } else if ( birthdays.length !== 0 ){
-        while ( birthdays.length ) {
-            if ( s.length > 0 ) {
-                if ( birthdays.length > 1) {
+    } else if (birthdays.length !== 0) {
+        while (birthdays.length) {
+            if (s.length > 0) {
+                if (birthdays.length > 1) {
                     s += ", ";
                 } else {
                     s += " and ";
                 }
             }
-            
+
             var birthday = birthdays.shift();
 
             s += birthday.name;
 
-            if ( !isNaN ( birthday.age ) ) {
-                postfix += "It's " + birthday.name + "'s " + this.getFormattedOrdinal (birthday.age) + ". " ;
+            if (!isNaN(birthday.age)) {
+                postfix += "It's " + birthday.name + "'s " + this.getFormattedOrdinal(birthday.age) + ". ";
             }
         }
         s += " are having birthday's today. " + postfix;
     }
 
     return s;
-}
+};
 
-PAD.prototype.getFormattedOrdinal = function ( n ) {
+PAD.prototype.getFormattedOrdinal = function (n) {
 
     var ORDINAL_AGE = [
-    '0th',
-    '1st',
-    '2nd',
-    '3rd',
-    '4th',
-    '5th',
-    '6th',
-    '7th',
-    '8th',
-    '9th',
-    '10th',
-    '11th',
-    '12th',
-    '13th',
-    '14th',
-    '15th',
-    '16th',
-    '17th',
-    '18th',
-    '19th'
+        '0th',
+        '1st',
+        '2nd',
+        '3rd',
+        '4th',
+        '5th',
+        '6th',
+        '7th',
+        '8th',
+        '9th',
+        '10th',
+        '11th',
+        '12th',
+        '13th',
+        '14th',
+        '15th',
+        '16th',
+        '17th',
+        '18th',
+        '19th'
     ];
 
     //return (n >= 20) ? return Math.floor ( n / 10 ).toString + ORIGINAL_AGE[ Math.floor ( n % 10 )] : ORIGINAL_AGE[n];
     var s = "";
 
-    if ( n >= 20 ) {
-        s = Math.floor ( n / 10 ).toString();
-        n = Math.floor ( n % 10 );
+    if (n >= 20) {
+        s = Math.floor(n / 10).toString();
+        n = Math.floor(n % 10);
     }
 
     return s + ORDINAL_AGE[n];
-}
+};
 
+//
 // Pass in comparison pairs. Returns true if, for each pair, if first is NaN or if the numbers match
-// TODO: Research if there is a more natural way to handle this...
+//
+
 function matchOrNaN() {
-    if (arguments.length % 2 != 0) {        // Even number of arguments is required
+    if (arguments.length % 2 !== 0) {        // Even number of arguments is required
         return false;
     }
     for (var i = 0; i < arguments.length; i += 2) {
-        if (!isNaN(arguments[i]) && arguments[i] != arguments[i + 1]) {
+        if (!isNaN(arguments[i]) && parseInt(arguments[i], 10) !== parseInt(arguments[i + 1], 10)) {
             return false;
         }
     }
@@ -654,42 +900,42 @@ function matchOrNaN() {
 
 // Internal support functions
 
-function getEasterW ( year ) {
+PAD.prototype.getEasterW = function (year) {
     // Calculates Western Easter
-    // Adapted rom https://en.wikipedia.org/wiki/Computus#Algorithms
+    // Adapted from https://en.wikipedia.org/wiki/Computus#Algorithms
 
-    var a, b, c, d, e;
+    var a, b, c;
     var rMonth, rDate;
 
     // Dates before 1900 and after 2299 are not supported...
-    if      ( year < 1900 ) { year = 1900; } 
-    else if ( year > 2299 ) { year = 2299; }
+    if (year < 1900) { year = 1900; }
+    else if (year > 2299) { year = 2299; }
 
     a = year % 19;
 
-    if ( year < 2200 ) {
+    if (year < 2200) {
         b = (11 * a + 5) % 30;
     } else {
-        b = ( 11 * a + 4) % 30;
+        b = (11 * a + 4) % 30;
     }
 
-    if ( b === 0 || (b === 1 && a > 10)) {
+    if (b === 0 || (b === 1 && a > 10)) {
         c = b + 1;
     } else {
         c = b;
     }
-    if ( c >= 1 && c <= 19 ) {
+    if (c >= 1 && c <= 19) {
         rMonth = 3;  // April
     } else /* if ( c >= 20 && c <= 29 ) */ {
         rMonth = 2;  // March
     }
     rDate = (50 - c) % 31;
 
-    var result = new Date(year, rMonth, rDate);
-    result.setDate(result.getDate() + (7 - result.getDay()));     // Align to next Sunday (even if it falls on a Sunday)
+    var result = new Date(year, rMonth, rDate);                     // Creates Date at midnight local time (no need to normalize)
+    result.setDate(result.getDate() + (7 - result.getDay()));       // Align to next Sunday (even if it falls on a Sunday)
 
     return result;
-}
+};
 
 // Various Calendar system conversion functions
 // Adapted from http://www.math.harvard.edu/computing/javascript/Calendar/
@@ -704,7 +950,7 @@ function calMod(a, b) {
 //  AMOD  --  Modulus function which returns numerator if modulus is zero
 
 function calAmod(a, b) {
-    return mod(a - 1, b) + 1;
+    return calMod(a - 1, b) + 1;
 }
 
 //  Julian / Gregorian Conversion ===================
@@ -714,15 +960,15 @@ function calAmod(a, b) {
 
 function gregorianIsLeap(year) {
     // Copied from https://stackoverflow.com/questions/3220163/how-to-find-leap-year-programatically-in-c/11595914#11595914
-    return (year & 3) == 0 && ((year % 25) != 0 || (year & 15) == 0);
+    return (year & 3) === 0 && ((year % 25) !== 0 || (year & 15) === 0);
 }
 
 // Convert Gregorian year, month (0-based), day to Julian Date
 function gregorianToJulian(year, month, day) {
-    month += 1;             // Convert to 1-based month
-    yminus = year - 1;      // Simplify calculations below
-    return 1721424.5 + (365 * yminus) + Math.floor(yminus / 4) - Math.floor(yminus / 100) + Math.floor(yminus / 400)
-         + Math.floor((((367 * month) - 362) / 12) + ((month <= 2) ? 0 :(leap_gregorian(year) ? -1 : -2)) + day);
+    month += 1;                 // Convert to 1-based month
+    var yminus = year - 1;      // Simplify calculations below
+    return 1721424.5 + (365 * yminus) + Math.floor(yminus / 4) - Math.floor(yminus / 100) + Math.floor(yminus / 400) +
+         Math.floor((((367 * month) - 362) / 12) + ((month <= 2) ? 0 :(gregorianIsLeap(year) ? -1 : -2)) + day);
 }
 
 // Convert Julian date to Javascript Date (Gregorian).
@@ -730,19 +976,19 @@ function julianToGregorian(jd) {
     var wjd = Math.floor(jd - 0.5) + 0.5;           // Always align to 0.5 (Julian days start at noon)
     var depoch = wjd - 1721425.5;                   // Delta from GREGORIAN_EPOCH
     var quadricent = Math.floor(depoch / 146097);
-    var dqc = mod(depoch, 146097);
+    var dqc = calMod(depoch, 146097);
     var cent = Math.floor(dqc / 36524);
-    var dcent = mod(dqc, 36524);
+    var dcent = calMod(dqc, 36524);
     var quad = Math.floor(dcent / 1461);
-    var dquad = mod(dcent, 1461);
+    var dquad = calMod(dcent, 1461);
     var yindex = Math.floor(dquad / 365);
     var year = (quadricent * 400) + (cent * 100) + (quad * 4) + yindex;
 
-    if (!((cent == 4) || (yindex == 4))) {
+    if (!((cent === 4) || (yindex === 4))) {
         year++;
     }
 
-    // Let JS do the math for the month and day... 
+    // Let JS do the math for the month and date... 
     return new Date(year, 0, wjd - gregorianToJulian(year, 0, 1));
 }
 
@@ -754,8 +1000,8 @@ function hebrewIsLeap(year) {
     return calMod(((year * 7) + 1), 19) < 7;
 }
 
-function hebrewyearMonths(year) {
-    return hewbrewIsLeap(year) ? 13 : 12;
+function hebrewYearMonths(year) {
+    return hebrewIsLeap(year) ? 13 : 12;
 }
 
 //  Test for delay of start of new year and to avoid
@@ -779,13 +1025,13 @@ function hebrewDelay2(year) {
     var present = hebrewDelay1(year);
     var next = hebrewDelay1(year + 1);
 
-    return ((next - present) == 356) ? 2 : (((present - last) == 382) ? 1 : 0);
+    return ((next - present) === 356) ? 2 : (((present - last) === 382) ? 1 : 0);
 }
 
 //  How many days are in a Hebrew year ?
 
 function hebrewYearDays(year) {
-    return hebrewToJulian(year + 1, 7, 1) - hebrewtoJulian(year, 7, 1);
+    return hebrewToJulian(year + 1, 7, 1) - hebrewToJulian(year, 7, 1);
 }
 
 //  How many days are in a given month of a given year
@@ -793,26 +1039,25 @@ function hebrewYearDays(year) {
 function hebrewMonthDays(year, month) {
     //  First of all, dispose of fixed-length 29 day months
 
-    if (month == 2 || month == 4 || month == 6 ||
-        month == 10 || month == 13) {
+    if (month === 2 || month === 4 || month === 6 || month === 10 || month === 13) {
         return 29;
     }
 
     //  If it's not a leap year, Adar has 29 days
 
-    if (month == 12 && !hebrewIsLeap(year)) {
+    if (month === 12 && !hebrewIsLeap(year)) {
         return 29;
     }
 
     //  If it's Heshvan, days depend on length of year
 
-    if (month == 8 && !(calMod(hebrewYearDays(year), 10) == 5)) {
+    if (month === 8 && calMod(hebrewYearDays(year), 10) !== 5) {
         return 29;
     }
 
     //  Similarly, Kislev varies with the length of year
 
-    if (month == 9 && (calMod(hebrewYearDays(year), 10) == 3)) {
+    if (month === 9 && (calMod(hebrewYearDays(year), 10) === 3)) {
         return 29;
     }
 
@@ -827,9 +1072,9 @@ function hebrewMonthDays(year, month) {
 function hebrewToJulian(year, month, day) {
     var months = hebrewYearMonths(year);
     var jd = HEBREW_EPOCH + hebrewDelay1(year) + hebrewDelay2(year) + day + 1;
+    var mon;
 
     if (month < 7) {
-        var mon;
         for (mon = 7; mon <= months; mon++) {
             jd += hebrewMonthDays(year, mon);
         }
@@ -847,7 +1092,9 @@ function hebrewToJulian(year, month, day) {
 
 // Convert Julian Date to Hebrew Date. (Note: This is an expensive function)
 function julianToHebrew(jd) {
-    var jd = Math.floor(jd) + 0.5;
+    jd = Math.floor(jd) + 0.5;
+    jd += 1;                // Hebrew days begin at nightfall on the day before. Adjust forward to match event date (described as the day)
+
     var count = Math.floor(((jd - HEBREW_EPOCH) * 98496.0) / 35975351.0);
     var year = count - 1;
     for (var i = count; jd >= hebrewToJulian(i, 7, 1); i++) {
@@ -863,10 +1110,41 @@ function julianToHebrew(jd) {
 
     return {
         yy: year,
-        mm: month,
+        mm: month - 1,              // Convert to 0-based for Javascript
         dd: day
     };
 }
+
+// Julian / Islamic Conversion ===================
+var ISLAMIC_EPOCH = 1948439.5;
+
+function islamicIsLeap(year){
+    return (((year * 11) + 14) % 30) < 11;
+}
+
+// Convert Islamic date to Julian
+function islamicToJulian(year, month, day) {
+    return (day + Math.ceil(29.5 * (month - 1)) + (year - 1) * 354 +
+            Math.floor((3 + (11 * year)) / 30) + ISLAMIC_EPOCH) - 1;
+}
+
+// Convert Julian date to Islamic
+function julianToIslamic(jd) {
+    var year, month, day;
+
+    jd = Math.floor(jd) + 0.5;
+    jd += 1;                // Islamic days begin at nightfall on the day before. Adjust forward to match event date (described as the day)
+
+    year = Math.floor(((30 * (jd - ISLAMIC_EPOCH)) + 10646) / 10631);
+    month = Math.min(12, Math.ceil((jd - (29 + islamicToJulian(year, 1, 1))) / 29.5) + 1);
+    day = (jd - islamicToJulian(year, month, 1)) + 1;
+    return {
+        yy: year,
+        mm: month - 1,              // Convert to 0-based for Javascript
+        dd: day
+    };
+}
+
 
 //
 // extremely cheap XML searching functions. 
@@ -879,7 +1157,7 @@ var fakeDOM = (function () {
             var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">([\\\s\\\S]*?)<\/" + "(?:.*:)?" + tagname + ">", "im" );
 
             var result = myRe.exec ( data );
-            return result === null ? "" : result[1];
+            return (result === null) ? "" : result[1];
         },
         getValueArray: function (data, tagname) {
             var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">[\\\s\\\S]*?<\/" + "(?:.*:)?" + tagname + ">", "img" );

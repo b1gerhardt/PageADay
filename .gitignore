@@ -241,3 +241,7 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /PageADay/{3F752EDF-976A-47B3-9450-36FEA241964D}
+/dataSamples/christian.xml
+/dataSamples/hebrew.xml
+/dataSamples/muslim.xml
+/dataSamples/test.xml

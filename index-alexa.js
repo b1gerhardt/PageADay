@@ -60,8 +60,8 @@ const https          = require( 'https' );
 const AlexaSkill     = require( './alexaskill' );
 const PAD            = require( './pageaday' );
 const xmlURL         = 'https://www.pageaday.org/pageadaydatav5.xml';
-const tzFudge_ms     = ( -8 * 60 * 60 * 1000 );
-const dayFudge_ms    = ( 24 * 60 * 60 * 1000 );
+const tzFudge_ms     = -8 * 60 * 60 * 1000;
+const dayFudge_ms    = 24 * 60 * 60 * 1000;
 var MyPAD = new PAD( "" );
 
 /**
@@ -177,7 +177,7 @@ function handlePageADayRequest( intent, session, response ) {
     var genericText = "";
     var date = "";
 
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0" // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
 
     // If the user provides a date, then use that, otherwise use today.
     // Hack: Added a custom slot to capture relative date utterances (today, tomorrow, yesterday). Without it, Alexa converts "today" 
@@ -240,46 +240,6 @@ function handlePageADayRequest( intent, session, response ) {
                 speechText += "<p> " + formattedResult.saying + "</p> ";
                 cardContent += formattedResult.saying + ". ";
             }
-
-
-
-            -------------------------------------------
-
-
-
-            var formattedDate = MyPAD.getFormattedDate( result.date, "SPEECH" );
-
-            var speechText = "<p>" + result.title + " Page-A-Day for " + formattedDate + "</p>";
-            var cardTitle = result.title + " Page-A-Day";
-            var cardContent = formattedDate + ". ";
-        
-            if ( result.holidays.length > 0 ) {
-                genericText = MyPAD.getFormattedHoliday( result.holidays );
-                speechText += "<p> " + genericText + "</p> ";
-                cardContent += genericText + ". ";
-            }
-            if ( result.anniversaries.length > 0 ) {
-                genericText = MyPAD.getFormattedAnniversary( result.anniversaries );
-                speechText += "<p> " + genericText + "</p> ";
-                cardContent += genericText + " ";
-            }
-            if ( result.birthdays.length > 0 ) {
-                genericText = MyPAD.getFormattedBirthday( result.birthdays );
-                speechText += "<p> " + genericText + "</p> ";
-                cardContent += genericText + " ";
-            }
-            if ( result.saying.length > 0 ) {
-                if ( result.author.length > 0 ) {
-                    genericText = "As " + result.author + " says..." + result.saying + ".";
-                } else {
-                    genericText = result.saying + ".";
-                }
-                speechText += "<p>" + genericText + "</p> ";
-                cardContent += genericText + " ";
-            }
-
-
-            -------------------------------------------------------------
 
             var speechOutput = {
                 speech: "<speak>" + speechText + "</speak>",

@@ -11,7 +11,7 @@ var MyPAD = new PAD( "" );
 var xmlSource = 'pageadaydatav5.xml';
 
 // Pre-load images for better response...
-for ( var i = 1 ; i <= 12 ; i++ ) {
+for ( var i = 1; i <= 12; i++ ) {
     var image = new Image();
     image.src = "./artassets/medium-" + i + ".png";
 }
@@ -21,7 +21,7 @@ function PADWebInit() {
     PADWebLoadXML( xmlSource );
 
     // Initialize to today for first page load
-    var s = MyPAD.toISOStringNoTZ( new Date( Date.now() ) );
+    var s = toISOStringNoTZ( new Date( Date.now() ) );
 
     document.forms[0]["nameStartDate"].value = s;
     document.forms[0]["nameEndDate"].value = s;
@@ -51,12 +51,12 @@ function PADWebDataReady( xml ) {
 }
 
 function PADWebProcessForm( command ) {
-    var startDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
-    var endDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
+    var startDate = getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
+    var endDate = getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
 
     switch ( command ) {
         case "Today":
-            startDate = MyPAD.getDateNoTZ( new Date (MyPAD.toISOStringNoTZ( new Date ( Date.now() ) ) ) );
+            startDate = getDateNoTZ( new Date (toISOStringNoTZ( new Date ( Date.now() ) ) ) );
             break;
 
         case "Previous":
@@ -80,8 +80,8 @@ function PADWebProcessForm( command ) {
     }
 
     // Update Form...
-    document.forms[0]["nameStartDate"].value = MyPAD.toISOStringNoTZ( startDate );
-    document.forms[0]["nameEndDate"  ].value = MyPAD.toISOStringNoTZ( endDate   );
+    document.forms[0]["nameStartDate"].value = toISOStringNoTZ( startDate );
+    document.forms[0]["nameEndDate"  ].value = toISOStringNoTZ( endDate   );
 
     var result = MyPAD.getQuote( startDate );
 
@@ -117,9 +117,10 @@ function PADWebProcessForm( command ) {
 function PADWebDoExport() {
     return;     // TODO: Add a frame for the export. Hide web view. Use <li> for each
 
+    /*
     // Ensure we get the date in local time as the user sees it.
-    var startDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
-    var endDate = MyPAD.getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
+    var startDate = getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
+    var endDate = getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
     var s = "";
 
     // Always do at least the first date (even if the second date is earlier)
@@ -143,4 +144,5 @@ function PADWebDoExport() {
 
     document.getElementById( "PADExport" ).innerHTML = s;
 
+    */
 }
