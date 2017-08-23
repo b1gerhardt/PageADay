@@ -21,7 +21,7 @@ function PADWebInit() {
     PADWebLoadXML( xmlSource );
 
     // Initialize to today for first page load
-    var s = toISOStringNoTZ( new Date( Date.now() ) );
+    var s = (new Date( )).toISOString().substr(0,10);
 
     document.forms[0]["nameStartDate"].value = s;
     document.forms[0]["nameEndDate"].value = s;
@@ -50,13 +50,13 @@ function PADWebDataReady( xml ) {
     PADWebProcessForm( "StartDate" );
 }
 
-function PADWebProcessForm( command ) {
-    var startDate = getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
-    var endDate = getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
+function PADWebProcessForm(command) {
+    var startDate = new Date( document.forms[0]["nameStartDate"].value );
+    var endDate = new Date( document.forms[0]["nameEndDate"].value );
 
     switch ( command ) {
         case "Today":
-            startDate = getDateNoTZ( new Date (toISOStringNoTZ( new Date ( Date.now() ) ) ) );
+            startDate = new Date();
             break;
 
         case "Previous":
@@ -80,10 +80,10 @@ function PADWebProcessForm( command ) {
     }
 
     // Update Form...
-    document.forms[0]["nameStartDate"].value = toISOStringNoTZ( startDate );
-    document.forms[0]["nameEndDate"  ].value = toISOStringNoTZ( endDate   );
+    document.forms[0]["nameStartDate"].value = startDate.toISOString().substr(0, 10);
+    document.forms[0]["nameEndDate"].value = endDate.toISOString().substr(0, 10);
 
-    var result = MyPAD.getQuote( startDate );
+    var result = MyPAD.generatePage( startDate.toISOString() );
 
     //document.getElementById( "PADExport" ).innerHTML = ""; // Clear export (TODO: clean up presentation)
 
@@ -100,12 +100,12 @@ function PADWebProcessForm( command ) {
     } else {
         var fmtResult = MyPAD.getFormattedResult( result, "WEB" );
 
-        document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( Number( result.date.getMonth() ) + 1 ) + ".png";
+        document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( Number( result.ymd.mm ) + 1 ) + ".png";
 
         document.getElementById( "PADVersion" ).innerHTML = fmtResult.title + " version " + fmtResult.version;
-        document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.dMonth + " " + fmtResult.dYear;
-        document.getElementById( "PADDay" ).innerHTML = fmtResult.dDay;
-        document.getElementById( "PADDOW" ).innerHTML = fmtResult.dDOW;
+        document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.ymd.mm + " " + fmtResult.ymd.yy;
+        document.getElementById( "PADDay" ).innerHTML = fmtResult.ymd.dd;
+        document.getElementById( "PADDOW" ).innerHTML = fmtResult.ymd.dow;
         document.getElementById( "PADSaying" ).innerHTML = fmtResult.saying;
         document.getElementById( "PADAuthor" ).innerHTML = fmtResult.author;
         document.getElementById( "PADHoliday" ).innerHTML = fmtResult.holidays;
@@ -115,19 +115,16 @@ function PADWebProcessForm( command ) {
 }
 
 function PADWebDoExport() {
-    return;     // TODO: Add a frame for the export. Hide web view. Use <li> for each
-
-    /*
     // Ensure we get the date in local time as the user sees it.
-    var startDate = getDateNoTZ( new Date( document.forms[0]["nameStartDate"].value ) );
-    var endDate = getDateNoTZ( new Date( document.forms[0]["nameEndDate"].value ) );
+    var startDate = document.forms[0]["nameStartDate"].value;
+    var endDate = document.forms[0]["nameEndDate"].value;
     var s = "";
 
     // Always do at least the first date (even if the second date is earlier)
     do {
-        var result = MyPAD.getQuote( startDate );
+        var result = MyPAD.generatePage( startDate );
 
-        if ( result.isValid == true ) {
+        if ( result.isValid === true ) {
             var fmtResult = MyPAD.getFormattedResult( result, "CSV" );
             // The CSV format is as follows: YEAR, MONTH, DAY, MONTH-NAME, DAY-OF-WEEK, HOLIDAYS, ANNIVERSARIES, BIRTHDAYS, SAYING, AUTHOR
             s += fmtResult.date + ",";
@@ -143,6 +140,4 @@ function PADWebDoExport() {
     } while ( startDate <= endDate );
 
     document.getElementById( "PADExport" ).innerHTML = s;
-
-    */
 }

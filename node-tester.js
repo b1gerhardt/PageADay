@@ -30,7 +30,7 @@
 const fs = require('fs');
 const repl = require('repl');
 const PAD = require('./pageaday');
-const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/hebrew.xml";
+const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/test.xml";
 
 // Node.JS debug variables
 var timer1 = "ElapsedTime";
@@ -41,7 +41,7 @@ var days = 1;
 
 console.log("Running...");
 
-var findOnly = "";
+var findOnly = "at sunset";
 var showFullPage = false;
 var startDate = "2007-01-01";
 var endDate = "2027-12-31";
@@ -52,11 +52,11 @@ MyPAD.initData(fs.readFileSync(xmlFullPath, { encoding: 'utf8' }));
 
 console.time(timer1);
 
-var dStart = MyPAD.getDateNoTZ(new Date(startDate));
-var dEnd = MyPAD.getDateNoTZ(new Date(endDate));
+var dStart = new Date(startDate);
+var dEnd = new Date(endDate);
 
 for ( ; dStart <= dEnd; dStart.setDate(dStart.getDate() + 1)) {
-    var result = MyPAD.getQuote(dStart);
+    var result = MyPAD.generatePage(dStart.toISOString());
 
     if (result.isValid === true) {
         var fmt = MyPAD.getFormattedResult(result, "WEB");
@@ -66,14 +66,14 @@ for ( ; dStart <= dEnd; dStart.setDate(dStart.getDate() + 1)) {
         }
 
         if (showFullPage) {
-            console.log(fmt.dDOW + ", " + fmt.dMonth + " " + fmt.dDay + ", " + fmt.dYear + "\r");
+            console.log(fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy + "\r");
             console.log("    Saying: " + fmt.saying + "\r");
             console.log("    Author: " + fmt.author + "\r");
             console.log("    Holidays: " + fmt.holidays + "\r");
             console.log("    Birthdays: " + fmt.birthdays + "\r");
             console.log("    Anniversaries: " + fmt.anniversaries + "\r");
         } else {
-            console.log(result.date.toISOString().substr(0, 10) + ": " + fmt.dDOW + ", " + fmt.dMonth + " " + fmt.dDay + ", " + fmt.dYear + ": " + fmt.holidays + "\r");
+            console.log((new Date(result.ymd.yy, result.ymd.mm, result.ymd.dd)).toISOString().substr(0, 10) + ": " + fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy + ": " + fmt.holidays + "\r");
         }
     }
 }
@@ -128,18 +128,18 @@ replServer.defineCommand('PADdate', {
     help: "Set the start date using yyyy-mm-dd format",
     action: function (start) {
         if (!start) {
-            start = MyPAD.toISOStringNoTZ(new Date(Date.now()));
+            start = (new Date()).toISOString();
         }
         if (days <= 0) {
             days = 1;
         }
         console.log ("Generating Page-A-Day starting at " + start + " and continuing for " + days + " day(s).\n");
         //this.write(`Generating Page-A-Day starting at ${start} and continuing for ${days} day(s).\n`);
-        var startDate = MyPAD.getDateNoTZ(new Date(start));
+        var startDate = new Date(start);
         var count = days;
 
         do {
-            var result = MyPAD.getQuote(startDate);
+            var result = MyPAD.generatePage(startDate.toISOString());
 
             if (result.isValid === true) {
                 var fmt = MyPAD.getFormattedResult(result, "WEB");
@@ -149,7 +149,7 @@ replServer.defineCommand('PADdate', {
                     continue;
                 }
 
-                console.log(fmt.dDOW + ", " + fmt.dMonth + " " + fmt.dDay + ", " + fmt.dYear);
+                console.log(fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy);
                 console.log("    Saying: " + fmt.saying);
                 console.log("    Author: " + fmt.author);
                 console.log("    Holidays: " + fmt.holidays);
@@ -171,3 +171,21 @@ replServer.defineCommand('PADdate', {
         this.displayPrompt();
     }
 });
+
+/*
+
+Unit tests needed:
+
+DATE MATCHING (years 2000 - 2030)
+1. Easter
+2. Hebrew holidays
+3. Islamic holidays
+4. Tax Day
+5. One for each type of SPECIAL
+
+OUTPUT FORMAT
+
+Birthdays and Anniversaries:
+1. Birthday with birth year
+2. B
+*/

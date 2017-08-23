@@ -44,6 +44,7 @@ PAD.prototype.initData = function (data) {
         this.xml.title = fakeDOM.getValue(data, "TITLE");
         this.xml.version = fakeDOM.getValue(data, "VERSION");
         this.xml.pages = fakeDOM.getValueArray(data, "PAGE");
+        this.xml.normalized = [];       // Cache for parsed pages
     }
 
     return this.xml;
@@ -52,48 +53,76 @@ PAD.prototype.initData = function (data) {
 //
 // PAD.initResult -- Initialize result data while preserving XML data
 //
+// Input is an ISO-type YYYY-MM-DD string containing the target date
 // This function initializes the result object. This is done at the start of each call to PAD.getQuote
 //
 
-PAD.prototype.initResult = function (d) {
+PAD.prototype.initResult = function (ymdISO) {
     this.result = {
         isValid: false,
         title: "",
         version: "",
-        date: undefined,
-        holidays: [],      // string
-        birthdays: [],     // name: string, age: number
-        anniversaries: [], // name: string, age: number
+        ymd: { yy: 2017, mm: 0, dd: 1, dow: 0 },
+        holidays: [],       // string
+        birthdays: [],      // name: string, age: number
+        anniversaries: [],  // name: string, age: number
         saying: "",
         author: "",
         sayingWeb: "",
         sayingSpoken: ""
     };
-    this.result.date = d || new Date(Date.now());
 
-    return this.result;
+    // Normalize date and convert to internal format
+    //     1. Passed date format is an ISO-type string in YYYY-MM-DD format. The time portion is ignored.
+    //     2. If no date is passed, get the current local time and construct an equivalent YYYY-MM-DD.
+    //
+    // NOTE: This code is not always run in the user's local time. It is best to always initialize with a specific 
+    // target date to ensure TZ doesn't affect your output.
+    //
+    var d;
+    if (ymdISO) {
+        d = new Date(ymdISO.substr(0, 10));                             // Get just YYYY-MM-DD portion (could be from different TZ)
+        d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);     // Add in local TZ so JS date functions work correctly
+    } else {
+        d = new Date();
+    }
+
+    this.result.ymd.yy = d.getFullYear();
+    this.result.ymd.mm = d.getMonth();
+    this.result.ymd.dd = d.getDate();
+    this.result.ymd.dow = d.getDay();
+
+    return this.result
 };
 
-// NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
-// These helper functions are used to make working in the local time zone easier
+//// NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
+//// These helper functions are used to make working in the local time zone easier
 
-// Return an ISO-like string using local time instead of GMT. Truncate to just the date.
-PAD.prototype.toISOStringNoTZ = function(d) {
-    var noTZ = new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
+//// Return an ISO-like string using local time instead of GMT. Truncate to just the date.
+//PAD.prototype.toISOStringNoTZ = function(d) {
+//    var noTZ = new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
 
-    return noTZ.toISOString().substr(0, 10);
-};
+//    return noTZ.toISOString().substr(0, 10);
+//};
 
-// Set GMT to be midnight on the local time day (simplifies date handling so everything is GMT)
-PAD.prototype.getDateNoTZ = function (d) {
-    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-    return d;
-};
+//// Set GMT to be midnight on the local time day (simplifies date handling so everything is GMT)
+//PAD.prototype.getDateNoTZ = function (d) {
+//    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+//    return d;
+//};
 
-PAD.prototype.getQuote = function (d) {
+//
+// PAD.createResult -- Populate PAD.result with date for the target date (in ISO YYYY-MM-DD string format)
+//
+// Notes
+// 1. PAD object must be initialized and data loaded (see PAD.initData()
+// 2. Destroys existing PAD.result
+// 3. Returns a reference to PAD.result for formatting or further processing.
+//
+
+PAD.prototype.generatePage = function (ymdISO) {
     var data = this.xml;
-    //var data   = this.xmlRaw;
-    var result = this.initResult(d);
+    var result = this.initResult(ymdISO);
 
     // basic sanity checks...
     if (!data || !data.isValid) {
@@ -102,32 +131,51 @@ PAD.prototype.getQuote = function (d) {
         result.title = data.title;
         result.version = data.version;
 
-        // XML schema allows for HOLIDAYS, BIRTHDAYS, ANNIVERSARIES and GENERAL dates to be in separate sections
-        // Since we're using a simplified, Fake DOM, we can pass the entire XML data set and it will parse out all PAGE entries.
-        // This saves some parsing.
-        // TODO: But, doesn't guarantee the order is preserved so may need to revisit this.
-        this.parseSection(data, result, true);
+        // XML Schema allows for data to be split into several sections. 
+        // Flattening to a single call for now...
+        this.generateSubPage(data, result, true);
     }
 
-    //console.log(result.title + ", " + result.version + ", " + result.saying + " (isValid=" + result.isValid + ")");
     return result;
 };
 
-PAD.prototype.parseSection = function (data, result, bFindAll) {
+//
+// PAD.generateSubPage -- Search a single section of the data and add matches to PAD.result
+//
+// Notes
+// 1. Assumes data and result have been initialized. 
+// 2. Designed to be part of a larger loop that builds the entire result set so it does not initialize PAD.result
+//
+
+PAD.prototype.generateSubPage = function (data, result, bFindAll) {
     if (!data || data.isValid === false) {
         return;
     }
 
     var xmlPages = data.pages;
+    var normalizedPages = data.normalized;
 
     if (!xmlPages || xmlPages.length === 0) {
         return;
     }
 
     // TODO: Rework as a JS "class" like Alexa intent handlers. (learn more on this)
+    //
+    // Would prefer to structure more like this (same as Alexa intent handlers):
+    //   "WEEKOFMONTH": function ( thisPage, result.ymd ) { ... };
+    //
+
     for (var i = 0; i < xmlPages.length; i++) {
         // Normalize data to simplify code later on...
-        var thisPage = this.normalizePage (xmlPages[i], result.date);
+        if (typeof normalizedPages[i] === 'undefined') {
+            normalizedPages[i] = this.normalizePage(xmlPages[i]);
+        }
+
+        var thisPage = normalizedPages[i];
+
+        if (thisPage.type === "IGNORE") {
+            continue;
+        }
 
         switch (thisPage.special) {
             case "IGNORE":
@@ -136,45 +184,45 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
 
             case "WEEKDAYOFMONTH":
             case "WEEKOFMONTH":
-                if (isWeekOfMonth(thisPage, result.date) === true) {
+                if (isWeekOfMonth(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "LASTDAYOFMONTH":
             case "LASTWEEKDAYOFMONTH":
-                if (isLastDayOfMonth(thisPage, result.date) === true) {
+                if (isLastDayOfMonth(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "WEEKDAYONORAFTER":
-                if (isWeekdayOnOrAfter(thisPage, result.date) === true) {
+                if (isWeekdayOnOrAfter(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "NEARESTWEEKDAY":
-                if (isNearestWeekday(thisPage, result.date) === true) {
+                if (isNearestWeekday(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "SPECIFICYEARS":
-                if (isSpecificYear(thisPage, result.date) === true) {
+                if (isSpecificYear(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "CHRISTIAN":
-                if (this.isChristianDate(thisPage, result.date) === true) {
+                if (this.isChristianDate(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "HEBREW":
             case "JEWISH":
-                if (isHebrewDate(thisPage, result.date) === true) {
+                if (isHebrewDate(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
@@ -182,31 +230,31 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
             case "ISLAMIC":
             case "MUSLIM":
             case "HIJRI":
-                if (isHijriDate(thisPage, result.date) === true) {
+                if (isHijriDate(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "SEASON":
-                if (isSeason(thisPage, result.date) === true) {
+                if (isSeason(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "SPAN":
-                if (isSpan(thisPage, result.date) === true) {
+                if (isSpan(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "FRIDAY13":
-                if (isFriday13(thisPage, result.date) === true) {
+                if (isFriday13(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
 
             case "LISTOFDATES":
-                if (this.isListOfDates(thisPage, result.date) === true) {
+                if (this.isListOfDates(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
@@ -215,7 +263,7 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
             case "":
                 /* falls through */
             default:
-                if (isFixed(thisPage, result.date) === true) {
+                if (isFixed(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
@@ -230,20 +278,33 @@ PAD.prototype.parseSection = function (data, result, bFindAll) {
     }
 };
 
+//
+// PAD.addToResult -- Add new data to the PAD.result object 
+//
+
 PAD.prototype.addToResult = function (page, result) {
     if (page.name.length !== 0) {
+        var age = result.ymd.yy - page.yyBorn;
+        var s = page.name;
+        s += page.atSunset === true ? " (at sunset)" : "";
+
         switch (page.type) {
             case "HOLIDAY":
             case "EVENT":
-                result.holidays.push(page.name);
+                result.holidays.push(s);
                 break;
 
             case "BIRTHDAY":
-                result.birthdays.push({ name: page.name, age: page.age });
+                // Only add on dates on or after birth year
+                if (!isNaN(page.yyBorn) && age >= 0) {
+                    result.birthdays.push({ name: s, age: age });
+                }
                 break;
 
             case "ANNIVERSARY":
-                result.anniversaries.push({ name: page.name, age: page.age });
+                if (!isNaN(page.yyBorn) && age >= 0) {
+                    result.anniversaries.push({ name: s, age: age });
+                }
                 break;
 
             case "IGNORE":
@@ -268,51 +329,53 @@ PAD.prototype.addToResult = function (page, result) {
     result.isValid = true;
 };
 
-PAD.prototype.normalizePage = function (xmlPage, date) {
-    var page = {};
-    page.xml = xmlPage; 
-    page.type = fakeDOM.getValue(page.xml, "TYPE").toUpperCase();
-    page.name = fakeDOM.getValue(page.xml, "NAME");
+//
+// PAD.normalizePage -- Pre-parses a data element to simplify down-stream logic
+//
 
-    // NOTE: month, date and year will be NaN if the field was blank.
+PAD.prototype.normalizePage = function (xmlPage) {
+    var page = {
+        xml: xmlPage,
+        type:    fakeDOM.getValue(xmlPage, "TYPE").toUpperCase(),
+        name:    fakeDOM.getValue(xmlPage, "NAME"),
+        saying:  fakeDOM.getValue(xmlPage, "SAYING"),
+        author:  fakeDOM.getValue(xmlPage, "AUTHOR"),
+        web:     fakeDOM.getValue(xmlPage, "WEB"),
+        spoken:  fakeDOM.getValue(xmlPage, "SPOKEN"),
+        special: fakeDOM.getValue(xmlPage, "SPECIAL").toUpperCase(),
+        args: {},
+        atSunset: false,
+        yyFirst: Number.NaN,
+        ymd: {
+            yy: parseInt(fakeDOM.getValue(xmlPage, "YEAR"), 10),
+            mm: parseInt(fakeDOM.getValue(xmlPage, "MONTH"), 10) - 1,
+            dd: parseInt(fakeDOM.getValue(xmlPage, "DAY"), 10),
+        }
+    };
 
-    // Adjust month. Data source is 1 based and Javascript 0 based
-    page.month = parseInt(fakeDOM.getValue(page.xml, "MONTH"), 10) - 1;
-
-    page.date = parseInt(fakeDOM.getValue(page.xml, "DAY"), 10);
-    page.year = parseInt(fakeDOM.getValue(page.xml, "YEAR"), 10);
-
-    page.special = fakeDOM.getValue(page.xml, "SPECIAL").toUpperCase();
     if (page.special.length > 0) {
         page.args = page.special.split(' ');
         page.special = page.args.shift();
     }
 
-    // For Birthdays and Anniversaries, determine age (and clear year) when appropriate
-    page.age = Number.NaN;
-    if (page.type === "BIRTHDAY" || page.type === "ANNIVERSARY") {
-        if (page.special !== "FIXED") {
-            page.age = date.getFullYear() - page.year;
-            page.year = Number.NaN;
-        }
-    }
+    // Handle origin year for Birthdays and Anniversaries
 
-    page.saying = fakeDOM.getValue(page.xml, "SAYING");
-    page.author = fakeDOM.getValue(page.xml, "AUTHOR");
-    page.web = fakeDOM.getValue(page.xml, "WEB");
-    page.spoken = fakeDOM.getValue(page.xml, "SPOKEN");
+    if (page.special !== "FIXED" && (page.type === "BIRTHDAY" || page.type === "ANNIVERSARY")) {
+        page.yyFirst = page.ymd.yy;
+        page.ymd.yy = Number.NaN;
+    }
 
     return page;
 };
 
 ///////////////////////////////////////////////////////
 //
-// SPECIAL Keyword parsing functions
+// SPECIAL Keyword parsing functions (local to PAD)
 //
 // Terms:
 //      target date -- The date we're building a page-a-day for
 //      event date  -- The date represented in the data set.
-//      page        -- The specific data record being evaluated (TODO: change to record?)
+//      page        -- The specific data record being evaluated
 //
 ///////////////////////////////////////////////////////
 
@@ -324,11 +387,8 @@ PAD.prototype.normalizePage = function (xmlPage, date) {
 // Compates the target date to a list of specific event dates in YYYY-MM-DD format
 //
 
-function isFixed (page, date) {
-    if (matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear())) {
-        return true;
-    }
-    return false;
+function isFixed (page, ymd) {
+    return matchOrNaN(page.ymd.mm, ymd.mm, page.ymd.dd, ymd.dd, page.ymd.yy, ymd.yy);
 }
 
 //
@@ -339,9 +399,9 @@ function isFixed (page, date) {
 // the Nth occurrence of a specific day of week in a month.
 // Ex: 2nd Monday in August. SPECIAL=<Occurrence1-6> <DayOfWeek0-6> [<delta>]
 //
-function isWeekOfMonth (page, date) {
+function isWeekOfMonth (page, ymd) {
     if (page.args.length === 2 || page.args.length === 3) {
-        var specialDate = new Date(date.valueOf());
+        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
 
         // Account for the offset by faking like we're looking for the non-offset day.
         if (page.args.length === 3) {
@@ -349,7 +409,7 @@ function isWeekOfMonth (page, date) {
         }
 
         // Need to check month here since some deltas might move the month.
-        if (specialDate.getMonth() === page.month &&
+        if (specialDate.getMonth() === page.ymd.mm &&
             parseInt(page.args[1], 10) % 7 === specialDate.getDay() &&
             parseInt(page.args[0], 10) === Math.ceil(specialDate.getDate() / 7)) {
             return true;  // Match
@@ -366,15 +426,13 @@ function isWeekOfMonth (page, date) {
 // The last occurence of a specific day of week in the month.
 //
 
-function isLastDayOfMonth (page, date) {
-    var tMonth = date.getMonth();
-
-    if (tMonth === page.month && page.args.length === 1 && parseInt(page.args[0], 10) === date.getDay()) {
-        var specialDate = new Date(date.valueOf());
+function isLastDayOfMonth (page, ymd) {
+    if (ymd.mm === page.ymd.mm && page.args.length === 1 && parseInt(page.args[0], 10) === ymd.dow) {
+        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
 
         specialDate.setDate(specialDate.getDate() + 7);
 
-        if (specialDate.getMonth() !== tMonth) {
+        if (specialDate.getMonth() !== ymd.mm) {
             return true;
         }
     }
@@ -389,20 +447,18 @@ function isLastDayOfMonth (page, date) {
 // Events that occur on the first weekday on or after a specified date
 //
 
-function isWeekdayOnOrAfter (page, date) {
+function isWeekdayOnOrAfter (page, ymd) {
     // Must occur on a weekday (TODO BUG: Requires tDate to be 3 or larger.)
     // TODO BUG: Need to improve tax day calculations. For example, Tuesday April 18 is tax day in 2017 due to a Monday holiday.
-    var tDay = date.getDay();
-    var tDate = date.getDate();
 
     // Same month and target is not a weekend
-    if (date.getMonth() === page.month && tDay !== 0 && tDay !== 6) {
+    if (ymd.mm === page.ymd.mm && ymd.dow !== 0 && ymd.dow !== 6) {
         // Target is on a weekday. Check for a natural match
-        if (tDate === page.date) {
+        if (ymd.dd === page.ymd.dd) {
             return true;
         }
         // If target is Monday, adjust event date and check for match
-        if (tDay === 1 && (1 === tDate - page.date || 2 === tDate - page.date)) {
+        if (ymd.dow === 1 && (1 === ymd.dd - page.ymd.dd || 2 === ymd.dd - page.ymd.dd)) {
             return true;
         }
     }
@@ -417,14 +473,12 @@ function isWeekdayOnOrAfter (page, date) {
 // Events that are observed on the nearest weekday when they fall on a weekend
 //
 
-function isNearestWeekday (page, date) {
-    var tDay = date.getDay();
-
+function isNearestWeekday (page, ymd) {
     // Is it a natural match?
-    if (matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear())) {
+    if (matchOrNaN(page.ymd.mm, ymd.mm, page.ymd.dd, ymd.dd, page.ymd.yy, ymd.yy)) {
         // Filter out natural matches when exclusive flag is used
         if (page.args.indexOf("EXCLUSIVE") === -1) {
-            if (tDay > 0 && tDay < 6) {
+            if (ymd.dow > 0 && ymd.dow < 6) {
                 return true;
             } else if (page.args.indexOf("ACTUAL") !== -1) {
                 page.name += " (actual)";
@@ -433,15 +487,15 @@ function isNearestWeekday (page, date) {
         }
 
     // If target is Monday or Friday, check if moving event creates a match
-    } else if (tDay === 1 || tDay === 5) {
-        var specialDate = new Date(date.valueOf());
+    } else if (ymd.dow === 1 || ymd.dow === 5) {
+        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
 
-        if (tDay === 1) {
+        if (ymd.dow === 1) {
             specialDate.setDate(specialDate.getDate() - 1);
-        } else if (tDay === 5) {
+        } else if (ymd.dow === 5) {
             specialDate.setDate(specialDate.getDate() + 1);
         }
-        if (matchOrNaN(page.month, specialDate.getMonth(), page.date, specialDate.getDate(), page.year, specialDate.getYear())) {
+        if (matchOrNaN(page.ymd.mm, specialDate.getMonth(), page.ymd.dd, specialDate.getDate(), page.ymd.yy, specialDate.getYear())) {
             if (page.args.indexOf("OBSERVED") !== -1) {
                 page.name += " (observed)";
             }
@@ -459,12 +513,10 @@ function isNearestWeekday (page, date) {
 // Events that occur only on specific years
 //
 
-function isSpecificYear (page, date) {
-    var tYear = date.getFullYear();
-
-    if (page.args.length === 2 || (page.args.length === 3 && tYear <= parseInt(page.args[2], 10))) {
-        if (tYear >= parseInt(page.args[0], 10) && date.getMonth() === page.month && date.getDate() === page.date) {
-            if ((tYear - parseInt(page.args[0], 10)) % parseInt(page.args[1], 10) === 0) {
+function isSpecificYear (page, ymd) {
+    if (page.args.length === 2 || (page.args.length === 3 && ymd.yy <= parseInt(page.args[2], 10))) {
+        if (ymd.yy >= parseInt(page.args[0], 10) && ymd.mm === page.ymd.mm && ymd.dd === page.ymd.dd) {
+            if ((ymd.yy - parseInt(page.args[0], 10)) % parseInt(page.args[1], 10) === 0) {
                 return true;
             }
         }
@@ -480,17 +532,17 @@ function isSpecificYear (page, date) {
 // Dates based on Christian Holidays
 //
 
-PAD.prototype.isChristianDate = function (page, date) {
+PAD.prototype.isChristianDate = function (page, ymd) {
     var delta = 0;
     var eventDate;
 
     switch (page.args[0]) {
         case "CHRISTMAS":
-            eventDate = new Date(date.getFullYear(), 11, 25);
+            eventDate = new Date(ymd.yy, 11, 25);
             break;
 
         case "ADVENT":      // 4th Sunday before Christmas
-            eventDate = new Date(date.getFullYear(), 11, 25);
+            eventDate = new Date(ymd.yy, 11, 25);
 
             if (eventDate.getDay() === 0) {
                 delta -= 7 * 4;
@@ -500,7 +552,7 @@ PAD.prototype.isChristianDate = function (page, date) {
             break;
 
         case "EASTER":
-            eventDate = this.getEasterW(date.getFullYear());
+            eventDate = this.getEasterW(ymd.yy);
             break;
     }
 
@@ -511,9 +563,7 @@ PAD.prototype.isChristianDate = function (page, date) {
 
         eventDate.setDate(eventDate.getDate() + delta);
 
-        if (eventDate.valueOf() === date.valueOf()) {
-            return true;
-        }
+        return matchOrNaN(eventDate.getMonth(), ymd.mm, eventDate.getDate(), ymd.dd, eventDate.getFullYear(), ymd.yy);
     }
     return false;
 };
@@ -531,28 +581,28 @@ PAD.prototype.isChristianDate = function (page, date) {
 //      So, check for Friday instead of Saturday when determining adjustments for the delayed flag.
 //
 
-function isHebrewDate(page, date) {
+function isHebrewDate(page, ymd) {
     var delayed = (page.args.length && (page.args[0].charAt(0) === "T" || page.args[0] === "DELAYED")) ? true : false;
 
     // If it's Saturday (actually nightfall on Friday) and the delayed flag is set, there can not be a match.
-    if (delayed && date.getDay() === 5) {
+    if (delayed && ymd.dow === 5) {
         return false;
     }
 
-    var jd = gregorianToJulian(date.getFullYear(), date.getMonth(), date.getDate());
+    var jd = gregorianToJulian(ymd.yy, ymd.mm, ymd.dd);
     var hd = julianToHebrew(jd);
 
-    if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
-        page.name += " (at sunset)";
+    if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
+        page.atSunset = true;
         return true;
     }
 
     // If Today is Sunday (actually nightfall on Saturday) and the delayed flag is set, check if the day before was a match
-    if (delayed && date.getDay() === 6) {
+    if (delayed && ymd.dow === 6) {
         hd = julianToHebrew(jd - 1);
 
-        if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
-            page.name += " (at sunset)";
+        if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
+            page.atSunset = true;
             return true;
         }
     }
@@ -571,11 +621,11 @@ function isHebrewDate(page, date) {
 //      The underlying functions return the date for the nightfall before (the start of an Islamic day)
 //
 
-function isHijriDate (page, date) {
-    var hd = julianToIslamic(gregorianToJulian(date.getFullYear(), date.getMonth(), date.getDate()));
+function isHijriDate (page, ymd) {
+    var hd = julianToIslamic(gregorianToJulian(ymd.yy, ymd.mm, ymd.dd));
 
-    if (matchOrNaN(page.year, hd.yy, page.month, hd.mm, page.date, hd.dd)) {
-        page.name += " (at sunset)";
+    if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
+        page.atSunset = true;
         return true;
     }
     return false;
@@ -589,7 +639,7 @@ function isHijriDate (page, date) {
 // Returns the first day of the specified season.
 //
 
-function isSeason (page, date) {
+function isSeason (page, ymd) {
     return false;       // TODO: Not implemented yet
 }
 
@@ -601,8 +651,22 @@ function isSeason (page, date) {
 // Returns a match for any day in the range
 //
 
-function isSpan (page, date) {
-    return false;       // TODO: Not implemented yet
+function isSpan(page, ymd) {
+    if (page.args.length === 1) {
+        var startDate = new Date(isNaN (page.ymd.yy) ? ymd.yy : page.ymd.yy, page.ymd.mm, page.ymd.dd);
+        var endDate = new Date(startDate);
+        var targetDate = new Date(ymd.yy, ymd.mm, ymd.dd);
+        var delta = parseInt(page.args[0], 10) - 1;
+
+        if (delta >= 0) {
+            endDate.setDate(endDate.getDate() + delta);
+
+            if ( targetDate >= startDate && targetDate <= endDate ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //
@@ -613,9 +677,9 @@ function isSpan (page, date) {
 // Matches when the target date is Friday the 13th
 //
 
-function isFriday13(page, date) {
-    if (date.getDate() === 13 && date.getDay() === 5) {
-        return matchOrNaN(page.month, date.getMonth(), page.date, date.getDate(), page.year, date.getFullYear());
+function isFriday13(page, ymd) {
+    if (ymd.dd === 13 && ymd.dow === 5) {
+        return matchOrNaN(page.ymd.mm, ymd.mm, page.ymd.dd, ymd.dd, page.ymd.yy, ymd.yy);
     }
     return false;
 }
@@ -628,8 +692,9 @@ function isFriday13(page, date) {
 // Compates the target date to a list of specific event dates in YYYY-MM-DD format
 //
 
-PAD.prototype.isListOfDates = function (page, date) {
-    if (page.args.indexOf(this.toISOStringNoTZ(date)) !== -1) {
+PAD.prototype.isListOfDates = function (page, ymd) {
+    var s = (new Date(ymd.yy, ymd.mm, ymd.dd)).toISOString().substr(0, 10);
+    if (page.args.indexOf(s) !== -1) {
         return true;
     }
     return false;
@@ -646,10 +711,7 @@ PAD.prototype.getFormattedResult = function (result, fmt) {
         title: "",
         version: "",
         date: "",
-        dDay: "",
-        dMonth: "",
-        dYear: "",
-        dDOW: "",
+        ymd: { dd: "", mm: "", yy: "", dow: "" },
         holidays: "",
         birthdays: "",
         anniversaries: "",
@@ -660,11 +722,11 @@ PAD.prototype.getFormattedResult = function (result, fmt) {
     if (result.isValid) {
         fmtResult.title = result.title;
         fmtResult.version = result.version;
-        fmtResult.date = this.getFormattedDate(result.date, fmt);
-        fmtResult.dDay = this.getFormattedDate(result.date, "DAY");
-        fmtResult.dMonth = this.getFormattedDate(result.date, "MONTH");
-        fmtResult.dYear = this.getFormattedDate(result.date, "YEAR");
-        fmtResult.dDOW = this.getFormattedDate(result.date, "DOW");
+        fmtResult.date = this.getFormattedDate(result.ymd, fmt);
+        fmtResult.ymd.dd = this.getFormattedDate(result.ymd, "DAY");
+        fmtResult.ymd.mm = this.getFormattedDate(result.ymd, "MONTH");
+        fmtResult.ymd.yy = this.getFormattedDate(result.ymd, "YEAR");
+        fmtResult.ymd.dow = this.getFormattedDate(result.ymd, "DOW");
         fmtResult.holidays = this.getFormattedHoliday(result.holidays);
         fmtResult.birthdays = this.getFormattedBirthday(result.birthdays);
         fmtResult.anniversaries = this.getFormattedAnniversary(result.anniversaries);
@@ -702,7 +764,7 @@ PAD.prototype.getFormattedSaying = function (result, fmt) {
     return s;
 };
 
-PAD.prototype.getFormattedDate = function (d, fmt) {
+PAD.prototype.getFormattedDate = function (ymd, fmt) {
     var dowNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var s = "";
@@ -711,41 +773,39 @@ PAD.prototype.getFormattedDate = function (d, fmt) {
         // For CSV, output as "YEAR,MONTH,DAY,MONTH-NAME,DAY-OF-WEEK"
         // Example: "2017,5,12,May,Friday"
         case "CSV":
-            s = d.getFullYear() + "," + d.getMonth() + "," + d.getDate() + "," + monthNames[d.getMonth()] + "," + dowNames[d.getDay()];
+            s = ymd.yy + "," + ymd.mm + "," + ymd.dd + "," + monthNames[ymd.dd] + "," + dowNames[ymd.dow];
             break;
 
         // Suitable for speech output
         // Example: "Friday May 12th" if current year and "Friday May 12th 2017" otherwise.
         case "SPOKEN":
-            var today = new Date();
+            s = dowNames[ymd.dow] + " " + monthNames[ymd.mm] + " " + this.getFormattedOrdinal(ymd.dd);
 
-            s = dowNames[d.getDate()] + " " + monthNames[d.getMonth()] + " " + this.getFormattedOrdinal(d.getDate());
-
-            if (today.getFullYear() !== d.getFullYear()) {
-                s += " " + d.getFullYear();
+            if ((new Date()).getFullYear() !== ymd.yy) {
+                s += " " + ymd.yy;
             }
             break;
 
         case "DAY":
-            s = d.getDate();
+            s = ymd.dd;
             break;
 
         case "MONTH":
-            s = monthNames[d.getMonth()];
+            s = monthNames[ymd.mm];
             break;
 
         case "YEAR":
-            s = d.getFullYear();
+            s = ymd.yy;
             break;
 
         case "DOW":
-            s = dowNames[d.getDay()];
+            s = dowNames[ymd.dow];
             break;
 
         case "WEB":
             /* falls through */
         default:
-            s = dowNames[d.getDay()] + ", " + monthNames[d.getMonth()] + d.getDate() + ", " + d.getFullYear();
+            s = dowNames[ymd.dow] + ", " + monthNames[ymd.mm] + ymd.dd + ", " + ymd.yy;
             break;
     }
     return s;
@@ -789,7 +849,7 @@ PAD.prototype.getFormattedAnniversary = function (anniversaries) {
 
             if (isNaN(anniversary.age)) {
                 s += " are having an anniversary today";
-            } else {
+            } else if (anniversary.age >= 0) {
                 s += " are celebrating their " + this.getFormattedOrdinal(anniversary.age) + " anniversary today";
             }
 
@@ -808,6 +868,7 @@ PAD.prototype.getFormattedBirthday = function (birthdays) {
     // Multiple names:
     //     "Joe, Billy and Sally are having birthdays today. It's Joe's 30th. It's Sally's 45th. "
     //
+    // TODO: Filter out negative age birthdays
 
     var s = "";
     var postfix = "";
@@ -931,7 +992,7 @@ PAD.prototype.getEasterW = function (year) {
     }
     rDate = (50 - c) % 31;
 
-    var result = new Date(year, rMonth, rDate);                     // Creates Date at midnight local time (no need to normalize)
+    var result = new Date(year, rMonth, rDate);
     result.setDate(result.getDate() + (7 - result.getDay()));       // Align to next Sunday (even if it falls on a Sunday)
 
     return result;
@@ -1169,6 +1230,6 @@ var fakeDOM = (function () {
 // This code is run in both a client-side browser and server-side node.js. 
 // When loaded with a nodes.js "required" statement, module is declared and this assignment helps control scope.
 // When loaded with a browser script statement, module is not declared.
-if ( typeof module !== "undefined" ) {
+if ( typeof module !== 'undefined' ) {
     module.exports = PAD;
 }

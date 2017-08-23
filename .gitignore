@@ -245,3 +245,7 @@ ModelManifest.xml
 /dataSamples/hebrew.xml
 /dataSamples/muslim.xml
 /dataSamples/test.xml
+/index-web.es5.js
+/index-web.es5.min.js
+/compilerconfig.json
+/compilerconfig.json.defaults
