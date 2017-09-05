@@ -30,6 +30,7 @@
 const fs = require('fs');
 const repl = require('repl');
 const PAD = require('./pageaday');
+const Ymd = require('./padutil');
 const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/test.xml";
 
 // Node.JS debug variables
@@ -41,22 +42,22 @@ var days = 1;
 
 console.log("Running...");
 
-var findOnly = "at sunset";
+var findOnly = "sunset";
 var showFullPage = false;
 var startDate = "2007-01-01";
 var endDate = "2027-12-31";
 
-console.log("Page-A-Day Test: Display " + findOnly + " from " + startDate + " to " + endDate + " using " + xmlFullPath + "\r");
+console.log("Page-A-Day Test: Display '" + findOnly + "' from " + startDate + " to " + endDate + " using " + xmlFullPath + "\r");
 
 MyPAD.initData(fs.readFileSync(xmlFullPath, { encoding: 'utf8' }));
 
 console.time(timer1);
 
-var dStart = new Date(startDate);
-var dEnd = new Date(endDate);
+var dStart = (new Ymd(startDate)).toDate();
+var dEnd = (new Ymd(endDate)).toDate();
 
 for ( ; dStart <= dEnd; dStart.setDate(dStart.getDate() + 1)) {
-    var result = MyPAD.generatePage(dStart.toISOString());
+    var result = MyPAD.generatePage((new Ymd(dStart)).toString());
 
     if (result.isValid === true) {
         var fmt = MyPAD.getFormattedResult(result, "WEB");
@@ -66,14 +67,14 @@ for ( ; dStart <= dEnd; dStart.setDate(dStart.getDate() + 1)) {
         }
 
         if (showFullPage) {
-            console.log(fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy + "\r");
+            console.log(fmt.ymdS.dow + ", " + fmt.ymdS.mm + " " + fmt.ymdS.dd + ", " + fmt.ymdS.yy + "\r");
             console.log("    Saying: " + fmt.saying + "\r");
             console.log("    Author: " + fmt.author + "\r");
             console.log("    Holidays: " + fmt.holidays + "\r");
             console.log("    Birthdays: " + fmt.birthdays + "\r");
             console.log("    Anniversaries: " + fmt.anniversaries + "\r");
         } else {
-            console.log((new Date(result.ymd.yy, result.ymd.mm, result.ymd.dd)).toISOString().substr(0, 10) + ": " + fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy + ": " + fmt.holidays + "\r");
+            console.log(result.ymd.toString() + ": " + fmt.ymdS.dow + ", " + fmt.ymdS.mm + " " + fmt.ymdS.dd + ", " + fmt.ymdS.yy + ": " + fmt.holidays + "\r");
         }
     }
 }
@@ -128,7 +129,7 @@ replServer.defineCommand('PADdate', {
     help: "Set the start date using yyyy-mm-dd format",
     action: function (start) {
         if (!start) {
-            start = (new Date()).toISOString();
+            start = (new Ymd(new Date())).toString();
         }
         if (days <= 0) {
             days = 1;
@@ -139,7 +140,7 @@ replServer.defineCommand('PADdate', {
         var count = days;
 
         do {
-            var result = MyPAD.generatePage(startDate.toISOString());
+            var result = MyPAD.generatePage((new Ymd(startDate)).toString());
 
             if (result.isValid === true) {
                 var fmt = MyPAD.getFormattedResult(result, "WEB");
@@ -149,7 +150,7 @@ replServer.defineCommand('PADdate', {
                     continue;
                 }
 
-                console.log(fmt.ymd.dow + ", " + fmt.ymd.mm + " " + fmt.ymd.dd + ", " + fmt.ymd.yy);
+                console.log(fmt.ymdS.dow + ", " + fmt.ymdS.mm + " " + fmt.ymdS.dd + ", " + fmt.ymdS.yy);
                 console.log("    Saying: " + fmt.saying);
                 console.log("    Author: " + fmt.author);
                 console.log("    Holidays: " + fmt.holidays);

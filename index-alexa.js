@@ -208,7 +208,7 @@ function handlePageADayRequest( intent, session, response ) {
 
     loadXML( xmlURL, function ( xmlRaw ) {
         MyPAD.xmlRaw = xmlRaw;
-        var result = MyPAD.getQuote( date );
+        var result = MyPAD.generatePage((new Ymd(date)).toString());
 
         if ( result.isValid === false ) {
             response.tell ("There was a problem getting that page. Please try again later." );

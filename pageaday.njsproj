@@ -33,6 +33,7 @@
     <Compile Include="index-alexa.js" />
     <Compile Include="index-web.js" />
     <Compile Include="node-tester.js" />
+    <Compile Include="padutil.js" />
     <Compile Include="pageaday.js" />
     <Content Include="artassets\calendar-empty-108x108.png" />
     <Content Include="artassets\calendar-empty-512x512.png" />

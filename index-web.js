@@ -8,7 +8,7 @@
 var MyPAD = new PAD( "" );
 
 // Change this to change where the data comes from...
-var xmlSource = 'pageadaydatav5.xml';
+var xmlSource = 'pageadaydata.xml';
 
 // Pre-load images for better response...
 for ( var i = 1; i <= 12; i++ ) {
@@ -21,10 +21,10 @@ function PADWebInit() {
     PADWebLoadXML( xmlSource );
 
     // Initialize to today for first page load
-    var s = (new Date( )).toISOString().substr(0,10);
+    var ymd = new Ymd(new Date());
 
-    document.forms[0]["nameStartDate"].value = s;
-    document.forms[0]["nameEndDate"].value = s;
+    document.forms[0]["nameStartDate"].value = ymd.toString();
+    document.forms[0]["nameEndDate"].value = ymd.toString();
 }
 
 function PADWebLoadXML( src ) {
@@ -51,8 +51,8 @@ function PADWebDataReady( xml ) {
 }
 
 function PADWebProcessForm(command) {
-    var startDate = new Date( document.forms[0]["nameStartDate"].value );
-    var endDate = new Date( document.forms[0]["nameEndDate"].value );
+    var startDate = (new Ymd(document.forms[0]["nameStartDate"].value)).toDate();
+    var endDate = (new Ymd(document.forms[0]["nameEndDate"].value)).toDate();
 
     switch ( command ) {
         case "Today":
@@ -80,10 +80,10 @@ function PADWebProcessForm(command) {
     }
 
     // Update Form...
-    document.forms[0]["nameStartDate"].value = startDate.toISOString().substr(0, 10);
-    document.forms[0]["nameEndDate"].value = endDate.toISOString().substr(0, 10);
+    document.forms[0]["nameStartDate"].value = (new Ymd(startDate)).toString();
+    document.forms[0]["nameEndDate"].value = (new Ymd(endDate)).toString();
 
-    var result = MyPAD.generatePage( startDate.toISOString() );
+    var result = MyPAD.generatePage((new Ymd(startDate)).toString());
 
     //document.getElementById( "PADExport" ).innerHTML = ""; // Clear export (TODO: clean up presentation)
 
@@ -100,12 +100,12 @@ function PADWebProcessForm(command) {
     } else {
         var fmtResult = MyPAD.getFormattedResult( result, "WEB" );
 
-        document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( Number( result.ymd.mm ) + 1 ) + ".png";
+        document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( result.ymd.mm + 1 ) + ".png";
 
         document.getElementById( "PADVersion" ).innerHTML = fmtResult.title + " version " + fmtResult.version;
-        document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.ymd.mm + " " + fmtResult.ymd.yy;
-        document.getElementById( "PADDay" ).innerHTML = fmtResult.ymd.dd;
-        document.getElementById( "PADDOW" ).innerHTML = fmtResult.ymd.dow;
+        document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.ymdS.mm + " " + fmtResult.ymdS.yy;
+        document.getElementById( "PADDay" ).innerHTML = fmtResult.ymdS.dd;
+        document.getElementById( "PADDOW" ).innerHTML = fmtResult.ymdS.dow;
         document.getElementById( "PADSaying" ).innerHTML = fmtResult.saying;
         document.getElementById( "PADAuthor" ).innerHTML = fmtResult.author;
         document.getElementById( "PADHoliday" ).innerHTML = fmtResult.holidays;
@@ -116,13 +116,13 @@ function PADWebProcessForm(command) {
 
 function PADWebDoExport() {
     // Ensure we get the date in local time as the user sees it.
-    var startDate = document.forms[0]["nameStartDate"].value;
-    var endDate = document.forms[0]["nameEndDate"].value;
+    var startDate = MyPAD.toDateObject(document.forms[0]["nameStartDate"].value);
+    var endDate = MyPAD.toDateObject(document.forms[0]["nameEndDate"].value);
     var s = "";
 
     // Always do at least the first date (even if the second date is earlier)
     do {
-        var result = MyPAD.generatePage( startDate );
+        var result = MyPAD.generatePage((new Ymd(startDate)).toString());
 
         if ( result.isValid === true ) {
             var fmtResult = MyPAD.getFormattedResult( result, "CSV" );

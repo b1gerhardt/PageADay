@@ -4,6 +4,12 @@
 
 'use strict';
 
+// TODO: Figure out how to do this correctly. Want to keep code working for browser, lambda and node.
+if (typeof module !== 'undefined') {
+    global.Ymd = require('./padutil');           // Kludge to get Ymd to global namespace. const, let, var don't work because of {} block
+}
+//const Ymd = require ('./padutil');
+
 // PAD the Page-A-Day generator
 // Written by Barry Gerhardt
 // 2016-12-28
@@ -57,12 +63,12 @@ PAD.prototype.initData = function (data) {
 // This function initializes the result object. This is done at the start of each call to PAD.getQuote
 //
 
-PAD.prototype.initResult = function (ymdISO) {
+PAD.prototype.initResult = function (ymdStr) {
     this.result = {
         isValid: false,
         title: "",
         version: "",
-        ymd: { yy: 2017, mm: 0, dd: 1, dow: 0 },
+        ymd: {},
         holidays: [],       // string
         birthdays: [],      // name: string, age: number
         anniversaries: [],  // name: string, age: number
@@ -72,47 +78,14 @@ PAD.prototype.initResult = function (ymdISO) {
         sayingSpoken: ""
     };
 
-    // Normalize date and convert to internal format
-    //     1. Passed date format is an ISO-type string in YYYY-MM-DD format. The time portion is ignored.
-    //     2. If no date is passed, get the current local time and construct an equivalent YYYY-MM-DD.
-    //
-    // NOTE: This code is not always run in the user's local time. It is best to always initialize with a specific 
-    // target date to ensure TZ doesn't affect your output.
-    //
-    var d;
-    if (ymdISO) {
-        d = new Date(ymdISO.substr(0, 10));                             // Get just YYYY-MM-DD portion (could be from different TZ)
-        d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);     // Add in local TZ so JS date functions work correctly
-    } else {
-        d = new Date();
-    }
-
-    this.result.ymd.yy = d.getFullYear();
-    this.result.ymd.mm = d.getMonth();
-    this.result.ymd.dd = d.getDate();
-    this.result.ymd.dow = d.getDay();
+    this.result.ymd = new Ymd(ymdStr || new Date());
 
     return this.result
 };
 
-//// NOTE: All date work is done in the local time zone. This ensures the user gets the date they expect
-//// These helper functions are used to make working in the local time zone easier
-
-//// Return an ISO-like string using local time instead of GMT. Truncate to just the date.
-//PAD.prototype.toISOStringNoTZ = function(d) {
-//    var noTZ = new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
-
-//    return noTZ.toISOString().substr(0, 10);
-//};
-
-//// Set GMT to be midnight on the local time day (simplifies date handling so everything is GMT)
-//PAD.prototype.getDateNoTZ = function (d) {
-//    d.setTime(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-//    return d;
-//};
 
 //
-// PAD.createResult -- Populate PAD.result with date for the target date (in ISO YYYY-MM-DD string format)
+// PAD.generatePage -- Populate PAD.result with date for the target date (in ISO-type YYYY-MM-DD string format)
 //
 // Notes
 // 1. PAD object must be initialized and data loaded (see PAD.initData()
@@ -120,9 +93,9 @@ PAD.prototype.initResult = function (ymdISO) {
 // 3. Returns a reference to PAD.result for formatting or further processing.
 //
 
-PAD.prototype.generatePage = function (ymdISO) {
+PAD.prototype.generatePage = function (ymdStr) {
     var data = this.xml;
-    var result = this.initResult(ymdISO);
+    var result = this.initResult(ymdStr);
 
     // basic sanity checks...
     if (!data || !data.isValid) {
@@ -285,8 +258,7 @@ PAD.prototype.generateSubPage = function (data, result, bFindAll) {
 PAD.prototype.addToResult = function (page, result) {
     if (page.name.length !== 0) {
         var age = result.ymd.yy - page.yyBorn;
-        var s = page.name;
-        s += page.atSunset === true ? " (at sunset)" : "";
+        var s = page.name + (page.atSunset === true ? " (at sunset)" : "");
 
         switch (page.type) {
             case "HOLIDAY":
@@ -295,14 +267,14 @@ PAD.prototype.addToResult = function (page, result) {
                 break;
 
             case "BIRTHDAY":
-                // Only add on dates on or after birth year
-                if (!isNaN(page.yyBorn) && age >= 0) {
+                // Only add on dates on or after birth year (when known)
+                if (isNaN(page.yyBorn) || age >= 0) {
                     result.birthdays.push({ name: s, age: age });
                 }
                 break;
 
             case "ANNIVERSARY":
-                if (!isNaN(page.yyBorn) && age >= 0) {
+                if (isNaN(page.yyBorn) || age >= 0) {
                     result.anniversaries.push({ name: s, age: age });
                 }
                 break;
@@ -346,12 +318,12 @@ PAD.prototype.normalizePage = function (xmlPage) {
         args: {},
         atSunset: false,
         yyFirst: Number.NaN,
-        ymd: {
-            yy: parseInt(fakeDOM.getValue(xmlPage, "YEAR"), 10),
-            mm: parseInt(fakeDOM.getValue(xmlPage, "MONTH"), 10) - 1,
-            dd: parseInt(fakeDOM.getValue(xmlPage, "DAY"), 10),
-        }
+        ymd: {}
     };
+
+    page.ymd = new Ymd(parseInt(fakeDOM.getValue(xmlPage, "YEAR"), 10),
+                       parseInt(fakeDOM.getValue(xmlPage, "MONTH"), 10) - 1,
+                       parseInt(fakeDOM.getValue(xmlPage, "DAY"), 10))
 
     if (page.special.length > 0) {
         page.args = page.special.split(' ');
@@ -401,7 +373,7 @@ function isFixed (page, ymd) {
 //
 function isWeekOfMonth (page, ymd) {
     if (page.args.length === 2 || page.args.length === 3) {
-        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
+        var specialDate = ymd.toDate();
 
         // Account for the offset by faking like we're looking for the non-offset day.
         if (page.args.length === 3) {
@@ -428,7 +400,7 @@ function isWeekOfMonth (page, ymd) {
 
 function isLastDayOfMonth (page, ymd) {
     if (ymd.mm === page.ymd.mm && page.args.length === 1 && parseInt(page.args[0], 10) === ymd.dow) {
-        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
+        var specialDate = ymd.toDate();
 
         specialDate.setDate(specialDate.getDate() + 7);
 
@@ -488,7 +460,7 @@ function isNearestWeekday (page, ymd) {
 
     // If target is Monday or Friday, check if moving event creates a match
     } else if (ymd.dow === 1 || ymd.dow === 5) {
-        var specialDate = new Date(ymd.yy, ymd.mm, ymd.dd);
+        var specialDate = ymd.toDate();
 
         if (ymd.dow === 1) {
             specialDate.setDate(specialDate.getDate() - 1);
@@ -538,11 +510,11 @@ PAD.prototype.isChristianDate = function (page, ymd) {
 
     switch (page.args[0]) {
         case "CHRISTMAS":
-            eventDate = new Date(ymd.yy, 11, 25);
+            eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
             break;
 
         case "ADVENT":      // 4th Sunday before Christmas
-            eventDate = new Date(ymd.yy, 11, 25);
+            eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
 
             if (eventDate.getDay() === 0) {
                 delta -= 7 * 4;
@@ -653,9 +625,9 @@ function isSeason (page, ymd) {
 
 function isSpan(page, ymd) {
     if (page.args.length === 1) {
-        var startDate = new Date(isNaN (page.ymd.yy) ? ymd.yy : page.ymd.yy, page.ymd.mm, page.ymd.dd);
+        var startDate = (new Ymd(isNaN(page.ymd.yy) ? ymd.yy : page.ymd.yy, page.ymd.mm, page.ymd.dd)).toDate();
         var endDate = new Date(startDate);
-        var targetDate = new Date(ymd.yy, ymd.mm, ymd.dd);
+        var targetDate = ymd.toDate();
         var delta = parseInt(page.args[0], 10) - 1;
 
         if (delta >= 0) {
@@ -693,7 +665,7 @@ function isFriday13(page, ymd) {
 //
 
 PAD.prototype.isListOfDates = function (page, ymd) {
-    var s = (new Date(ymd.yy, ymd.mm, ymd.dd)).toISOString().substr(0, 10);
+    var s = ymd.toString();
     if (page.args.indexOf(s) !== -1) {
         return true;
     }
@@ -711,7 +683,7 @@ PAD.prototype.getFormattedResult = function (result, fmt) {
         title: "",
         version: "",
         date: "",
-        ymd: { dd: "", mm: "", yy: "", dow: "" },
+        ymdS: { dd: "", mm: "", yy: "", dow: "" },
         holidays: "",
         birthdays: "",
         anniversaries: "",
@@ -723,10 +695,10 @@ PAD.prototype.getFormattedResult = function (result, fmt) {
         fmtResult.title = result.title;
         fmtResult.version = result.version;
         fmtResult.date = this.getFormattedDate(result.ymd, fmt);
-        fmtResult.ymd.dd = this.getFormattedDate(result.ymd, "DAY");
-        fmtResult.ymd.mm = this.getFormattedDate(result.ymd, "MONTH");
-        fmtResult.ymd.yy = this.getFormattedDate(result.ymd, "YEAR");
-        fmtResult.ymd.dow = this.getFormattedDate(result.ymd, "DOW");
+        fmtResult.ymdS.dd = this.getFormattedDate(result.ymd, "DAY");
+        fmtResult.ymdS.mm = this.getFormattedDate(result.ymd, "MONTH");
+        fmtResult.ymdS.yy = this.getFormattedDate(result.ymd, "YEAR");
+        fmtResult.ymdS.dow = this.getFormattedDate(result.ymd, "DOW");
         fmtResult.holidays = this.getFormattedHoliday(result.holidays);
         fmtResult.birthdays = this.getFormattedBirthday(result.birthdays);
         fmtResult.anniversaries = this.getFormattedAnniversary(result.anniversaries);
@@ -1226,6 +1198,7 @@ var fakeDOM = (function () {
         }
     };
 })();
+
 
 // This code is run in both a client-side browser and server-side node.js. 
 // When loaded with a nodes.js "required" statement, module is declared and this assignment helps control scope.
