@@ -395,29 +395,57 @@ but she's a tough old biddy.</ns1:SAYING>
 			<ns1:COMMENT>Daylight savings ends first Sunday in November</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
 			<ns1:SPECIAL>ListOfDates 2017-03-20 2018-03-20 2019-03-20 2020-03-19</ns1:SPECIAL>
 			<ns1:NAME>First day of Spring</ns1:NAME>
 			<ns1:SAYING>Spring is nature's way of saying, "Let's party!"</ns1:SAYING>
 			<ns1:AUTHOR>Robin Williams</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
 			<ns1:SPECIAL>ListOfDates 2017-06-21 2018-06-21 2019-06-21 2020-06-20</ns1:SPECIAL>
 			<ns1:NAME>First day of Summer</ns1:NAME>
 			<ns1:SAYING>It's a smile, it's a kiss, it's a sip of wine … it's summertime!</ns1:SAYING>
 			<ns1:AUTHOR>Kenny Chesney</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
 			<ns1:SPECIAL>ListOfDates 2016-09-22 2017-09-22 2018-09-23 2019-09-23 2020-09-22</ns1:SPECIAL>
 			<ns1:NAME>First day of Autumn</ns1:NAME>
 			<ns1:SAYING>Give me juicy autumnal fruit, ripe and red from the orchard.</ns1:SAYING>
 			<ns1:AUTHOR>Walt Whitman</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
 			<ns1:SPECIAL>ListOfDates 2016-12-21 2017-12-21 2018-12-21 2019-12-22 2020-12-21</ns1:SPECIAL>
+			<ns1:NAME>First day of Winter</ns1:NAME>
+			<ns1:SAYING>A lot of people like snow. I find it to be an unnecessary freezing of water.</ns1:SAYING>
+			<ns1:AUTHOR>Carl Reiner</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Spring</ns1:SPECIAL>
+			<ns1:NAME>First day of Spring</ns1:NAME>
+			<ns1:SAYING>Spring is nature's way of saying, "Let's party!"</ns1:SAYING>
+			<ns1:AUTHOR>Robin Williams</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Summer</ns1:SPECIAL>
+			<ns1:NAME>First day of Summer</ns1:NAME>
+			<ns1:SAYING>It's a smile, it's a kiss, it's a sip of wine … it's summertime!</ns1:SAYING>
+			<ns1:AUTHOR>Kenny Chesney</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Autumn</ns1:SPECIAL>
+			<ns1:NAME>First day of Autumn</ns1:NAME>
+			<ns1:SAYING>Give me juicy autumnal fruit, ripe and red from the orchard.</ns1:SAYING>
+			<ns1:AUTHOR>Walt Whitman</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Winter</ns1:SPECIAL>
 			<ns1:NAME>First day of Winter</ns1:NAME>
 			<ns1:SAYING>A lot of people like snow. I find it to be an unnecessary freezing of water.</ns1:SAYING>
 			<ns1:AUTHOR>Carl Reiner</ns1:AUTHOR>

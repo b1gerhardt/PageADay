@@ -88,7 +88,7 @@ PAD.prototype.initResult = function (ymdStr) {
 // PAD.generatePage -- Populate PAD.result with date for the target date (in ISO-type YYYY-MM-DD string format)
 //
 // Notes
-// 1. PAD object must be initialized and data loaded (see PAD.initData()
+// 1. PAD object must be initialized and data loaded (see PAD.initData())
 // 2. Destroys existing PAD.result
 // 3. Returns a reference to PAD.result for formatting or further processing.
 //
@@ -524,7 +524,7 @@ PAD.prototype.isChristianDate = function (page, ymd) {
             break;
 
         case "EASTER":
-            eventDate = this.getEasterW(ymd.yy);
+            eventDate = getEasterW(ymd.yy);
             break;
     }
 
@@ -608,11 +608,44 @@ function isHijriDate (page, ymd) {
 //
 // Syntax: SEASON [north | south] spring | summer | fall | winter
 //
-// Returns the first day of the specified season.
+// Matches the first day of the specified season.
 //
 
-function isSeason (page, ymd) {
-    return false;       // TODO: Not implemented yet
+function isSeason(page, ymd) {
+    var season = Number.NaN;
+    var offset = 0;
+    for (var i = page.args.length - 1; i >= 0; i -= 1) {
+        switch (page.args[i]) {
+            case "NORTH":
+                offset = 0;
+                break;
+
+            case "SOUTH":
+                offset = 2;
+                break;
+
+            case "SPRING":
+                season = 0;
+                break;
+
+            case "SUMMER":
+                season = 1;
+                break;
+
+            case "FALL":
+            case "AUTUMN":
+                season = 2;
+                break;
+
+            case "WINTER":
+                season = 3;
+                break;
+        }
+    }
+
+    var event = getEquinox((season + offset) % 4, ymd.yy);
+
+    return matchOrNaN(ymd.yy, event.yy, ymd.mm, event.mm, ymd.dd, event.dd);
 }
 
 //
@@ -661,7 +694,7 @@ function isFriday13(page, ymd) {
 //
 // Syntax: LISTOFDATES date [...]
 //
-// Compates the target date to a list of specific event dates in YYYY-MM-DD format
+// Compares the target date to a list of specific event dates in YYYY-MM-DD format
 //
 
 PAD.prototype.isListOfDates = function (page, ymd) {
@@ -788,12 +821,18 @@ PAD.prototype.getFormattedHoliday = function (holidays) {
 
     if (holidays.length) {
         while (holidays.length) {
-            if (s.length > 0) {
-                s += ", and ";
+            if (s.length === 0) {
+                s = "It's ";
+            } else {
+                s += ", ";
+
+                if (holidays.length === 1) {
+                    s += "and ";
+                }
             }
             s += holidays.shift();
         }
-        s = "It's " + s + ".";
+        s += ".";
     }
     return s;
 };
@@ -933,7 +972,95 @@ function matchOrNaN() {
 
 // Internal support functions
 
-PAD.prototype.getEasterW = function (year) {
+//
+// Equinoxes and Solstices
+//
+//      Spring Equinox (March), Summer Solstice (June), Autumn Equinox (August), Winter Solstice (December)
+//
+// Original code supported dates from -1000 to +3000. This code only supports +1000 to +3000
+//
+
+// 
+// getEquinox -- Returns YMD formatted date of the Equinox or Solstice specified. Assumes northern hemisphere.
+//               For southern hemisphere, just reverse the seasons.
+//
+// Based on the book "Astronomical Algorithms" by Jean Meeus. 
+// Adapted from these implementations:
+//      Juergen Giesen (see http://www.geoastro.de/astro/astroJS/seasons/index.htm)
+//  and Sonia Keys (see https://github.com/soniakeys/meeus)
+//
+//  season: 0 = Spring (March)
+//          1 = Summer (June)
+//          2 = Autumn (August)
+//          3 = Winter (December)
+//  year: Gregorian year. Supported range is 1000 through 3000
+//
+
+function getEquinox(season, year) {
+    if (year < 1000 || year > 3000 || isNaN (season)) {
+        return undefined;
+    }
+
+    var terms = [
+        [485, 324.96, 1934.136],
+        [203, 337.23, 32964.467],
+        [199, 342.08, 20.186],
+        [182, 27.85, 445267.112],
+        [156, 73.14, 45036.886],
+        [136, 171.52, 22518.443],
+        [77, 222.54, 65928.934],
+        [74, 296.72, 3034.906],
+        [70, 243.58, 9037.513],
+        [58, 119.81, 33718.147],
+        [52, 297.17, 150.678],
+        [50, 21.02, 2281.226],
+        [45, 247.54, 29929.562],
+        [44, 325.15, 31555.956],
+        [29, 60.93, 4443.417],
+        [18, 155.12, 67555.328],
+        [17, 288.79, 4562.452],
+        [16, 198.04, 62894.029],
+        [14, 199.76, 31436.921],
+        [12, 95.39, 14577.848],
+        [12, 287.11, 31931.756],
+        [12, 320.81, 34777.259],
+        [9, 227.73, 1222.114],
+        [8, 15.45, 16859.074]
+    ];
+    var magic = [
+        [2451623.80984, 365242.37404, .05169, -.00411, -.00057],
+        [2451716.56767, 365241.62603, .00325, .00888, -.00030],
+        [2451810.21715, 365242.01767, -.11575, .00337, .00078],
+        [2451900.05952, 365242.74049, -.06223, -.00823, .00032]
+    ];
+
+    var y = (year - 2000) / 1000;
+    season = season % 4;
+
+    var K = Math.PI / 180;
+
+    var i = magic[season].length - 1;
+    var j0 = magic[season][i];
+    while (i > 0) {
+        j0 = j0 * y + magic[season][--i];
+    }
+
+    var T = (j0 - 2451545) / 36525;                         // T = Julian centuries since Gregorian Jan 1, 2000.
+    var W = 35999.373 * K * T - 2.47 * K; 
+    var dL = 1 + 0.0334 * Math.cos(W) + 0.0007 * Math.cos(2 * W);
+
+    var S = 0;
+    for (i = terms.length - 1; i >= 0; i -= 1) {
+        S += terms[i][0] * Math.cos((terms[i][1] + terms[i][2] * T) * K);
+    }
+
+    // Have Julian date. Convert Julian date to YMD format
+    // TODO: Make sure timezone stuff is right...
+    return new Ymd(julianToGregorian(j0 + 0.00001 * S / dL));
+}
+
+
+function getEasterW (year) {
     // Calculates Western Easter
     // Adapted from https://en.wikipedia.org/wiki/Computus#Algorithms
 
@@ -968,7 +1095,7 @@ PAD.prototype.getEasterW = function (year) {
     result.setDate(result.getDate() + (7 - result.getDay()));       // Align to next Sunday (even if it falls on a Sunday)
 
     return result;
-};
+}
 
 // Various Calendar system conversion functions
 // Adapted from http://www.math.harvard.edu/computing/javascript/Calendar/
@@ -1022,6 +1149,9 @@ function julianToGregorian(jd) {
     }
 
     // Let JS do the math for the month and date... 
+    var test1 = gregorianToJulian(year, 0, 1);
+    var test = new Date(year, 0, wjd - test1);
+    var testS = test.toString();
     return new Date(year, 0, wjd - gregorianToJulian(year, 0, 1));
 }
 

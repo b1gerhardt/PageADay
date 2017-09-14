@@ -31,7 +31,7 @@ const fs = require('fs');
 const repl = require('repl');
 const PAD = require('./pageaday');
 const Ymd = require('./padutil');
-const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/test.xml";
+const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/pageadaydata.xml";
 
 // Node.JS debug variables
 var timer1 = "ElapsedTime";
@@ -42,7 +42,7 @@ var days = 1;
 
 console.log("Running...");
 
-var findOnly = "sunset";
+var findOnly = "Spring";
 var showFullPage = false;
 var startDate = "2007-01-01";
 var endDate = "2027-12-31";
