@@ -614,28 +614,45 @@ function isHijriDate (page, ymd) {
 function isSeason(page, ymd) {
     var season = Number.NaN;
     var offset = 0;
-    for (var i = page.args.length - 1; i >= 0; i -= 1) {
-        switch (page.args[i]) {
-            case "NORTH":
-                offset = 0;
-                break;
 
-            case "SOUTH":
-                offset = 2;
-                break;
+    if (page.args.some(function (s) { return s === "SOUTH" }) === true) {
+        offset = 2;
+    }
+
+    for (var i = page.args.length - 1; i >= 0; i -= 1) {
+        switch ( page.args[i] ) {
+            case "MARCH":
+            case "MAR":
+                offset = 0;
+                /* falls through */
 
             case "SPRING":
                 season = 0;
                 break;
 
+            case "JUNE":
+            case "JUN":
+                offset = 0;
+                /* falls through */
+
             case "SUMMER":
                 season = 1;
                 break;
+
+            case "AUGUST":
+            case "AUG":
+                offset = 0;
+                /* falls through */
 
             case "FALL":
             case "AUTUMN":
                 season = 2;
                 break;
+
+            case "DECEMBER":
+            case "DEC":
+                offset = 0;
+                /* falls through */
 
             case "WINTER":
                 season = 3;
@@ -645,6 +662,7 @@ function isSeason(page, ymd) {
 
     var event = getEquinox((season + offset) % 4, ymd.yy);
 
+    // BUG: My answers don't match WolframAlpha. Likely a timezone thing.
     return matchOrNaN(ymd.yy, event.yy, ymd.mm, event.mm, ymd.dd, event.dd);
 }
 
@@ -977,86 +995,25 @@ function matchOrNaN() {
 //
 //      Spring Equinox (March), Summer Solstice (June), Autumn Equinox (August), Winter Solstice (December)
 //
-// Original code supported dates from -1000 to +3000. This code only supports +1000 to +3000
-//
 
 // 
 // getEquinox -- Returns YMD formatted date of the Equinox or Solstice specified. Assumes northern hemisphere.
 //               For southern hemisphere, just reverse the seasons.
 //
-// Based on the book "Astronomical Algorithms" by Jean Meeus. 
-// Adapted from these implementations:
-//      Juergen Giesen (see http://www.geoastro.de/astro/astroJS/seasons/index.htm)
-//  and Sonia Keys (see https://github.com/soniakeys/meeus)
-//
 //  season: 0 = Spring (March)
 //          1 = Summer (June)
 //          2 = Autumn (August)
 //          3 = Winter (December)
-//  year: Gregorian year. Supported range is 1000 through 3000
+//  year: Gregorian year
 //
 
 function getEquinox(season, year) {
-    if (year < 1000 || year > 3000 || isNaN (season)) {
-        return undefined;
-    }
+    var jd = getJulianEquinox(season, year);
+    var d = julianToGregorian(jd);
+    var ymd = new Ymd(d);
 
-    var terms = [
-        [485, 324.96, 1934.136],
-        [203, 337.23, 32964.467],
-        [199, 342.08, 20.186],
-        [182, 27.85, 445267.112],
-        [156, 73.14, 45036.886],
-        [136, 171.52, 22518.443],
-        [77, 222.54, 65928.934],
-        [74, 296.72, 3034.906],
-        [70, 243.58, 9037.513],
-        [58, 119.81, 33718.147],
-        [52, 297.17, 150.678],
-        [50, 21.02, 2281.226],
-        [45, 247.54, 29929.562],
-        [44, 325.15, 31555.956],
-        [29, 60.93, 4443.417],
-        [18, 155.12, 67555.328],
-        [17, 288.79, 4562.452],
-        [16, 198.04, 62894.029],
-        [14, 199.76, 31436.921],
-        [12, 95.39, 14577.848],
-        [12, 287.11, 31931.756],
-        [12, 320.81, 34777.259],
-        [9, 227.73, 1222.114],
-        [8, 15.45, 16859.074]
-    ];
-    var magic = [
-        [2451623.80984, 365242.37404, .05169, -.00411, -.00057],
-        [2451716.56767, 365241.62603, .00325, .00888, -.00030],
-        [2451810.21715, 365242.01767, -.11575, .00337, .00078],
-        [2451900.05952, 365242.74049, -.06223, -.00823, .00032]
-    ];
+    return new Ymd(julianToGregorian(getJulianEquinox(season, year)));
 
-    var y = (year - 2000) / 1000;
-    season = season % 4;
-
-    var K = Math.PI / 180;
-
-    var i = magic[season].length - 1;
-    var j0 = magic[season][i];
-    while (i > 0) {
-        j0 = j0 * y + magic[season][--i];
-    }
-
-    var T = (j0 - 2451545) / 36525;                         // T = Julian centuries since Gregorian Jan 1, 2000.
-    var W = 35999.373 * K * T - 2.47 * K; 
-    var dL = 1 + 0.0334 * Math.cos(W) + 0.0007 * Math.cos(2 * W);
-
-    var S = 0;
-    for (i = terms.length - 1; i >= 0; i -= 1) {
-        S += terms[i][0] * Math.cos((terms[i][1] + terms[i][2] * T) * K);
-    }
-
-    // Have Julian date. Convert Julian date to YMD format
-    // TODO: Make sure timezone stuff is right...
-    return new Ymd(julianToGregorian(j0 + 0.00001 * S / dL));
 }
 
 
@@ -1099,6 +1056,7 @@ function getEasterW (year) {
 
 // Various Calendar system conversion functions
 // Adapted from http://www.math.harvard.edu/computing/javascript/Calendar/
+// Derived from Meeus, Jean. Astronomical Algorithms . Richmond: Willmann-Bell, 1991. ISBN 0-943396-35-2. 
 
 
 /*  MOD  --  Modulus function which works for non-integers.  */
@@ -1117,7 +1075,6 @@ function calAmod(a, b) {
 // GREGORIAN_EPOCH = 1721425.5;
 
 // Is it leap year? Credit to Kevin P. Rice
-
 function gregorianIsLeap(year) {
     // Copied from https://stackoverflow.com/questions/3220163/how-to-find-leap-year-programatically-in-c/11595914#11595914
     return (year & 3) === 0 && ((year % 25) !== 0 || (year & 15) === 0);
@@ -1148,11 +1105,14 @@ function julianToGregorian(jd) {
         year++;
     }
 
-    // Let JS do the math for the month and date... 
-    var test1 = gregorianToJulian(year, 0, 1);
-    var test = new Date(year, 0, wjd - test1);
-    var testS = test.toString();
-    return new Date(year, 0, wjd - gregorianToJulian(year, 0, 1));
+    var yearday = wjd - gregorianToJulian(year, 0, 1);
+    var leapadj = ((wjd < gregorianToJulian(year, 2, 1)) ? 0 :
+                   (gregorianIsLeap(year) ? 1 : 2));
+    var month = Math.floor((((yearday + leapadj) * 12) + 373) / 367) - 1; // 0-based month for JS
+    var day = (wjd - gregorianToJulian(year, month, 1)) + 1;
+
+    return new Date(year, month, day);
+    
 }
 
 // Julian / Hebrew Conversion ===================
@@ -1307,6 +1267,101 @@ function julianToIslamic(jd) {
         dd: day
     };
 }
+
+// Equinox Calculation ===================
+
+/*  EQUINOX  --  Determine the Julian Ephemeris Day of an
+                 equinox or solstice from a Gregorian year.
+                 The "which" argument selects the item to be computed:
+                    0   March equinox
+                    1   June solstice
+                    2   September equinox
+                    3   December solstice
+
+*/
+
+//  Periodic terms to obtain true time
+var EquinoxpTerms = [
+    485, 324.96, 1934.136,
+    203, 337.23, 32964.467,
+    199, 342.08, 20.186,
+    182, 27.85, 445267.112,
+    156, 73.14, 45036.886,
+    136, 171.52, 22518.443,
+    77, 222.54, 65928.934,
+    74, 296.72, 3034.906,
+    70, 243.58, 9037.513,
+    58, 119.81, 33718.147,
+    52, 297.17, 150.678,
+    50, 21.02, 2281.226,
+    45, 247.54, 29929.562,
+    44, 325.15, 31555.956,
+    29, 60.93, 4443.417,
+    18, 155.12, 67555.328,
+    17, 288.79, 4562.452,
+    16, 198.04, 62894.029,
+    14, 199.76, 31436.921,
+    12, 95.39, 14577.848,
+    12, 287.11, 31931.756,
+    12, 320.81, 34777.259,
+    9, 227.73, 1222.114,
+    8, 15.45, 16859.074
+];
+
+var JDE0tab1000 = [
+    [1721139.29189, 365242.13740, 0.06134, 0.00111, -0.00071],
+    [1721233.25401, 365241.72562, -0.05323, 0.00907, 0.00025],
+    [1721325.70455, 365242.49558, -0.11677, -0.00297, 0.00074],
+    [1721414.39987, 365242.88257, -0.00769, -0.00933, -0.00006]
+];
+
+var JDE0tab2000 = [
+    [2451623.80984, 365242.37404, 0.05169, -0.00411, -0.00057],
+    [2451716.56767, 365241.62603, 0.00325, 0.00888, -0.0003],
+    [2451810.21715, 365242.01767, -0.11575, 0.00337, 0.00078],
+    [2451900.05952, 365242.74049, -0.06223, -0.00823, 0.00032]
+];
+
+function getJulianEquinox(which, year) {
+    var deltaL, i, j, JDE0, JDE0tab, S, T, W, Y;
+
+    // Initialise terms for mean equinox and solstices.  
+    // We have two sets: one for years prior to 1000 and a second for subsequent years.
+
+    if (year < 1000) {
+        JDE0tab = JDE0tab1000;
+        Y = year / 1000;
+    } else {
+        JDE0tab = JDE0tab2000;
+        Y = (year - 2000) / 1000;
+    }
+
+    which %= 4;
+
+    JDE0 = JDE0tab[which][0] +
+        (JDE0tab[which][1] * Y) +
+        (JDE0tab[which][2] * Y * Y) +
+        (JDE0tab[which][3] * Y * Y * Y) +
+        (JDE0tab[which][4] * Y * Y * Y * Y);
+
+    T = (JDE0 - 2451545.0) / 36525;
+    W = (35999.373 * T) - 2.47;
+    deltaL = 1 +
+            (0.0334 * Math.cos((W * Math.PI) / 180.0)) +
+            (0.0007 * Math.cos((2 * W * Math.PI) / 180.0));
+
+    //  Sum the periodic terms for time T
+
+    S = 0;
+    for (i = j = 0; i < 24; i++) {
+        S += EquinoxpTerms[j] * Math.cos((EquinoxpTerms[j + 1] +
+            (EquinoxpTerms[j + 2] * T)) * Math.PI / 180);
+        j += 3;
+    }
+
+    return JDE0 + ((S * 0.00001) / deltaL);
+}
+
 
 
 //

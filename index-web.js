@@ -8,7 +8,8 @@
 var MyPAD = new PAD( "" );
 
 // Change this to change where the data comes from...
-var xmlSource = 'pageadaydata.xml';
+//var xmlSource = 'pageadaydata.xml';
+var xmlSource = 'http://pageaday.org/pageadaydatav5.xml';
 
 // Pre-load images for better response...
 for ( var i = 1; i <= 12; i++ ) {
@@ -16,12 +17,27 @@ for ( var i = 1; i <= 12; i++ ) {
     image.src = "./artassets/medium-" + i + ".png";
 }
 
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] === variable) { return pair[1]; }
+    }
+    return undefined;
+}
+
 function PADWebInit() {
+
+    var xml = getQueryVariable("Path") || xmlSource;
+    var dStr = getQueryVariable("Date");
+    var d = dStr ? new Date(dStr) : new Date();
+
     // Start the asynch XML data source load
-    PADWebLoadXML( xmlSource );
+    PADWebLoadXML( xml );
 
     // Initialize to today for first page load
-    var ymd = new Ymd(new Date());
+    var ymd = new Ymd(d);
 
     document.forms[0]["nameStartDate"].value = ymd.toString();
     document.forms[0]["nameEndDate"].value = ymd.toString();
