@@ -73,8 +73,6 @@ function Ymd(d) {
         return d;
     };
 
-    // TODO: Figure out why spread operator doesn't work for Node.JS in this case.
-    //this.setYmd(...d);
     this.setYmd.apply(this, arguments);
 }
 

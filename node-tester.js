@@ -42,8 +42,8 @@ var days = 1;
 
 console.log("Running...");
 
-var findOnly = "Spring";
-var showFullPage = false;
+var findOnly = "";
+var showFullPage = true;
 var startDate = "2007-01-01";
 var endDate = "2027-12-31";
 

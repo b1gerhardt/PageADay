@@ -312,7 +312,7 @@
             <td>
                 Will match for every Friday the 13th.<br />
                 <br />
-                <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> can be used to further filter the result.<br />
+                <strong>MONTH</strong>, <strong>DAY</strong>, and <strong>YEAR</strong> can be used to further filter the result.<br />
                 <br />
             Example:
             <div id="indent">
@@ -379,7 +379,8 @@
             <td>
                 Provides a simplified way to describe Christian holidays.<br />
                 <br />
-                <strong>MONTH, </strong><strong>DAY</strong> and <strong>YEAR</strong> are not used.<br />
+                <strong>MONTH</strong> and <strong>DAY</strong> are not used.<br />
+                <strong>YEAR</strong> can be used to further filter the result.<br />
                 <br />
                 <var>holiday</var>&nbsp;&nbsp;can be one of the following:
                     <ul style="white-space:nowrap;list-style-type:none;">
@@ -415,15 +416,14 @@
         </tr>
         <tr>
             <td><code>Hebrew</code></td>
-            <td id="nowrap">[<code>delayed</code>]</td>
+            <td id="nowrap">[<code>delayed</code>] [<code>sunset</code>]</td>
             <td>
                 Provides a simplified way to describe dates and holidays based on the Hebrew calendar.<br />
                 <br />
                 <strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hewbrew date.<br />
                 <br />
                 <code>delayed</code>&nbsp;&nbsp;(optional) If present, matches Sunday when the date falls on Saturday. Useful for holidays like Tisha B&#39;Av.<br />
-                <br />
-                Note: Event is displayed for the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
+                <code>sunset</code>&nbsp;&nbsp;(optional) If present, matches the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
                 <br />
                 Examples:
                 <div id="indent">
@@ -431,25 +431,25 @@
                         <tr style="font-weight: bold">
                             <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>1</code></td><td><code>15</code></td><td></td><td><code>Passover</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>1</code></td><td><code>15</code></td><td></td><td><code>Passover</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>3</code></td><td><code>6</code></td><td></td><td><code>Shavuot</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>3</code></td><td><code>6</code></td><td></td><td><code>Shavuot</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew true</code></td><td><code>5</code></td><td><code>9</code></td><td></td><td><code>Tisha B'Av</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew delayed sunset</code></td><td><code>5</code></td><td><code>9</code></td><td></td><td><code>Tisha B'Av</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>1</code></td><td></td><td><code>Rosh Hashanah</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>7</code></td><td><code>1</code></td><td></td><td><code>Rosh Hashanah</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>10</code></td><td></td><td><code>Yom Kippur</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>7</code></td><td><code>10</code></td><td></td><td><code>Yom Kippur</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>15</code></td><td></td><td><code>Sukkot</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>7</code></td><td><code>15</code></td><td></td><td><code>Sukkot</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>22</code></td><td></td><td><code>Shemini Atzeret</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>7</code></td><td><code>22</code></td><td></td><td><code>Shemini Atzeret</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>7</code></td><td><code>23</code></td><td></td><td><code>Simchat Torah</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>7</code></td><td><code>23</code></td><td></td><td><code>Simchat Torah</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>9</code></td><td><code>25</code></td><td></td><td><code>Hanukkah</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>9</code></td><td><code>25</code></td><td></td><td><code>Hanukkah</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hebrew</code></td><td><code>12</code></td><td><code>14</code></td><td></td><td><code>Purim</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hebrew sunset</code></td><td><code>12</code></td><td><code>14</code></td><td></td><td><code>Purim</code></td><td></td>
                         </tr>
                     </table>
                 </div>
@@ -457,12 +457,12 @@
         </tr>
         <tr>
             <td><code>Hijri</code></td>
-            <td id="nowrap"><i>none</i></td>
+            <td id="nowrap"><i>[<code>sunset</code>]</i></td>
             <td>
                 Provides a simplified way to describe dates and holidays based on the Hijri calendar.<br />
                 <br /><strong>MONTH</strong>, <strong>DAY</strong> and <strong>YEAR</strong>, if present, are treated as a Hijri date.<br />
                 <br />
-                Note: Event is displayed for the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
+                <code>sunset</code>&nbsp;&nbsp;(optional) If present, matches the Gregorian day prior and "(at sunset)" is appended to the event name.<br />
                 <br />
                 Examples:
                 <div id="indent">
@@ -470,29 +470,29 @@
                         <tr style="font-weight: bold">
                             <td>TYPE</td><td>SPECIAL</td><td>MONTH</td><td>DAY</td><td>YEAR</td><td>NAME</td><td>...</td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>1</code></td><td><code>1</code></td><td></td><td><code>Islamic New Year</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>1</code></td><td><code>1</code></td><td></td><td><code>Islamic New Year</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>1</code></td><td><code>10</code></td><td></td><td><code>Day of Ashura</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>1</code></td><td><code>10</code></td><td></td><td><code>Day of Ashura</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>3</code></td><td><code>12</code></td><td></td><td><code>Mawlid (Sunni)</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>3</code></td><td><code>12</code></td><td></td><td><code>Mawlid (Sunni)</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>3</code></td><td><code>17</code></td><td></td><td><code>Mawlid (Shia)</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>3</code></td><td><code>17</code></td><td></td><td><code>Mawlid (Shia)</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>7</code></td><td><code>27</code></td><td></td><td><code>Isra and Mi'raj</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>7</code></td><td><code>27</code></td><td></td><td><code>Isra and Mi'raj</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>8</code></td><td><code>15</code></td><td></td><td><code>Mid-Sha&#39;bān</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>8</code></td><td><code>15</code></td><td></td><td><code>Mid-Sha&#39;bān</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>9</code></td><td><code>1</code></td><td></td><td><code>Ramadan Begins</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>9</code></td><td><code>1</code></td><td></td><td><code>Ramadan Begins</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>9</code></td><td><code>27</code></td><td></td><td><code>Nuzul al-Qur'an</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>9</code></td><td><code>27</code></td><td></td><td><code>Nuzul al-Qur'an</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>10</code></td><td><code>1</code></td><td></td><td><code>Eid ul-Fitr</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>10</code></td><td><code>1</code></td><td></td><td><code>Eid ul-Fitr</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>8</code></td><td></td><td><code>Hajj begins</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>12</code></td><td><code>8</code></td><td></td><td><code>Hajj begins</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>9</code></td><td></td><td><code>Day of Arafa</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>12</code></td><td><code>9</code></td><td></td><td><code>Day of Arafa</code></td><td></td>
                         </tr><tr>
-                            <td><code>HOLIDAY</code></td><td><code>Hijri</code></td><td><code>12</code></td><td><code>10</code></td><td></td><td><code>Eid al-Adha</code></td><td></td>
+                            <td><code>HOLIDAY</code></td><td><code>Hijri sunset</code></td><td><code>12</code></td><td><code>10</code></td><td></td><td><code>Eid al-Adha</code></td><td></td>
                         </tr>
                     </table>
                 </div>
@@ -523,7 +523,8 @@
         </tr>
     </table>
     <h2>Tips for Creating Your Database</h2>
-    The sample 
+    Use the template as a starting point. It includes many common dates, examples on how to use holidays, events, birthdays, and anniversaries.
+
     <ul>
         <li>Order is important. Page-A-Day reads your database from top to bottom. All matching holidays, birthdays and 
             anniversaries will be combined in the order they appear. But, only the first matching quote will be used.</li>
@@ -535,10 +536,10 @@
                 event and enter a specific month, day and year plus your custom quote. <i>Note:</i> The extra record should be
                 <code>TYPE=GENERAL</code> and just contain the quote. Otherwise, both records will match and you'll have a duplicate 
                 holiday, birthday or anniversary announcement.</li>
-        <li>todo: FIXED to highlight specific years.</li>
     </ul>
     <br /><br />
 
+    <!--
         FOR TIPS SECTION:
     * Remind that order is important (maybe a whole section on this)
     * Note that duplicate records can make sense. Ex: Special birthdays can be highlighted with an extra record before the default one
@@ -547,11 +548,17 @@
       for all dates and will be used as-is if there is not a more specific date. Similarly, entering only a month, day, oryear will
       give you a default for that month/day/year.
 
-    -->
     <h2>Exporting to XML</h2>
     <h2>Publishing Your Data</h2>
-    <h2>Calling Page-A-Day With Your Data</h2>
+    -->
 
+    <h2>Calling Page-A-Day With Your Data</h2>
+    To call Page-A-Day with your own data, first you need to host your XML data on a CORS compatible hosting service. Amazon S3 is
+    probably the easiest. Note that could file sharing sites like OneDrive, Dropbox, and iCloud do NOT support CORS 
+    access. If you are having trouble finding a place to host your data, <a href="mailto:b1gerhardt@yahoo.com">send me an email</a> and I'll put it on my site for you.
+
+    Once you have your data hosted, call Page-A-Day with the <code>Path=</code> argument. For example:<br />
+    <p style="margin-left: 40px"><a href="http://pageaday.org/index.html?Path=./pageadaydata.xml"><code>http://pageaday.org/index.html?Path=./pageadaydata.xml</code></a></p>
 
 </body>
 </html>

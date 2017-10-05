@@ -223,22 +223,22 @@ function handlePageADayRequest( intent, session, response ) {
 
             if ( formattedResult.holidays.length > 0 ) {
                 speechText += "<p> " + formattedResult.holidays + "</p> ";
-                cardContent += formattedResult.holidays + ". ";
-            }
-
-            if ( formattedResult.anniversaries.length > 0 ) {
-                speechText += "<p> " + formattedResult.anniversaries+ "</p> ";
-                cardContent += formattedResult.anniversaries + ". ";
+                cardContent += formattedResult.holidays + "\n";
             }
 
             if ( formattedResult.birthdays.length > 0 ) {
-                speechText += "<p> " + formattedResult.birthdays + "</p> ";
-                cardContent += formattedResult.birthdays + ". ";
+                speechText += "<p> Birthdays:" + formattedResult.birthdays + "</p> ";
+                cardContent += "Birthdays: " + formattedResult.birthdays + "\n";
+            }
+
+            if (formattedResult.anniversaries.length > 0) {
+                speechText += "<p> Anniversaries: " + formattedResult.anniversaries + "</p> ";
+                cardContent += "Anniversaries: " + formattedResult.anniversaries + "\n";
             }
 
             if ( formattedResult.saying.length > 0 ) {
                 speechText += "<p> " + formattedResult.saying + "</p> ";
-                cardContent += formattedResult.saying + ". ";
+                cardContent += formattedResult.saying + "\n";
             }
 
             var speechOutput = {

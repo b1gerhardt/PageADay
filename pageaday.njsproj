@@ -13,6 +13,8 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NameOfLastUsedPublishProfile>DoDaddy Web</NameOfLastUsedPublishProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -25,12 +27,12 @@
     <None Include="DoDaddy Web.pubxml" />
     <Content Include="how-to.html" />
     <Content Include="index.html" />
+    <Content Include="packages.config" />
     <Content Include="pageaday.html" />
     <Content Include="pageaday_min.html" />
     <Content Include="pageaday.css" />
     <Content Include="params.json" />
     <Content Include="README.md" />
-    <Content Include="pageadaydatav5.xml" />
     <Compile Include="alexaskills.js" />
     <Compile Include="index-alexa.js" />
     <Compile Include="index-web.js" />
@@ -179,4 +181,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets" Condition="Exists('packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BuildWebCompiler.1.11.326\build\BuildWebCompiler.targets'))" />
+  </Target>
 </Project>

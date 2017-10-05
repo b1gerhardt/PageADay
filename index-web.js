@@ -9,7 +9,7 @@ var MyPAD = new PAD( "" );
 
 // Change this to change where the data comes from...
 //var xmlSource = 'pageadaydata.xml';
-var xmlSource = 'http://pageaday.org/pageadaydatav5.xml';
+var xmlSource = 'http://pageaday.org/pageadaydata.xml';
 
 // Pre-load images for better response...
 for ( var i = 1; i <= 12; i++ ) {
@@ -122,10 +122,19 @@ function PADWebProcessForm(command) {
         document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.ymdS.mm + " " + fmtResult.ymdS.yy;
         document.getElementById( "PADDay" ).innerHTML = fmtResult.ymdS.dd;
         document.getElementById( "PADDOW" ).innerHTML = fmtResult.ymdS.dow;
-        document.getElementById( "PADSaying" ).innerHTML = fmtResult.saying;
+        document.getElementById("PADSaying").innerHTML = fmtResult.saying;
+        if (fmtResult.author.length > 0) {
+            fmtResult.author = "- " + fmtResult.author;
+        }
         document.getElementById( "PADAuthor" ).innerHTML = fmtResult.author;
-        document.getElementById( "PADHoliday" ).innerHTML = fmtResult.holidays;
-        document.getElementById( "PADBirthday" ).innerHTML = fmtResult.birthdays;
+        document.getElementById("PADHoliday").innerHTML = fmtResult.holidays;
+        if (fmtResult.birthdays.length > 0) {
+            fmtResult.birthdays = "Birthdays: " + fmtResult.birthdays;
+        }
+        document.getElementById("PADBirthday").innerHTML = fmtResult.birthdays;
+        if (fmtResult.anniversaries.length > 0) {
+            fmtResult.anniversaries = "Anniversaries: " + fmtResult.anniversaries;
+        }
         document.getElementById( "PADAnniversary" ).innerHTML = fmtResult.anniversaries;
     }
 }

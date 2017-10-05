@@ -356,187 +356,13 @@ but she's a tough old biddy.</ns1:SAYING>
 			<ns1:AUTHOR>Walt Disney</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>SEASONS =================================================================================</ns1:SPECIAL>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>31</ns1:DAY>
-			<ns1:NAME>New Year's Eve</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>New Year’s Day</ns1:NAME>
-			<ns1:SAYING>Cheers to a new year and another chance for us to get it right.</ns1:SAYING>
-			<ns1:AUTHOR>Oprah Winfrey</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
 			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>29</ns1:DAY>
-			<ns1:NAME>Leap Day</ns1:NAME>
-			<ns1:SAYING>Just keep swimming … swimming … swimming …</ns1:SAYING>
-			<ns1:AUTHOR>Dory from the movie Finding Nemo</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>WeekOfMonth 2 0</ns1:SPECIAL>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:NAME>Daylight Savings Time Begins (Turn clock forward an hour)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>WeekOfMonth 1 0</ns1:SPECIAL>
-			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Daylight Savings Time Ends (turn clock back an hour)</ns1:NAME>
-			<ns1:COMMENT>Daylight savings ends first Sunday in November</ns1:COMMENT>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-03-20 2018-03-20 2019-03-20 2020-03-19</ns1:SPECIAL>
-			<ns1:NAME>First day of Spring</ns1:NAME>
-			<ns1:SAYING>Spring is nature's way of saying, "Let's party!"</ns1:SAYING>
-			<ns1:AUTHOR>Robin Williams</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-06-21 2018-06-21 2019-06-21 2020-06-20</ns1:SPECIAL>
-			<ns1:NAME>First day of Summer</ns1:NAME>
-			<ns1:SAYING>It's a smile, it's a kiss, it's a sip of wine … it's summertime!</ns1:SAYING>
-			<ns1:AUTHOR>Kenny Chesney</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-09-22 2017-09-22 2018-09-23 2019-09-23 2020-09-22</ns1:SPECIAL>
-			<ns1:NAME>First day of Autumn</ns1:NAME>
-			<ns1:SAYING>Give me juicy autumnal fruit, ripe and red from the orchard.</ns1:SAYING>
-			<ns1:AUTHOR>Walt Whitman</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2016-12-21 2017-12-21 2018-12-21 2019-12-22 2020-12-21</ns1:SPECIAL>
-			<ns1:NAME>First day of Winter</ns1:NAME>
-			<ns1:SAYING>A lot of people like snow. I find it to be an unnecessary freezing of water.</ns1:SAYING>
-			<ns1:AUTHOR>Carl Reiner</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Season Spring</ns1:SPECIAL>
-			<ns1:NAME>First day of Spring</ns1:NAME>
-			<ns1:SAYING>Spring is nature's way of saying, "Let's party!"</ns1:SAYING>
-			<ns1:AUTHOR>Robin Williams</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Season Summer</ns1:SPECIAL>
-			<ns1:NAME>First day of Summer</ns1:NAME>
-			<ns1:SAYING>It's a smile, it's a kiss, it's a sip of wine … it's summertime!</ns1:SAYING>
-			<ns1:AUTHOR>Kenny Chesney</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Season Autumn</ns1:SPECIAL>
-			<ns1:NAME>First day of Autumn</ns1:NAME>
-			<ns1:SAYING>Give me juicy autumnal fruit, ripe and red from the orchard.</ns1:SAYING>
-			<ns1:AUTHOR>Walt Whitman</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Season Winter</ns1:SPECIAL>
-			<ns1:NAME>First day of Winter</ns1:NAME>
-			<ns1:SAYING>A lot of people like snow. I find it to be an unnecessary freezing of water.</ns1:SAYING>
-			<ns1:AUTHOR>Carl Reiner</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>US ASTRONOMY EVENTS =======================================================================</ns1:SPECIAL>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-08-21 2024-04-08 2033-03-30 2044-08-23 2045-08-12</ns1:SPECIAL>
-			<ns1:NAME>Total Solar Eclipse</ns1:NAME>
-			<ns1:SAYING>So I was just about to, you know, walk on by.
-When suddenly, and without warning,
-There was this ...
-Total eclipse of the sun.</ns1:SAYING>
-			<ns1:AUTHOR>Da Doo from Little Shop of Horrors</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2021-06-10 2023-10-14 2028-01-26 2038-01-5 2039-06-21</ns1:SPECIAL>
-			<ns1:NAME>Annular Solar Eclipse</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2025-03-29 2029-01-14 2029-06-12 2036-08-21</ns1:SPECIAL>
-			<ns1:NAME>Partial Solar Eclipse</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2018-01-31 2019-01-20 2021-05-26 2022-05-15 2022-11-08 2025-03-13 2026-03-03</ns1:SPECIAL>
-			<ns1:NAME>Total Lunar Eclipse</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2020-07-04 2020-11-29 2024-03-24</ns1:SPECIAL>
-			<ns1:NAME>Penumbral Lunar Eclipse</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2021-11-18 2023-10-28 2024-09-17 2026-08-27</ns1:SPECIAL>
-			<ns1:NAME>Partial Lunar Eclipse</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 10</ns1:SPECIAL>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>Quadrantids Meteor Meteor Shower (Jan 1 - Jan 10)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 10</ns1:SPECIAL>
-			<ns1:MONTH>4</ns1:MONTH>
-			<ns1:DAY>16</ns1:DAY>
-			<ns1:NAME>Lyrids Meteor Shower (Apr 16 - Apr 25)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 31</ns1:SPECIAL>
-			<ns1:MONTH>7</ns1:MONTH>
-			<ns1:DAY>11</ns1:DAY>
-			<ns1:NAME>Alpha Capricornids Meteor Shower (Jul 11 - Aug 10)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 45</ns1:SPECIAL>
-			<ns1:MONTH>7</ns1:MONTH>
-			<ns1:DAY>13</ns1:DAY>
-			<ns1:NAME>Perseids Meteor Shower (Jul 13 - Aug 26)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 42</ns1:SPECIAL>
-			<ns1:MONTH>10</ns1:MONTH>
-			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Orionids Meteor Shower (Oct 4 - Nov 14)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 26</ns1:SPECIAL>
-			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:DAY>5</ns1:DAY>
-			<ns1:NAME>Leonids Meteor Shower (Nov 5 - Nov 30)</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>Span 13</ns1:SPECIAL>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>4</ns1:DAY>
-			<ns1:NAME>Geminids Meteor Shower (Dec 4 - Dec 16)</ns1:NAME>
+			<ns1:MONTH>8</ns1:MONTH>
+			<ns1:DAY>12</ns1:DAY>
+			<ns1:YEAR>1939</ns1:YEAR>
+			<ns1:NAME>Wizard of Oz</ns1:NAME>
+			<ns1:SAYING>Toto, I've a feeling we're not in Kansas anymore.</ns1:SAYING>
+			<ns1:AUTHOR>Dorothy Gale</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>
@@ -653,70 +479,70 @@ Again, in spite of that, we call this Friday good.</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
 			<ns1:NAME>Passover</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>6</ns1:DAY>
 			<ns1:NAME>Shavuot</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew true</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew true sunset</ns1:SPECIAL>
 			<ns1:MONTH>5</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
 			<ns1:NAME>Tisha B'Av</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
 			<ns1:NAME>Rosh Hashanah</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
 			<ns1:NAME>Yom Kippur</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
 			<ns1:NAME>Sukkot</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>22</ns1:DAY>
 			<ns1:NAME>Shemini Atzeret</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>23</ns1:DAY>
 			<ns1:NAME>Simchat Torah</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>25</ns1:DAY>
 			<ns1:NAME>Hanukkah Starts</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hebrew</ns1:SPECIAL>
+			<ns1:SPECIAL>Hebrew sunset</ns1:SPECIAL>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>14</ns1:DAY>
 			<ns1:NAME>Purim</ns1:NAME>
@@ -727,84 +553,84 @@ Again, in spite of that, we call this Friday good.</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
 			<ns1:NAME>Islamic New Year</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>1</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
 			<ns1:NAME>Day of Ashura</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>12</ns1:DAY>
 			<ns1:NAME>Mawlid (Sunni)</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>3</ns1:MONTH>
 			<ns1:DAY>17</ns1:DAY>
 			<ns1:NAME>Mawlid (Shia)</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>7</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
 			<ns1:NAME>Isra and Mi'raj</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>8</ns1:MONTH>
 			<ns1:DAY>15</ns1:DAY>
 			<ns1:NAME>Mid-Sha'bān</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
 			<ns1:NAME>Ramadan Begins</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>9</ns1:MONTH>
 			<ns1:DAY>27</ns1:DAY>
 			<ns1:NAME>Nuzul al-Qur'an</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:DAY>1</ns1:DAY>
 			<ns1:NAME>Eid ul-Fitr</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>8</ns1:DAY>
 			<ns1:NAME>Hajj Begins</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>9</ns1:DAY>
 			<ns1:NAME>Day of Arafa</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>Hijri</ns1:SPECIAL>
+			<ns1:SPECIAL>Hijri sunset</ns1:SPECIAL>
 			<ns1:MONTH>12</ns1:MONTH>
 			<ns1:DAY>10</ns1:DAY>
 			<ns1:NAME>Eid al-Adha</ns1:NAME>
@@ -1042,6 +868,171 @@ Give me something good to eat.</ns1:SAYING>
 			<ns1:SAYING>Praise the lord and 
 pass the ammunition.</ns1:SAYING>
 			<ns1:AUTHOR>Lt. Howell Forgy</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
+			<ns1:SPECIAL>"INTERNATIONAL" HOLIDAYS ==============</ns1:SPECIAL>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>28</ns1:DAY>
+			<ns1:YEAR>2017</ns1:YEAR>
+			<ns1:NAME>Chinese New Year. Year of the Fire Chicken.</ns1:NAME>
+			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>16</ns1:DAY>
+			<ns1:YEAR>2018</ns1:YEAR>
+			<ns1:NAME>Chinese New Year. Year of the Earth Dog.</ns1:NAME>
+			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>5</ns1:DAY>
+			<ns1:YEAR>2019</ns1:YEAR>
+			<ns1:NAME>Chinese New Year. Year of the Earth Pig.</ns1:NAME>
+			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>25</ns1:DAY>
+			<ns1:YEAR>2020</ns1:YEAR>
+			<ns1:NAME>Chinese New Year. Year of the Metal Rat.</ns1:NAME>
+			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
+			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>12</ns1:DAY>
+			<ns1:YEAR>2021</ns1:YEAR>
+			<ns1:NAME>Chinese New Year. Year of the Metal Ox.</ns1:NAME>
+			<ns1:SAYING>Those Hamm/Flemmings 
+can turn a phrase.</ns1:SAYING>
+			<ns1:AUTHOR>Elizabeth Donovan</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>3</ns1:MONTH>
+			<ns1:DAY>17</ns1:DAY>
+			<ns1:NAME>St. Patrick's Day</ns1:NAME>
+			<ns1:SAYING>The night that Paddy Murphy died, I never will forget.  The Irish all got Stinking drunk, and some aren't sober yet.  The one thing that they did that night that filled my heart with fear, they took the ice right off the corpse and put it on the beer!
+Oh, that's how we showed our respect for Paddy Murphy, that's how we showed our honor and our pride.  Oh, baby!  That's how we showed our respect to Paddy Murphy, on the night that Paddy died!</ns1:SAYING>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>5</ns1:MONTH>
+			<ns1:DAY>5</ns1:DAY>
+			<ns1:NAME>Cinco De Mayo</ns1:NAME>
+			<ns1:SAYING>Margot: You're going to need this. Elle: Your scrunchie? Margot: My LUCKY scrunchie. It helped me pass Spanish class. Serena: You passed Spanish because you gave Professor Montoya a lap dance after the final. Margot: Yeahhhhh, luckily!</ns1:SAYING>
+			<ns1:AUTHOR>The movie Legally Blonde</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>7</ns1:MONTH>
+			<ns1:DAY>1</ns1:DAY>
+			<ns1:NAME>Canada Day</ns1:NAME>
+			<ns1:SAYING>It's never felt more Canadian to be Canadian than it does now.</ns1:SAYING>
+			<ns1:AUTHOR>Douglas Coupland</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>10</ns1:MONTH>
+			<ns1:DAY>9</ns1:DAY>
+			<ns1:NAME>Leif Erikson Day</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>10</ns1:MONTH>
+			<ns1:DAY>24</ns1:DAY>
+			<ns1:NAME>United Nations Day</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>10</ns1:DAY>
+			<ns1:NAME>Nobel Prize Day</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>26</ns1:DAY>
+			<ns1:NAME>Boxing Day</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>IGNORE</ns1:TYPE>
+			<ns1:SPECIAL>SEASONS =================================================================================</ns1:SPECIAL>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>31</ns1:DAY>
+			<ns1:NAME>New Year's Eve</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>1</ns1:DAY>
+			<ns1:NAME>New Year’s Day</ns1:NAME>
+			<ns1:SAYING>Cheers to a new year and another chance for us to get it right.</ns1:SAYING>
+			<ns1:AUTHOR>Oprah Winfrey</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:MONTH>2</ns1:MONTH>
+			<ns1:DAY>29</ns1:DAY>
+			<ns1:NAME>Leap Day</ns1:NAME>
+			<ns1:SAYING>Just keep swimming … swimming … swimming …</ns1:SAYING>
+			<ns1:AUTHOR>Dory from the movie Finding Nemo</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>WeekOfMonth 2 0</ns1:SPECIAL>
+			<ns1:MONTH>3</ns1:MONTH>
+			<ns1:NAME>Daylight Savings Time Begins (Turn clock forward an hour)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>WeekOfMonth 1 0</ns1:SPECIAL>
+			<ns1:MONTH>11</ns1:MONTH>
+			<ns1:NAME>Daylight Savings Time Ends (turn clock back an hour)</ns1:NAME>
+			<ns1:COMMENT>Daylight savings ends first Sunday in November</ns1:COMMENT>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Spring</ns1:SPECIAL>
+			<ns1:NAME>First day of Spring</ns1:NAME>
+			<ns1:SAYING>Spring is nature's way of saying, "Let's party!"</ns1:SAYING>
+			<ns1:AUTHOR>Robin Williams</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Summer</ns1:SPECIAL>
+			<ns1:NAME>First day of Summer</ns1:NAME>
+			<ns1:SAYING>It's a smile, it's a kiss, it's a sip of wine … it's summertime!</ns1:SAYING>
+			<ns1:AUTHOR>Kenny Chesney</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Autumn</ns1:SPECIAL>
+			<ns1:NAME>First day of Autumn</ns1:NAME>
+			<ns1:SAYING>Give me juicy autumnal fruit, ripe and red from the orchard.</ns1:SAYING>
+			<ns1:AUTHOR>Walt Whitman</ns1:AUTHOR>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Season Winter</ns1:SPECIAL>
+			<ns1:NAME>First day of Winter</ns1:NAME>
+			<ns1:SAYING>A lot of people like snow. I find it to be an unnecessary freezing of water.</ns1:SAYING>
+			<ns1:AUTHOR>Carl Reiner</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>
@@ -1345,101 +1336,26 @@ pass the ammunition.</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>"INTERNATIONAL" HOLIDAYS ==============</ns1:SPECIAL>
+			<ns1:SPECIAL>POP CULTURE EVENTS ================</ns1:SPECIAL>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>28</ns1:DAY>
-			<ns1:YEAR>2017</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Fire Chicken.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>WeekOfMonth 1 0</ns1:SPECIAL>
 			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>16</ns1:DAY>
-			<ns1:YEAR>2018</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Earth Dog.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+			<ns1:NAME>Super Bowl Sunday</ns1:NAME>
+			<ns1:COMMENT>Super Bowl is first Sunday in February</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>5</ns1:DAY>
-			<ns1:YEAR>2019</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Earth Pig.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>ListOfDates 2017-02-26 2018-03-04</ns1:SPECIAL>
+			<ns1:NAME>Oscar Night</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>1</ns1:MONTH>
-			<ns1:DAY>25</ns1:DAY>
-			<ns1:YEAR>2020</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Metal Rat.</ns1:NAME>
-			<ns1:SAYING>You will have a prosperous year … in bed.</ns1:SAYING>
-			<ns1:AUTHOR>Chinese Proverb</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:DAY>12</ns1:DAY>
-			<ns1:YEAR>2021</ns1:YEAR>
-			<ns1:NAME>Chinese New Year. Year of the Metal Ox.</ns1:NAME>
-			<ns1:SAYING>Those Hamm/Flemmings 
-can turn a phrase.</ns1:SAYING>
-			<ns1:AUTHOR>Elizabeth Donovan</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>3</ns1:MONTH>
-			<ns1:DAY>17</ns1:DAY>
-			<ns1:NAME>St. Patrick's Day</ns1:NAME>
-			<ns1:SAYING>The night that Paddy Murphy died, I never will forget.  The Irish all got Stinking drunk, and some aren't sober yet.  The one thing that they did that night that filled my heart with fear, they took the ice right off the corpse and put it on the beer!
-Oh, that's how we showed our respect for Paddy Murphy, that's how we showed our honor and our pride.  Oh, baby!  That's how we showed our respect to Paddy Murphy, on the night that Paddy died!</ns1:SAYING>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>5</ns1:MONTH>
-			<ns1:DAY>5</ns1:DAY>
-			<ns1:NAME>Cinco De Mayo</ns1:NAME>
-			<ns1:SAYING>Margot: You're going to need this. Elle: Your scrunchie? Margot: My LUCKY scrunchie. It helped me pass Spanish class. Serena: You passed Spanish because you gave Professor Montoya a lap dance after the final. Margot: Yeahhhhh, luckily!</ns1:SAYING>
-			<ns1:AUTHOR>The movie Legally Blonde</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>7</ns1:MONTH>
-			<ns1:DAY>1</ns1:DAY>
-			<ns1:NAME>Canada Day</ns1:NAME>
-			<ns1:SAYING>It's never felt more Canadian to be Canadian than it does now.</ns1:SAYING>
-			<ns1:AUTHOR>Douglas Coupland</ns1:AUTHOR>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>10</ns1:MONTH>
-			<ns1:DAY>9</ns1:DAY>
-			<ns1:NAME>Leif Erikson Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>10</ns1:MONTH>
-			<ns1:DAY>24</ns1:DAY>
-			<ns1:NAME>United Nations Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>10</ns1:DAY>
-			<ns1:NAME>Nobel Prize Day</ns1:NAME>
-		</ns1:PAGE>
-		<ns1:PAGE>
-			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:MONTH>12</ns1:MONTH>
-			<ns1:DAY>26</ns1:DAY>
-			<ns1:NAME>Boxing Day</ns1:NAME>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>WeekOfMonth 4 4 6</ns1:SPECIAL>
+			<ns1:MONTH>11</ns1:MONTH>
+			<ns1:NAME>Rockefeller Christmas Tree Lighting</ns1:NAME>
+			<ns1:COMMENT>First Wednesday after Thanksgiving</ns1:COMMENT>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>
@@ -2265,7 +2181,7 @@ Well, I'll do it tomorrow, I mean</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>HOLIDAY</ns1:TYPE>
-			<ns1:SPECIAL>WeekOfMonth1 3</ns1:SPECIAL>
+			<ns1:SPECIAL>WeekOfMonth 1 3</ns1:SPECIAL>
 			<ns1:MONTH>10</ns1:MONTH>
 			<ns1:NAME>National Walk to School Day</ns1:NAME>
 		</ns1:PAGE>
@@ -2528,34 +2444,91 @@ Orange you glad it's Halloween?</ns1:SAYING>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>
-			<ns1:SPECIAL>POP CULTURE EVENTS ================</ns1:SPECIAL>
+			<ns1:SPECIAL>US ASTRONOMY EVENTS =======================================================================</ns1:SPECIAL>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>WeekOfMonth 1 0</ns1:SPECIAL>
-			<ns1:MONTH>2</ns1:MONTH>
-			<ns1:NAME>Super Bowl Sunday</ns1:NAME>
-			<ns1:COMMENT>Super Bowl is first Sunday in February</ns1:COMMENT>
+			<ns1:SPECIAL>ListOfDates 2017-08-21 2024-04-08 2033-03-30 2044-08-23 2045-08-12</ns1:SPECIAL>
+			<ns1:NAME>Total Solar Eclipse</ns1:NAME>
+			<ns1:SAYING>So I was just about to, you know, walk on by.
+When suddenly, and without warning,
+There was this ...
+Total eclipse of the sun.</ns1:SAYING>
+			<ns1:AUTHOR>Da Doo from Little Shop of Horrors</ns1:AUTHOR>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>ListOfDates 2017-02-26 2018-03-04</ns1:SPECIAL>
-			<ns1:NAME>Oscar Night</ns1:NAME>
+			<ns1:SPECIAL>ListOfDates 2021-06-10 2023-10-14 2028-01-26 2038-01-5 2039-06-21</ns1:SPECIAL>
+			<ns1:NAME>Annular Solar Eclipse</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:MONTH>8</ns1:MONTH>
-			<ns1:DAY>12</ns1:DAY>
-			<ns1:NAME>Wizard of Oz released (1939)</ns1:NAME>
-			<ns1:SAYING>Toto, I've a feeling we're not in Kansas anymore.</ns1:SAYING>
-			<ns1:AUTHOR>Dorothy Gale</ns1:AUTHOR>
+			<ns1:SPECIAL>ListOfDates 2025-03-29 2029-01-14 2029-06-12 2036-08-21</ns1:SPECIAL>
+			<ns1:NAME>Partial Solar Eclipse</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>EVENT</ns1:TYPE>
-			<ns1:SPECIAL>WeekOfMonth 4 4 6</ns1:SPECIAL>
+			<ns1:SPECIAL>ListOfDates 2018-01-31 2019-01-20 2021-05-26 2022-05-15 2022-11-08 2025-03-13 2026-03-03</ns1:SPECIAL>
+			<ns1:NAME>Total Lunar Eclipse</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>ListOfDates 2020-07-04 2020-11-29 2024-03-24</ns1:SPECIAL>
+			<ns1:NAME>Penumbral Lunar Eclipse</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>ListOfDates 2021-11-18 2023-10-28 2024-09-17 2026-08-27</ns1:SPECIAL>
+			<ns1:NAME>Partial Lunar Eclipse</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 10</ns1:SPECIAL>
+			<ns1:MONTH>1</ns1:MONTH>
+			<ns1:DAY>1</ns1:DAY>
+			<ns1:NAME>Quadrantids Meteor  Shower (Jan 1 - Jan 10)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 10</ns1:SPECIAL>
+			<ns1:MONTH>4</ns1:MONTH>
+			<ns1:DAY>16</ns1:DAY>
+			<ns1:NAME>Lyrids Meteor Shower (Apr 16 - Apr 25)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 31</ns1:SPECIAL>
+			<ns1:MONTH>7</ns1:MONTH>
+			<ns1:DAY>11</ns1:DAY>
+			<ns1:NAME>Alpha Capricornids Meteor Shower (Jul 11 - Aug 10)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 45</ns1:SPECIAL>
+			<ns1:MONTH>7</ns1:MONTH>
+			<ns1:DAY>13</ns1:DAY>
+			<ns1:NAME>Perseids Meteor Shower (Jul 13 - Aug 26)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 42</ns1:SPECIAL>
+			<ns1:MONTH>10</ns1:MONTH>
+			<ns1:DAY>4</ns1:DAY>
+			<ns1:NAME>Orionids Meteor Shower (Oct 4 - Nov 14)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 26</ns1:SPECIAL>
 			<ns1:MONTH>11</ns1:MONTH>
-			<ns1:NAME>Rockefeller Christmas Tree Lighting</ns1:NAME>
-			<ns1:COMMENT>First Wednesday after Thanksgiving</ns1:COMMENT>
+			<ns1:DAY>5</ns1:DAY>
+			<ns1:NAME>Leonids Meteor Shower (Nov 5 - Nov 30)</ns1:NAME>
+		</ns1:PAGE>
+		<ns1:PAGE>
+			<ns1:TYPE>EVENT</ns1:TYPE>
+			<ns1:SPECIAL>Span 13</ns1:SPECIAL>
+			<ns1:MONTH>12</ns1:MONTH>
+			<ns1:DAY>4</ns1:DAY>
+			<ns1:NAME>Geminids Meteor Shower (Dec 4 - Dec 16)</ns1:NAME>
 		</ns1:PAGE>
 		<ns1:PAGE>
 			<ns1:TYPE>IGNORE</ns1:TYPE>

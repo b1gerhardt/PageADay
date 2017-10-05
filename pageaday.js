@@ -188,7 +188,7 @@ PAD.prototype.generateSubPage = function (data, result, bFindAll) {
                 continue;
 
             case "CHRISTIAN":
-                if (this.isChristianDate(thisPage, result.ymd) === true) {
+                if (isChristianDate(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
@@ -227,7 +227,7 @@ PAD.prototype.generateSubPage = function (data, result, bFindAll) {
                 continue;
 
             case "LISTOFDATES":
-                if (this.isListOfDates(thisPage, result.ymd) === true) {
+                if (isListOfDates(thisPage, result.ymd) === true) {
                     break;
                 }
                 continue;
@@ -257,7 +257,7 @@ PAD.prototype.generateSubPage = function (data, result, bFindAll) {
 
 PAD.prototype.addToResult = function (page, result) {
     if (page.name.length !== 0) {
-        var age = result.ymd.yy - page.yyBorn;
+        var age = result.ymd.yy - page.yyFirst;
         var s = page.name + (page.atSunset === true ? " (at sunset)" : "");
 
         switch (page.type) {
@@ -268,13 +268,13 @@ PAD.prototype.addToResult = function (page, result) {
 
             case "BIRTHDAY":
                 // Only add on dates on or after birth year (when known)
-                if (isNaN(page.yyBorn) || age >= 0) {
+                if (isNaN(page.yyFirst) || age >= 0) {
                     result.birthdays.push({ name: s, age: age });
                 }
                 break;
 
             case "ANNIVERSARY":
-                if (isNaN(page.yyBorn) || age >= 0) {
+                if (isNaN(page.yyFirst) || age >= 0) {
                     result.anniversaries.push({ name: s, age: age });
                 }
                 break;
@@ -335,10 +335,279 @@ PAD.prototype.normalizePage = function (xmlPage) {
     if (page.special !== "FIXED" && (page.type === "BIRTHDAY" || page.type === "ANNIVERSARY")) {
         page.yyFirst = page.ymd.yy;
         page.ymd.yy = Number.NaN;
+        page.ymd.dow = Number.NaN;
     }
 
     return page;
 };
+
+///////////////////////////////////////////////////////
+//
+// Format result for various consumption styles
+//
+///////////////////////////////////////////////////////
+
+PAD.prototype.getFormattedResult = function (result, fmt) {
+    var fmtResult = {
+        title: "",
+        version: "",
+        date: "",
+        ymdS: { dd: "", mm: "", yy: "", dow: "" },
+        holidays: "",
+        birthdays: "",
+        anniversaries: "",
+        saying: "",
+        author: ""
+    };
+
+    if (result.isValid) {
+        fmtResult.title = result.title;
+        fmtResult.version = result.version;
+        fmtResult.date = getFormattedDate(result.ymd, fmt);
+        fmtResult.ymdS.dd = getFormattedDate(result.ymd, "DAY");
+        fmtResult.ymdS.mm = getFormattedDate(result.ymd, "MONTH");
+        fmtResult.ymdS.yy = getFormattedDate(result.ymd, "YEAR");
+        fmtResult.ymdS.dow = getFormattedDate(result.ymd, "DOW");
+        fmtResult.holidays = getFormattedHoliday(result.holidays, fmt);
+        fmtResult.birthdays = getFormattedBirthday(result.birthdays);
+        fmtResult.anniversaries = getFormattedAnniversary(result.anniversaries);
+        fmtResult.saying = getFormattedSaying(result, fmt);
+        fmtResult.author = result.author;
+    }
+    return fmtResult;
+};
+
+function getFormattedSaying (result, fmt) {
+    var s = "";
+
+    if (result && result.isValid) {
+        switch (fmt) {
+            case "SPOKEN":
+                s = result.sayingSpoken;
+                break;
+
+            case "WEB":
+                s = result.sayingWeb;
+                break;
+        }
+
+        if (s.length === 0) {
+            s = result.saying;
+        }
+
+        if (fmt === "SPOKEN" && result.saying.length > 0) {
+            if (result.author.length > 0) {
+                s = "As " + result.author + " says..." + s + ".";
+            } else {
+                s = s + ".";
+            }
+        }
+    }
+    return s;
+}
+
+function getFormattedDate (ymd, fmt) {
+    var dowNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var s = "";
+
+    switch (fmt) {
+        // For CSV, output as "YEAR,MONTH,DAY,MONTH-NAME,DAY-OF-WEEK"
+        // Example: "2017,5,12,May,Friday"
+        case "CSV":
+            s = ymd.yy + "," + ymd.mm + "," + ymd.dd + "," + monthNames[ymd.dd] + "," + dowNames[ymd.dow];
+            break;
+
+        // Suitable for speech output
+        // Example: "Friday May 12th" if current year and "Friday May 12th 2017" otherwise.
+        case "SPOKEN":
+            s = dowNames[ymd.dow] + " " + monthNames[ymd.mm] + " " + this.getFormattedOrdinal(ymd.dd);
+
+            if ((new Date()).getFullYear() !== ymd.yy) {
+                s += " " + ymd.yy;
+            }
+            break;
+
+        case "DAY":
+            s = ymd.dd;
+            break;
+
+        case "MONTH":
+            s = monthNames[ymd.mm];
+            break;
+
+        case "YEAR":
+            s = ymd.yy;
+            break;
+
+        case "DOW":
+            s = dowNames[ymd.dow];
+            break;
+
+        case "WEB":
+        /* falls through */
+        default:
+            s = dowNames[ymd.dow] + ", " + monthNames[ymd.mm] + ymd.dd + ", " + ymd.yy;
+            break;
+    }
+    return s;
+}
+
+function getFormattedHoliday (holidays, fmt) {
+    // Sample output:
+    //     "National Pancake Day and First Day of Spring"
+    //
+
+    var s = "";
+
+    if (holidays.length) {
+        var remaining = holidays.length;
+
+        while ( remaining ) {
+            s += holidays[holidays.length - remaining];
+
+            if (holidays.length === 1) {
+                break;
+            }
+
+            remaining -= 1;
+
+            if (remaining === 1) {
+                if (holidays.length > 2) {
+                    s += ",";
+                }
+                s += " and ";
+            } else if (remaining > 1) {
+                s += ", ";
+            }
+        }
+        s += ".";
+    }
+    return s;
+}
+
+function getFormattedBirthday(birthdays) {
+    // Sample output:
+    //     "Joe (30), Ann, and Bob."
+    //
+    // TODO: Filter out negative age birthdays
+    //
+
+    var s = "";
+
+    if (birthdays.length) {
+        // s += "Birthdays: "; // UI layer adds this.
+
+        var remaining = birthdays.length;
+
+        while ( remaining ) {
+            var b = birthdays[birthdays.length - remaining];
+
+            s += b.name;
+
+            if (!isNaN(b.age)) {
+                s += " (" + getFormattedOrdinal(b.age) + ")";
+            }
+
+            if (birthdays.length === 1) {
+                break;
+            }
+
+            remaining -= 1;
+
+            if (remaining === 1) {
+                if (birthdays.length > 2) {
+                    s += ",";
+                }
+                s += " and ";
+            } else if (remaining > 1) {
+                s += ", ";
+            }
+        }
+        s += ".";
+    }
+
+    return s;
+}
+
+function getFormattedAnniversary (anniversaries) {
+    // Sample output:
+    //     "Joe and Sally (30 years), Billy and Ann, and Bob and Alice."
+    //
+    // TODO: Filter out negative age anniversaries
+    //
+
+    var s = "";
+
+    if (anniversaries.length) {
+        // s += "Anniversaries: ";  // UI layer adds this.
+
+        var remaining = anniversaries.length;
+
+        while ( remaining ) {
+            var a = anniversaries[anniversaries.length - remaining];
+
+            s += a.name;
+
+            if (!isNaN(a.age)) {
+                s += " (" + a.age + " years)";
+            }
+
+            if (anniversaries.length === 1) {
+                break;
+            }
+
+            remaining -= 1;
+
+            if (remaining === 1) {
+                if (anniversaries.length > 2) {
+                    s += ",";
+                }
+                s += " and ";
+            } else if (remaining > 1) {
+                s += ", ";
+            }
+        }
+        s += ".";
+    }
+    return s;
+}
+
+function getFormattedOrdinal (n) {
+
+    var ORDINAL_AGE = [
+        '0th',
+        '1st',
+        '2nd',
+        '3rd',
+        '4th',
+        '5th',
+        '6th',
+        '7th',
+        '8th',
+        '9th',
+        '10th',
+        '11th',
+        '12th',
+        '13th',
+        '14th',
+        '15th',
+        '16th',
+        '17th',
+        '18th',
+        '19th'
+    ];
+
+    //return (n >= 20) ? return Math.floor ( n / 10 ).toString + ORIGINAL_AGE[ Math.floor ( n % 10 )] : ORIGINAL_AGE[n];
+    var s = "";
+
+    if (n >= 20) {
+        s = Math.floor(n / 10).toString();
+        n = Math.floor(n % 10);
+    }
+
+    return s + ORDINAL_AGE[n];
+}
 
 ///////////////////////////////////////////////////////
 //
@@ -504,77 +773,77 @@ function isSpecificYear (page, ymd) {
 // Dates based on Christian Holidays
 //
 
-PAD.prototype.isChristianDate = function (page, ymd) {
+function isChristianDate (page, ymd) {
     var delta = 0;
     var eventDate;
 
-    switch (page.args[0]) {
-        case "CHRISTMAS":
-            eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
-            break;
+    if (page.ymd.yy === ymd.yy) {     // Allow filtering on year
+        switch (page.args[0]) {
+            case "CHRISTMAS":
+                eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
+                break;
 
-        case "ADVENT":      // 4th Sunday before Christmas
-            eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
+            case "ADVENT":      // 4th Sunday before Christmas
+                eventDate = (new Ymd(ymd.yy, 11, 25)).toDate();
 
-            if (eventDate.getDay() === 0) {
-                delta -= 7 * 4;
-            } else {
-                delta -= 7 * 3 + eventDate.getDay();
-            }
-            break;
+                if (eventDate.getDay() === 0) {
+                    delta -= 7 * 4;
+                } else {
+                    delta -= 7 * 3 + eventDate.getDay();
+                }
+                break;
 
-        case "EASTER":
-            eventDate = getEasterW(ymd.yy);
-            break;
-    }
-
-    if (eventDate) {
-        if (page.args.length >= 2) {
-            delta += parseInt(page.args[1], 10);
+            case "EASTER":
+                eventDate = getEasterW(ymd.yy);
+                break;
         }
 
-        eventDate.setDate(eventDate.getDate() + delta);
+        if (eventDate) {
+            if (page.args.length >= 2) {
+                delta += parseInt(page.args[1], 10);
+            }
 
-        return matchOrNaN(eventDate.getMonth(), ymd.mm, eventDate.getDate(), ymd.dd, eventDate.getFullYear(), ymd.yy);
+            eventDate.setDate(eventDate.getDate() + delta);
+
+            return matchOrNaN(eventDate.getMonth(), ymd.mm, eventDate.getDate(), ymd.dd, eventDate.getFullYear(), ymd.yy);
+        }
     }
     return false;
-};
+}
 
 //
 // isHebrewDate
 //
-// Syntax: HEBREW [delayed]
+// Syntax: HEBREW [delayed] [sunset]
 //      Note: MONTH and DAY are interpreted as Hebrew month number and date
 //
 // Dates based on the Hebrew calendar
 //
-// IMPORTANT: 
-//      The underlying functions return the date for the nightfall before (the start of a Hebrew day)
-//      So, check for Friday instead of Saturday when determining adjustments for the delayed flag.
-//
 
 function isHebrewDate(page, ymd) {
-    var delayed = (page.args.length && (page.args[0].charAt(0) === "T" || page.args[0] === "DELAYED")) ? true : false;
+    var delayed = page.args.indexOf("DELAYED") === -1 ? false : true;
+    var sunset = page.args.indexOf("SUNSET") === -1 ? false : true;
+    var normalizedDOW = (ymd.dow + (sunset === true ? 6 : 0)) % 7;      // Normalize target dow to simplify logic below
 
-    // If it's Saturday (actually nightfall on Friday) and the delayed flag is set, there can not be a match.
-    if (delayed && ymd.dow === 5) {
+    // If it's Saturday and the delayed flag is set, there cannot be a match.
+    if (delayed && normalizedDOW === 6) {
         return false;
     }
 
-    var jd = gregorianToJulian(ymd.yy, ymd.mm, ymd.dd);
+    var jd = gregorianToJulian(ymd.yy, ymd.mm, ymd.dd) + (sunset ? 1 : 0);
     var hd = julianToHebrew(jd);
 
     if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
-        page.atSunset = true;
+        page.atSunset = sunset;
         return true;
     }
 
-    // If Today is Sunday (actually nightfall on Saturday) and the delayed flag is set, check if the day before was a match
-    if (delayed && ymd.dow === 6) {
+    // If today is Sunday and the delayed flag is set, check if the day before was a match
+    if (delayed && normalizedDOW === 0) {
         hd = julianToHebrew(jd - 1);
 
         if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
-            page.atSunset = true;
+            page.atSunset = sunset;
             return true;
         }
     }
@@ -584,20 +853,19 @@ function isHebrewDate(page, ymd) {
 //
 // isHijriDate
 //
-// Syntax: HIJRI
+// Syntax: HIJRI [sunset]
 //      Note: MONTH and DAY are interpreted as Hijri month number and date
 //
 // Dates based on the Hijri calendar
 //
-// IMPORTANT: 
-//      The underlying functions return the date for the nightfall before (the start of an Islamic day)
-//
 
-function isHijriDate (page, ymd) {
-    var hd = julianToIslamic(gregorianToJulian(ymd.yy, ymd.mm, ymd.dd));
-
+function isHijriDate(page, ymd) {
+    var sunset = page.args.indexOf("SUNSET") === -1 ? false : true;
+    var jd = gregorianToJulian(ymd.yy, ymd.mm, ymd.dd) + (sunset ? 1 : 0);
+    var hd = julianToIslamic(jd);
+    
     if (matchOrNaN(page.ymd.yy, hd.yy, page.ymd.mm, hd.mm, page.ymd.dd, hd.dd)) {
-        page.atSunset = true;
+        page.atSunset = sunset;
         return true;
     }
     return false;
@@ -663,6 +931,7 @@ function isSeason(page, ymd) {
     var event = getEquinox((season + offset) % 4, ymd.yy);
 
     // BUG: My answers don't match WolframAlpha. Likely a timezone thing.
+    // Since this is a Page-A-Day calendar, preferred behavior is to match the first full day of the season
     return matchOrNaN(ymd.yy, event.yy, ymd.mm, event.mm, ymd.dd, event.dd);
 }
 
@@ -715,260 +984,13 @@ function isFriday13(page, ymd) {
 // Compares the target date to a list of specific event dates in YYYY-MM-DD format
 //
 
-PAD.prototype.isListOfDates = function (page, ymd) {
+function isListOfDates (page, ymd) {
     var s = ymd.toString();
     if (page.args.indexOf(s) !== -1) {
         return true;
     }
     return false;
-};
-
-///////////////////////////////////////////////////////
-//
-// Format result for various consumption styles
-//
-///////////////////////////////////////////////////////
-
-PAD.prototype.getFormattedResult = function (result, fmt) {
-    var fmtResult = {
-        title: "",
-        version: "",
-        date: "",
-        ymdS: { dd: "", mm: "", yy: "", dow: "" },
-        holidays: "",
-        birthdays: "",
-        anniversaries: "",
-        saying: "",
-        author: ""
-    };
-
-    if (result.isValid) {
-        fmtResult.title = result.title;
-        fmtResult.version = result.version;
-        fmtResult.date = this.getFormattedDate(result.ymd, fmt);
-        fmtResult.ymdS.dd = this.getFormattedDate(result.ymd, "DAY");
-        fmtResult.ymdS.mm = this.getFormattedDate(result.ymd, "MONTH");
-        fmtResult.ymdS.yy = this.getFormattedDate(result.ymd, "YEAR");
-        fmtResult.ymdS.dow = this.getFormattedDate(result.ymd, "DOW");
-        fmtResult.holidays = this.getFormattedHoliday(result.holidays);
-        fmtResult.birthdays = this.getFormattedBirthday(result.birthdays);
-        fmtResult.anniversaries = this.getFormattedAnniversary(result.anniversaries);
-        fmtResult.saying = this.getFormattedSaying(result, fmt);
-        fmtResult.author = "- " + result.author;
-    }
-    return fmtResult;
-};
-PAD.prototype.getFormattedSaying = function (result, fmt) {
-    var s = "";
-
-    if (result && result.isValid) {
-        switch (fmt) {
-            case "SPOKEN":
-                s = result.sayingSpoken;
-                break;
-
-            case "WEB":
-                s = result.sayingWeb;
-                break;
-        }
-
-        if (s.length === 0) {
-            s = result.saying;
-        }
-
-        if (fmt !== "WEB" && result.saying.length > 0) {
-            if (result.author.length > 0) {
-                s = "As " + result.author + " says..." + s + ".";
-            } else {
-                s = s + ".";
-            }
-        }
-    }
-    return s;
-};
-
-PAD.prototype.getFormattedDate = function (ymd, fmt) {
-    var dowNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var s = "";
-
-    switch (fmt) {
-        // For CSV, output as "YEAR,MONTH,DAY,MONTH-NAME,DAY-OF-WEEK"
-        // Example: "2017,5,12,May,Friday"
-        case "CSV":
-            s = ymd.yy + "," + ymd.mm + "," + ymd.dd + "," + monthNames[ymd.dd] + "," + dowNames[ymd.dow];
-            break;
-
-        // Suitable for speech output
-        // Example: "Friday May 12th" if current year and "Friday May 12th 2017" otherwise.
-        case "SPOKEN":
-            s = dowNames[ymd.dow] + " " + monthNames[ymd.mm] + " " + this.getFormattedOrdinal(ymd.dd);
-
-            if ((new Date()).getFullYear() !== ymd.yy) {
-                s += " " + ymd.yy;
-            }
-            break;
-
-        case "DAY":
-            s = ymd.dd;
-            break;
-
-        case "MONTH":
-            s = monthNames[ymd.mm];
-            break;
-
-        case "YEAR":
-            s = ymd.yy;
-            break;
-
-        case "DOW":
-            s = dowNames[ymd.dow];
-            break;
-
-        case "WEB":
-            /* falls through */
-        default:
-            s = dowNames[ymd.dow] + ", " + monthNames[ymd.mm] + ymd.dd + ", " + ymd.yy;
-            break;
-    }
-    return s;
-};
-
-PAD.prototype.getFormattedHoliday = function (holidays) {
-    var s = "";
-
-    if (holidays.length) {
-        while (holidays.length) {
-            if (s.length === 0) {
-                s = "It's ";
-            } else {
-                s += ", ";
-
-                if (holidays.length === 1) {
-                    s += "and ";
-                }
-            }
-            s += holidays.shift();
-        }
-        s += ".";
-    }
-    return s;
-};
-
-PAD.prototype.getFormattedAnniversary = function (anniversaries) {
-    // Sample output:
-    // One name:
-    //     "Joe and Sally are celebrating their 30th anniversary today."
-    //
-    // Multiple names:
-    //     "Joe and Sally are celebrating their 30th anniversary today, and Billy and Ann are celebrating their 5th anniversary today."
-    //
-
-    var s = "";
-
-    if (anniversaries.length) {
-        while (anniversaries.length) {
-            if (s.length > 0) {
-                s += ", and ";
-            }
-
-            var anniversary = anniversaries.shift();
-
-            s += anniversary.name;
-
-            if (isNaN(anniversary.age)) {
-                s += " are having an anniversary today";
-            } else if (anniversary.age >= 0) {
-                s += " are celebrating their " + this.getFormattedOrdinal(anniversary.age) + " anniversary today";
-            }
-
-        }
-        s += ".";
-    }
-    return s;
-};
-
-PAD.prototype.getFormattedBirthday = function (birthdays) {
-    // Sample output:
-    // One name:
-    //     "Joe is having a birthday today."
-    // or  "Joe is turning 30 today."
-    //
-    // Multiple names:
-    //     "Joe, Billy and Sally are having birthdays today. It's Joe's 30th. It's Sally's 45th. "
-    //
-    // TODO: Filter out negative age birthdays
-
-    var s = "";
-    var postfix = "";
-
-    if (birthdays.length === 1) {
-        s = birthdays[0].name;
-
-        if (isNaN(birthdays[0].age)) {
-            s += " is having a birthday today.";
-        } else {
-            s += " is turning " + birthdays[0].age + " today.";
-        }
-    } else if (birthdays.length !== 0) {
-        while (birthdays.length) {
-            if (s.length > 0) {
-                if (birthdays.length > 1) {
-                    s += ", ";
-                } else {
-                    s += " and ";
-                }
-            }
-
-            var birthday = birthdays.shift();
-
-            s += birthday.name;
-
-            if (!isNaN(birthday.age)) {
-                postfix += "It's " + birthday.name + "'s " + this.getFormattedOrdinal(birthday.age) + ". ";
-            }
-        }
-        s += " are having birthday's today. " + postfix;
-    }
-
-    return s;
-};
-
-PAD.prototype.getFormattedOrdinal = function (n) {
-
-    var ORDINAL_AGE = [
-        '0th',
-        '1st',
-        '2nd',
-        '3rd',
-        '4th',
-        '5th',
-        '6th',
-        '7th',
-        '8th',
-        '9th',
-        '10th',
-        '11th',
-        '12th',
-        '13th',
-        '14th',
-        '15th',
-        '16th',
-        '17th',
-        '18th',
-        '19th'
-    ];
-
-    //return (n >= 20) ? return Math.floor ( n / 10 ).toString + ORIGINAL_AGE[ Math.floor ( n % 10 )] : ORIGINAL_AGE[n];
-    var s = "";
-
-    if (n >= 20) {
-        s = Math.floor(n / 10).toString();
-        n = Math.floor(n % 10);
-    }
-
-    return s + ORDINAL_AGE[n];
-};
+}
 
 //
 // Pass in comparison pairs. Returns true if, for each pair, if first is NaN or if the numbers match
@@ -1216,7 +1238,6 @@ function hebrewToJulian(year, month, day) {
 // Convert Julian Date to Hebrew Date. (Note: This is an expensive function)
 function julianToHebrew(jd) {
     jd = Math.floor(jd) + 0.5;
-    jd += 1;                // Hebrew days begin at nightfall on the day before. Adjust forward to match event date (described as the day)
 
     var count = Math.floor(((jd - HEBREW_EPOCH) * 98496.0) / 35975351.0);
     var year = count - 1;
@@ -1256,7 +1277,6 @@ function julianToIslamic(jd) {
     var year, month, day;
 
     jd = Math.floor(jd) + 0.5;
-    jd += 1;                // Islamic days begin at nightfall on the day before. Adjust forward to match event date (described as the day)
 
     year = Math.floor(((30 * (jd - ISLAMIC_EPOCH)) + 10646) / 10631);
     month = Math.min(12, Math.ceil((jd - (29 + islamicToJulian(year, 1, 1))) / 29.5) + 1);
