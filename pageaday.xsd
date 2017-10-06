@@ -9,119 +9,11 @@
 >
   <xs:annotation>
     <xs:documentation xml:lang="en">
-      Page-A-Day Schema for Alexa Skill.
-      Holiday handling derived from "Dynamic Holiday Date Calculator by Jay Muntz
+      Page-A-Day Schema
+      Many of the SPECIAL types were derived from "Dynamic Holiday Date Calculator by Jay Muntz
       Found at https://www.codeproject.com/articles/11666/dynamic-holiday-date-calculator
 
-      I store and manage my Page-A-Day data in an Excel file. This allows me to print calendars at Kinkos, etc.
-      To convert this to an Alexa Skill, I created an XML schema and added some additional fields to my spreadsheet.
-      Then, I export the spreadsheet to an XML file for Alexa. This allows me to more easily maintain my data.
-
-      Basic Use:
-      Enter a MONTH, DAY and optionally a YEAR for every date and populate the holiday, birthday, quote, etc. fields as you like
-
-      Enhanced Holiday support
-      We like to match many quotes to specific events and holidays. Since some holidays move year to year, it is a pain to update
-      every year so the quotes match the holiday. With the Alexa skill, I've added the ability to support moving holidays. The
-      recommended way to support this is to enter generic quotes for every day of the year. Then, add holiday-specific quotes using
-      the enhanced features that support moving holidays. The holiday quote will overwrite the generic quote as needed.
-
-      Enhanced calendar support
-      Similarly, some years are more special than others. For example, a 21st Birthday might call for a special quote. To support this,
-      use only MONTH and DAY for the "generic" birthday and add a second entry with MONTH, DAY and YEAR for the special birthday. The more specific
-      date will overwrite the generic one. NOTE: If multiple people's birthday fall on the same day, be sure to include them in both entries since only
-      the most specific entry will be used.
-
-      Merging records
-      The sections are parsed as follows: HOLIDAYS, PAGES, DEFAULT. Pages within each section are parsed in order.
-      All matching dates in the HOLIDAYS section are used. Only the first match is used in the other sections so put more specific records ahead of generic ones
-      All holiday, birthday and event fields are included in the results. So, if a holiday, normal page and default all have an event, they will all appear
-      Only the first quote and author are listed.
-
-      The TYPE field:
-
-      HOLIDAY
-      Use for holidays. See how to use the SPECIAL field for holidays that occur on different days each year.
-      Best practice is to put these at the start of the table. A quote isn't required (the GENERAL quote for that day will match later)
-      but most holidays benefit from a quote tuned to the specific day.
-
-      BIRTHDAY
-      Use for birthdays. The year is treated as their birth year. The code uses this to highlight special years such as 1 - 21, 30, 40,
-      50, 60, 70, 80, .... Omit the year to disable this feature. You can also use the SPECIAL field to control when specific years are
-      called out. Remember to put the SPECIAL record ahead of the regular one to get the quote right.
-      NOTE: The code will add "'s [age] Birthday" so use either first or full name in the EVENT_NAME field
-
-      ANNIVERSARY
-      Like birthday but for anniversaries. The code will add "'s [age] Anniversary." Best practice is to put
-      both names like "Jack and Jill" or "The Smith". These will give you "Jack and Jill's 10th Anniversary" or "The Smith's 10th
-      Anniversary" respectively.
-
-      GENERAL
-      General dates. Usually, these are "normal" dates with just a quote. Entering only the MONTH and DAY fields and leaving the
-      YEAR field blank will allow these pages to match every year. Use the keyword FIXED in the SPECIAL field to override for special
-      years. Best practice is to put these at the end of the table since only one quote is used and the first matching quote wins.
-      Ending the table with a record that has MONTH, DAY, and YEAR blank will give you a default "catch" all saying in case there are
-      no better matches.
-
-      IGNORE
-      Use for entries you want ignored. Useful for noting holidays that your group does not observe but that you want in your data set.
-
-      The SPECIAL field:
-
-      When present and non-blank, the SPECIAL field contains a keyword to describe the special handling followed by a the list of
-      arguments needed by that keyword.
-
-      SPECIAL KEYWORD
-
-      (blank)
-      A blank SPECIAL field will use the default logic for the page TYPE. For example, BIRTHDAY and ANNIVERSARY pages use the
-      year, if present, to calculate the person's age or the couple's anniversary year respectively.
-
-      Fixed
-      Use for data you want on to apply to a specific date. This overrides the default logic for any page TYPE. In other words,
-      instead of interpreting YEAR as the "original" birth or anniversay, it is interpreted as a match criteria and only matches
-      on the specified year. This allows for custom sayings and other behavior when needed. Note that precedence rules allow for
-      the creation of default data. For example, leaving date field empty gives you a global "default" page that is used as a base
-      for all dates and will be used as-is if there is not a more specific date. Similarly, entering only a month, day, oryear will
-      give you a default for that month/day/year.
-
-      WeekdayOfMonth
-      These pages occur on a specific day with a specific week within a specific month. MONTH is required.
-      SPECIAL contains the one based week-of-month, a space, the zero based day-of-week, and optionally an offset.
-      For example, Mother's Day in the US falls on the second Sunday of May. This is encoded as: SPECIAL="WeekdayOfMonth 2 0"
-      and MONTH="5" That is, the 2nd (2) Sunday (0) in May (5).
-      Military Spouses Day is two days before Mother's Day. This is encoded as: SPECIAL="WeekdayOfMonth 2 0 -2" and MONTH="5"
-
-      WeekdayOnOrAfter
-      These pages occur on the first weekday on or after a specified date. MONTH and DAY are required.
-      For example, Tax Day in the US falls on the first weekday on or after April 15. This is encoded as MONTH=4 and DAY=15
-
-      SpecificYears
-      These pages occur only on specific years. MONTH and DAY are required. For example, Inauguration Day is January 20th following
-      a presidential election. This is encoded as SPECIAL="SpecificYears 1937 4" MONTH="1" DAY="20" That is, starting with 1937,
-      every 4 years on January (1) 20th. Special note: February 29th should be included as a normal date -- there is no need to
-      specify it with this KEYWORD.
-
-      LastWeekdayOfMonth
-      Occurs on the last specific weekday of a specific month. MONTH is required. For example, Memorial Day is the last Monday of May.
-      This is encoded as SPECIAL="LastWeekdayOfMonth 1" MONTH="5". That is, Monday (zero-based starting with Sunday so 1) of the last
-      full week of May (5).
-
-      ListOfDates
-      Identifies a specific list dates. Useful for complex holidays. The drawback is the list isn't perpetual.
-      SPECIAL contains a space-separated list of days in YYYY-MM-DD format. For example, Y2K would be SPECIAL="ListOfDate 2000-01-01"
-      The MONTH, DAY and YEAR fields are not used.
-
-      The MIT License (MIT)
-      Copyright (c) 2016 Barry Gerhardt
-      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-      The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-      IN THE SOFTWARE.
+      Full documentation can be found at http://pageaday.org/how-to.html
     </xs:documentation>
   </xs:annotation>
 
@@ -132,11 +24,8 @@
     <xs:all>
       <xs:element name="TITLE" type="xs:string" minOccurs="0" />
       <xs:element name="VERSION" type="xs:string" minOccurs="0" />
-      <xs:element name="HOLIDAYS" type="Pages" minOccurs="0" />
-      <xs:element name="BIRTHDAYS" type="Pages" minOccurs="0" />
-      <xs:element name="ANNIVERSARYS" type="Pages" minOccurs="0" />
-      <xs:element name="GENERAL" type="Pages" minOccurs="0" />
-      <xs:element name="PAGES" type="Pages" />
+      <xs:element name="THEME" type="xs:string" minOccurs="0" />
+      <xs:element name="PAGES" type="Pages" minOccurs="0" />
     </xs:all>
   </xs:complexType>
 
@@ -165,6 +54,7 @@
   <xs:simpleType name="tokenPageType">
     <xs:restriction base="xs:token">
       <xs:enumeration value="HOLIDAY" />
+      <xs:enumeration value="EVENT" />
       <xs:enumeration value="BIRTHDAY" />
       <xs:enumeration value="ANNIVERSARY" />
       <xs:enumeration value="GENERAL" />
@@ -174,15 +64,21 @@
 
   <xs:simpleType name="tokenPageSpecial">
     <xs:restriction base="xs:token">
-      <xs:enumeration value="Fixed" />
-      <xs:enumeration value="WeekdayOfMonth" />
+      <xs:enumeration value="WeekOfMonth" />
+      <xs:enumeration value="LastDayOfMonth" />
       <xs:enumeration value="WeekdayOnOrAfter" />
-      <xs:enumeration value="DaysAfterHoliday" />
+      <xs:enumeration value="NearestWeekday" />
       <xs:enumeration value="SpecificYears" />
-      <xs:enumeration value="LastWeekdayOfMonth" />
-      <xs:enumeration value="LastFullWeekdayOfMonth" />
+      <xs:enumeration value="Christian" />
+      <xs:enumeration value="Hebrew" />
+      <xs:enumeration value="Hijri" />
+      <xs:enumeration value="Season" />
+      <xs:enumeration value="Span" />
+      <xs:enumeration value="Friday13" />
       <xs:enumeration value="ListOfDates" />
+      <xs:enumeration value="Fixed" />
       <xs:enumeration value="Ignore" />
+      <xs:enumeration value="Comment" />
     </xs:restriction>
   </xs:simpleType>
 

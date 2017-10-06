@@ -1,76 +1,88 @@
 # PageADay
-Page-A-Day Calendar for Web, Alexa and Print
+Page-A-Day Calendar for Web, Alexa and Print. Currently hosted at: http://pageaday.org
 
-## HISTORY
-2016-12-03 Checked-in 1.0 version. Core logic is complete and can be accessed via a simple web interface.
-2016-12-28 Added basic Alexa skill wrapper
+## History
+* 2016-12-03 Checked-in first functioning version. Core logic is complete and can be accessed via a simple web interface.
+* 2016-12-28 Added basic Alexa skill wrapper
+* 2017-10-05 Updated to reflect latest implementation and plans
 
-## ABSTRACT
-This project is a Page-A-Day calendar app. The goal is to support Web, Alexa and Print (well, actually mail merge) outputs.
-The Web interface will display a single "page" for any date selected. Default is "today"
-The Alexa skill interface will say the "page." 
-The print interface has not been fully designed yet. The goal is allow the same data set to be used to generate a full year calendar 
-that can be printed. 
+## Abstract
+This project is a Page-A-Day calendar app. The goal is to support Web, Alexa and Print (via mail merge) with a single Javascript source that
+works both in browsers and Node.js.
 
-## JAVASCRIPT CLASS USAGE
-The XML Schema provides for three types of pages: HOLIDAYS, PAGES and DEFAULT.
+The **Web** interface displays a single Page-A-Day page for any date selected. Default is *today*.  
+The **Alexa** skill interface speaks the Page-A-Day page.  
+The **print** interface has not been fully designed yet. The goal is allow the same data set to be used to
+generate a full year calendar that can be printed.
 
-	* HOLIDAYS contains a collection of records that describe holidays and other events. The intent is for these records to be more or less generic. That is, national holidays, religious holidays, etc. The XML Schema (pageaday.xsd) defines special TYPEs handle both static holidays and those that move each year. All records from this collection are read and merged as appropriate.
-	* PAGES contains the main entries. The intent is for these to be primarily static days. You can enter just DAY and MONTH to have a record apply to every year. Or, you can enter DAY, MONTH and YEAR if you only want it to apply to a specific year. This is useful, for example, to highlight milestone anniveraries or birthdays while keeping a more generic message for other years. More specific records should appear first since only the first match is used from this collection.
-	* DEFAULT contains a single record that will be used if nothing else matches.
+## Creating A Dataset
+The XML Schema (`pageaday.xsd`) defines the Page-A-Day data structure.
 
-The Page-A-Day result is a pseudo-merge of HOLIDAYS(all matching) + PAGES(first match) + DEFAULT(complete any empty fields.
+The header describes the **Title**, **Version**, and **Theme** of the data. **Theme**, when implemented, will simplify 
+creating data sets by adding a **Saying** from various web API's when no explicit **Saying** is provided.
+The __\<PAGES\>__ tag contains the database and __<\PAGE\>__ tags contain each record.
 
-The XML schema and source desribe additional detail.
+Full documentation on creating a dataset is provided at http://pageaday.org/how-to.html. 
 
-## TODO LIST
-1. Full web support using modern methods (any screen, etc.). OK to use a tool for this but wire to my back end.
-	1.a. Support swappable background image
-	1.b. Start with today's date (need to fix issue that tries first render before data is ready)
-1.5 Output merged text + png to simplify export, print and possibly Alexa card.
-	Looks like PHP has some built-in ways to do this.
-2. Support accounts (including Alexa accounts)
-3. Support user generated data
-	3.a. Start with just storing XML files
-	3.b. Enhance with generic template plus separate user data
-	3.c. UI to allow user to enter their own data and store with their account. Use CMS or other system.
-4. Support alternate data sources for holidays and user data (birthdays and events)
-5. Improve quote handling
-	5.a. Undated sayings and set random seed to the year to ensure consistency. Also avoid duplicates.
-	5.b. Larger backing quote database
-	5.c. Allow quote themes
-	5.d. Support overridden quotes in a more intuitive way (once user generated data is mature)
-6. Better content
-	6.a. Real support for web links, audio, etc.
+## Using the PAD "class"
+Load the XML dataset into memory. Then, instantiate a new PAD object:
 
-## WEB USAGE
+```javascript
+    var dataset = <raw XML dataset>;
 
-The page takes no parameters. It will allow you to select a date and will display the quote information for that date
+    // This is an expensive function. It parses the entire XML to create a first-pass structured copy of the data.
+    var MyPAD = new PAD( dataset );
 
-### ART REQUIREMENTS
+    // dataset may now be destroyed if desired.
+```
 
-Each Page-A-Day page is rendered on an art background. The picture must be 744px wide by 580px tall. File should be in PNG (but not required)
-TODO: document (or, better, parameterize) sizes for the elements that populate within the picture.
+You can generate a Page-A-Day result as follows:
 
-## ALEXA USAGE
+```javascript
+    // Replace "YYYY-MM-DD" with a specific date. For example "2017-01-21"
+    var result = MyPAD.generatePage("YYYY-MM-DD");
+```
+
+The Page-A-Day result can be parsed and formatted directly. Or, use the function below to beautify the result for a given output type:
+
+```javascript
+    // Valid output types are: "WEB", "SPOKEN", and "CSV" (not currently implemented)
+    var fmtResult = MyPAD.getFormattedResult( result, "WEB" );
+```
+
+For browser-based implementations, use `index-web.js` as a template.  
+For Node.js-based implementations, use `node-tester.js` as a template.
+For Alexa-based implementations, use `index-alexa.js` as a template.
+
+## Web Usage
+
+If called with no parameters, returns the Page-A-Day result for _today_ (based on the timezone where the code is executing).  
+Optional parameters are `Path` and `Date`. For example:
+
+```URI
+    http://pageaday.org?Path=http://yourdomain.com/data.xml&Date=2017-01-21
+```
+
+## Alexa Usage
 
 Currently supports only one-shot model.
 
 ### Examples
 
-Example user interactions:
-    User:  "Alexa, ask Page-A-Day about December thirtieth 2016."
-    Alexa: "Your Page-A-Day for Friday, December thirtieth 2016 is [...]"
+Example user interactions:  
+   User:  "Alexa, ask Page-A-Day about December thirtieth 2016."  
+   Alexa: "Your Page-A-Day for Friday, December thirtieth 2016 is [...]"
 
-	User: "Alexa, open Page-A-Day"
-	Alexa: "Your Page-A-Day for today, Friday, December thirtieth 2016 is [...]"
+   User: "Alexa, open Page-A-Day"  
+   Alexa: "Your Page-A-Day for today, Friday, December thirtieth 2016 is [...]"  
 
-## PRINT USAGE
+## Print Usage
 
-TODO: Not supported yet.
-Plan is to support input parameter of date, date range or year. Then, output XML that can be used as input to mailmerge. Possibly, just output HTML rendered pages?
+Not supported yet.  
+Plan is to support input parameter of date, date range or year.
+Then, output CSV that can be used as input to mailmerge or a full set of rendered pages for direct printing.
 
-# DEVELOPER NOTES
+# Developer Notes for Setting Up an Alexa Skill
 
 ## Setup
 To run this skill you need to do two things. The first is to deploy the code in lambda, and the second is to configure the Alexa skill to use Lambda.
@@ -104,8 +116,10 @@ To run this skill you need to do two things. The first is to deploy the code in 
 8. In order to test it, try to say some of the Sample Utterances from the Examples section below.
 9. Your skill is now saved and once you are finished testing you can continue to publish your skill.
 
-### Icon and Image Copyright Notice
+## Icon and Image Copyright Notice
 
 The current icons being used (as of 2017-05-08) were downloaded from clker.com and are
 in the public domain.  The art was originally uploaded (and presumably created) by 
 Frantz Leuenberger.
+
+Images used for the Web are from Microsoft Publisher clip-art.

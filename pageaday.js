@@ -40,17 +40,25 @@ var PAD = function (data) {
 //
 // This function takes a read-only XML string and parses it into it's consituent XML sections
 // Since this is a relatively expensive operation, it should be done only once for a particular data set.
+// You can call with an empty string or undefined to clear the dataset from memory (subject to JS garbage collection)
 //
 
 PAD.prototype.initData = function (data) {
 
     if (data && data.length > 0) {
         this.xml.isValid = true;
-        this.xml.raw = data;
+        this.xml.raw = data;            // Note used by the PAD "class" so you can delete 'data' with no negative effect
         this.xml.title = fakeDOM.getValue(data, "TITLE");
         this.xml.version = fakeDOM.getValue(data, "VERSION");
         this.xml.pages = fakeDOM.getValueArray(data, "PAGE");
         this.xml.normalized = [];       // Cache for parsed pages
+    } else {
+        this.xml.isValid = false;
+        this.xml.raw = void 0;
+        this.xml.title = void 0;
+        this.xml.version = void 0;
+        this.xml.pages = void 0;
+        this.xml.normalized = void 0;
     }
 
     return this.xml;

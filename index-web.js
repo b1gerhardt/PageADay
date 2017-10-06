@@ -17,6 +17,7 @@ for ( var i = 1; i <= 12; i++ ) {
     image.src = "./artassets/medium-" + i + ".png";
 }
 
+// Used to process passed arguments
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -24,7 +25,7 @@ function getQueryVariable(variable) {
         var pair = vars[i].split("=");
         if (pair[0] === variable) { return pair[1]; }
     }
-    return undefined;
+    return void 0;
 }
 
 function PADWebInit() {
@@ -51,8 +52,6 @@ function PADWebLoadXML( src ) {
     xhttp.onreadystatechange = function () {
         if ( this.readyState === 4 && this.status === 200 ) {
             console.log( "Data loaded successfully" );
-            //MyPAD.xmlRaw = this.responseText;
-            //MyPAD.initData( this.responseText );
             PADWebDataReady( this.responseText );
         }
     };
@@ -100,8 +99,6 @@ function PADWebProcessForm(command) {
     document.forms[0]["nameEndDate"].value = (new Ymd(endDate)).toString();
 
     var result = MyPAD.generatePage((new Ymd(startDate)).toString());
-
-    //document.getElementById( "PADExport" ).innerHTML = ""; // Clear export (TODO: clean up presentation)
 
     if ( result.isValid === false ) {
         document.getElementById( "PADVersion" ).innerHTML = "";
