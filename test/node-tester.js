@@ -31,9 +31,9 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const repl = require('repl');
-const PAD = require('./pageaday');
-const Ymd = require('./padutil');
-const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/dataSamples/pageadaydata.xml";
+const PAD = require('../src/lib/pageaday/pageaday');
+const Ymd = require('../src/lib/pageaday/padutil');
+const xmlFullPath = "C:/Coding/GitHubRepos/PageADay/doc/samples/pageadaydata.xml";
 
 // Node.JS debug variables
 var timer1 = "ElapsedTime";

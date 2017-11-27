@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"WARNING: No test written yet\" && exit 1"
+    "test": "node test/node-tester.js"
   , "build": "echo \"WARNING: No build script written yet\" && exit 1"
   },
   "directories": {
