@@ -57,8 +57,8 @@
  */
 const APP_ID         = 'amzn1.ask.skill.cc717bf1-68de-41ba-ba1e-a9eced0440fe'; 
 const https          = require( 'https' );
-const AlexaSkill     = require( './alexaskill' );
-const PAD            = require( './pageaday' );
+const AlexaSkill     = require( './lib/alexa/alexaskills' );
+const PAD            = require( './lib/pageaday/pageaday' );
 const xmlURL         = 'https://www.pageaday.org/pageadaydatav5.xml';
 const tzFudge_ms     = -8 * 60 * 60 * 1000;
 const dayFudge_ms    = 24 * 60 * 60 * 1000;

@@ -5,6 +5,8 @@
 //
 // This JS contains the web wrapper for the PAD class
 
+artPrefix = "./assets/art/medium-";
+
 var MyPAD = new PAD( "" );
 
 // Change this to change where the data comes from...
@@ -14,7 +16,7 @@ var xmlSource = 'http://pageaday.org/pageadaydata.xml';
 // Pre-load images for better response...
 for ( var i = 1; i <= 12; i++ ) {
     var image = new Image();
-    image.src = "./artassets/medium-" + i + ".png";
+    image.src = artPrefix + i + ".png";
 }
 
 // Used to process passed arguments
@@ -113,7 +115,7 @@ function PADWebProcessForm(command) {
     } else {
         var fmtResult = MyPAD.getFormattedResult( result, "WEB" );
 
-        document.getElementById( "PADPicture" ).src = "./artassets/medium-" + ( result.ymd.mm + 1 ) + ".png";
+        document.getElementById( "PADPicture" ).src = artPrefix + ( result.ymd.mm + 1 ) + ".png";
 
         document.getElementById( "PADVersion" ).innerHTML = fmtResult.title + " version " + fmtResult.version;
         document.getElementById( "PADMonthYear" ).innerHTML = fmtResult.ymdS.mm + " " + fmtResult.ymdS.yy;

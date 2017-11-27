@@ -1,0 +1,46 @@
+{
+  "name": "pageaday",
+  "version": "1.0.0",
+  "description": "Page-A-Day Calendar for Web, Alexa and Print. Currently hosted at: http://pageaday.org",
+  "main": "pageaday.js",
+  "dependencies": {
+    "async": "^2.6.0"
+  , "bluebird": "^3.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"WARNING: No test written yet\" && exit 1"
+  , "build": "echo \"WARNING: No build script written yet\" && exit 1"
+  },
+  "directories": {
+    "lib": "./src/lib"
+  , "doc": "./doc"
+  , "example": "./doc/samples"
+  , "bin": "./obj/release"
+  },
+  "repository": {
+    "type": "git"
+  , "url": "git+https://github.com/b1gerhardt/PageADay.git"
+  },
+  "keywords": [
+    "pageaday",
+    "calendar",
+    "event",
+    "events",
+    "birthday",
+    "birthdays",
+    "anniversary",
+    "anniversaries",
+    "alexa",
+    "client",
+    "webservice",
+    "pageaday.org"
+  ],
+  "author": "Barry Gerhardt <b1gerhardt@yahoo.com> (http://pageaday.org)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b1gerhardt/PageADay/issues"
+  , "email": "b1gerhardt@yahoo.com"
+  },
+  "homepage": "https://github.com/b1gerhardt/PageADay#readme"
+}
