@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="PageADay"
-    targetNamespace="./PageADay.xsd"
+    targetNamespace="./src/lib/pageaday/pageaday.xsd"
     elementFormDefault="qualified"
-    xmlns="./PageADay.xsd"
-    xmlns:mstns="./PageADay.xsd"
+    xmlns="./src/lib/pageaday/pageaday.xsd"
+    xmlns:mstns="./src/lib/pageaday/pageaday.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xml:lang="en"
 >
@@ -19,6 +19,7 @@
 
   <xs:element name="PAGEADAY" type="PageADayType" />
   <xs:element name="PAGE" type="PageType" />
+  <xs:element name="CASE" type="TestCaseType" />
 
   <xs:complexType name="PageADayType">
     <xs:all>
@@ -26,7 +27,14 @@
       <xs:element name="VERSION" type="xs:string" minOccurs="0" />
       <xs:element name="THEME" type="xs:string" minOccurs="0" />
       <xs:element name="PAGES" type="Pages" minOccurs="0" />
+      <xs:element name="VALIDATION" type="Validation" minOccurs="0" />
     </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="Validation">
+    <xs:sequence>
+      <xs:element ref="CASE" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="Pages">
@@ -51,6 +59,21 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="TestCaseType">
+    <xs:sequence>
+      <xs:element name="NAME" type="xs:string" minOccurs="1" />
+      <xs:element name="DATE" type="patDate" minOccurs="1" />
+      <xs:element name="DOW" type="xs:string" minOccurs="1" />
+      <xs:element name="HOLIDAY" type="xs:string" minOccurs="0" />
+      <xs:element name="BIRTHDAY" type="xs:string" minOccurs="0" />
+      <xs:element name="ANNIVERSARY" type="xs:string" minOccurs="0" />
+      <xs:element name="SAYING" type="xs:string" minOccurs="0" />
+      <xs:element name="AUTHOR" type="xs:string" minOccurs="0" />
+      <xs:element name="WEB" type="xs:string" minOccurs="0" />
+      <xs:element name="SPOKEN" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:simpleType name="tokenPageType">
     <xs:restriction base="xs:token">
       <xs:enumeration value="HOLIDAY" />
@@ -64,19 +87,19 @@
 
   <xs:simpleType name="tokenPageSpecial">
     <xs:restriction base="xs:token">
+      <xs:enumeration value="Fixed" />
       <xs:enumeration value="WeekOfMonth" />
-      <xs:enumeration value="LastDayOfMonth" />
       <xs:enumeration value="WeekdayOnOrAfter" />
       <xs:enumeration value="NearestWeekday" />
       <xs:enumeration value="SpecificYears" />
+      <xs:enumeration value="LastDayOfMonth" />
+      <xs:enumeration value="Friday13" />
+      <xs:enumeration value="Season" />
+      <xs:enumeration value="Span" />
       <xs:enumeration value="Christian" />
       <xs:enumeration value="Hebrew" />
       <xs:enumeration value="Hijri" />
-      <xs:enumeration value="Season" />
-      <xs:enumeration value="Span" />
-      <xs:enumeration value="Friday13" />
       <xs:enumeration value="ListOfDates" />
-      <xs:enumeration value="Fixed" />
       <xs:enumeration value="Ignore" />
       <xs:enumeration value="Comment" />
     </xs:restriction>

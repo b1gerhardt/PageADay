@@ -43,15 +43,19 @@ var PAD = function (data) {
 // You can call with an empty string or undefined to clear the dataset from memory (subject to JS garbage collection)
 //
 
-PAD.prototype.initData = function (data) {
+PAD.prototype.initData = function (data, fDebug = false) {
 
     if (data && data.length > 0) {
         this.xml.isValid = true;
-        this.xml.raw = data;            // Note used by the PAD "class" so you can delete 'data' with no negative effect
+        this.xml.raw = data;            // Not used by the PAD "class" so you can delete 'data' with no negative effect
         this.xml.title = fakeDOM.getValue(data, "TITLE");
         this.xml.version = fakeDOM.getValue(data, "VERSION");
         this.xml.pages = fakeDOM.getValueArray(data, "PAGE");
         this.xml.normalized = [];       // Cache for parsed pages
+
+        if (fDebug === true) {
+            this.xml.tests = fakeDOM.getValueArray(data, "CASE");
+        }
     } else {
         this.xml.isValid = false;
         this.xml.raw = void 0;
@@ -310,7 +314,7 @@ PAD.prototype.addToResult = function (page, result) {
 };
 
 //
-// PAD.normalizePage -- Pre-parses a data element to simplify down-stream logic
+// PAD.normalizePage -- Converts a raw XML page record to a cooked JS page object
 //
 
 PAD.prototype.normalizePage = function (xmlPage) {
@@ -347,6 +351,28 @@ PAD.prototype.normalizePage = function (xmlPage) {
     }
 
     return page;
+};
+
+//
+// PAD.normalizeTest -- Converts an XML test case record to a JS object (used only for debugging)
+//
+
+PAD.prototype.normalizeTest = function (xmlTest) {
+    var test = {
+        xml: xmlTest,
+        name: fakeDOM.getValue(xmlTest, "NAME"),
+        dateStr: fakeDOM.getValue(xmlTest, "DATE"),
+        dow: fakeDOM.getValue(xmlTest, "DOW"),
+        holidays: fakeDOM.getValueArray(xmlTest, "HOLIDAY"),
+        birthdays: fakeDOM.getValueArray(xmlTest, "BIRTHDAY"),
+        anniversaries: fakeDOM.getValueArray(xmlTest, "ANNIVERSARY"),
+        saying: fakeDOM.getValue(xmlTest, "SAYING"),
+        author: fakeDOM.getValue(xmlTest, "AUTHOR"),
+        web: fakeDOM.getValue(xmlTest, "WEB"),
+        spoken: fakeDOM.getValue(xmlTest, "SPOKEN")
+    };
+
+    return test;
 };
 
 ///////////////////////////////////////////////////////
@@ -1402,12 +1428,30 @@ var fakeDOM = (function () {
         getValue: function (data, tagname) {
             var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">([\\\s\\\S]*?)<\/" + "(?:.*:)?" + tagname + ">", "im" );
 
-            var result = myRe.exec ( data );
+            var result = myRe.exec(data);
             return (result === null) ? "" : result[1];
         },
         getValueArray: function (data, tagname) {
             var myRe = new RegExp( "<" + "(?:.*:)?" + tagname + ">[\\\s\\\S]*?<\/" + "(?:.*:)?" + tagname + ">", "img" );
-            return data.match( myRe );
+
+            //return data.match(myRe);
+
+            //console.log("getValueArray(raw): " + tagname + "\r\n" + result + "\r\n============");
+            var result = data.match(myRe);
+            // TODO: Trim XML from each element of resulting array. 
+            // BUT: Can't do it since there seems to be a problem with node or my install. 
+            // Enabling any of the below code results in a random parsing error not related to the added code
+            //var i, j;
+            //for (i = 0; i < result.length; i += 1) {
+            //    j = myRe.exec(result[i]);
+            //    console.log(j);
+            //    //result[i] = j[1];
+            //}
+
+            //result.every((v, i) => result[i] = myRe.exec(v)[1]);
+            //console.log("getValueArray(cooked): " + tagname + "\r\n" + result + "\r\n============");
+
+            return result;
         }
     };
 })();
